@@ -1,0 +1,9 @@
+version: 0.1.0.0
+github: tek/exon
+license: BSD-2-Clause-Patent
+license-file: LICENSE
+author: "Torsten Schmits"
+maintainer: "haskell@tryp.io"
+copyright: "2021 Torsten Schmits"
+category: String
+build-type: Simple

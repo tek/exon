@@ -1,0 +1,51 @@
+name: exon
+synopsis: Monoidal Quasiquote Interpolation
+description: See <https://hackage.haskell.org/package/exon/docs/Exon.html>
+<<: !include shared/meta.yaml
+<<: !include shared/extensions.yaml
+
+extra-source-files:
+  - readme.md
+  - Changelog.md
+
+library:
+  source-dirs: lib
+  other-modules:
+    - Prelude
+  generated-other-modules:
+    - Paths_exon
+
+dependencies:
+  - name: base
+    version: '>= 4 && < 5'
+    mixin:
+      - hiding (Prelude)
+  - flatparse >= 0.2 && < 0.3
+  - haskell-src-exts < 1.24
+  - haskell-src-meta < 0.9
+  - relude >= 0.7 && < 1.2
+  - template-haskell
+  - text
+
+ghc-options:
+  - -Wall
+  - -Wredundant-constraints
+  - -Wsimplifiable-class-constraints
+  - -Wunused-type-patterns
+
+tests:
+  exon-unit:
+    main: Main.hs
+    source-dirs: test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - hedgehog
+      - name: exon
+        mixin:
+          - hiding (Prelude)
+          - (Exon.Prelude as Prelude)
+      - tasty
+      - tasty-hedgehog
