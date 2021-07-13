@@ -140,11 +140,11 @@
         "thax": "thax"
       },
       "locked": {
-        "lastModified": 1625349206,
-        "narHash": "sha256-fGoKNYlq/T6NdN7HwZkKJh1IZnE0il9QljRAA3FtAxA=",
+        "lastModified": 1626198029,
+        "narHash": "sha256-lLBcMZKUO0aTIQqWSvzFo+9w5OSfJxIt4CREiEXpvzk=",
         "owner": "tek",
         "repo": "hix",
-        "rev": "763c630ee616fb7f07e534abdacd77c4fecd3875",
+        "rev": "5a95191f5db260b0a4634d5b3343b8b981ad9533",
         "type": "github"
       },
       "original": {
@@ -156,16 +156,17 @@
     "hls": {
       "flake": false,
       "locked": {
-        "lastModified": 1625345392,
-        "narHash": "sha256-5HLZRIyJB0pubdRo3Vrjq03A6rahhmQM/Ydt0508Zac=",
+        "lastModified": 1612697324,
+        "narHash": "sha256-2uSoGyrxT/OstRcpx55kwP4JwjPbWLxD72LajeyQV0E=",
         "owner": "haskell",
         "repo": "haskell-language-server",
-        "rev": "4ae0fea3e5d8f5a28865ff923bf227053f55a908",
+        "rev": "b6245884ae83e00dd2b5261762549b37390179f8",
         "type": "github"
       },
       "original": {
         "owner": "haskell",
         "repo": "haskell-language-server",
+        "rev": "b6245884ae83e00dd2b5261762549b37390179f8",
         "type": "github"
       }
     },

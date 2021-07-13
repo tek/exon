@@ -29,6 +29,7 @@ library
   exposed-modules:
       Exon
       Exon.Class.Exon
+      Exon.Combinators
       Exon.Data.RawSegment
       Exon.Data.Result
       Exon.Data.Segment

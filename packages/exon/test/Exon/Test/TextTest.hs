@@ -1,10 +1,9 @@
-{-# options_ghc -Wno-unused-imports -Wno-unused-local-binds -Wno-redundant-constraints #-}
-
 module Exon.Test.TextTest where
 
-import Exon.Quote (exon, quoteExp)
-import Hedgehog (TestT, (===))
 import Data.Text (toUpper)
+import Hedgehog (TestT, (===))
+
+import Exon.Quote (exon)
 
 newtype Mon =
   Mon String
