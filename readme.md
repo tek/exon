@@ -37,6 +37,8 @@ class Exon (tag :: Type) (a :: Type) where
 
   appendSegments :: Result a -> Segment a -> Result a
 
+  insertWhitespace :: Result a -> String -> Segment a -> Result a
+
   concatSegments :: NonEmpty (Segment a) -> a
 ```
 

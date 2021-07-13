@@ -4,7 +4,7 @@ data Result a =
   Empty
   |
   Result a 
-  deriving (Eq, Show)
+  deriving (Eq, Show, Foldable)
 
 instance Semigroup a => Semigroup (Result a) where
   (<>) Empty a = a
