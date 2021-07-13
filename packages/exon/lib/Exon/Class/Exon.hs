@@ -9,12 +9,18 @@ data ExonDefault
 data KeepWhitespace
 
 class Exon (tag :: Type) (a :: Type) where
+  isEmpty :: a -> Bool
+  isEmpty =
+    const False
+
   convertSegment :: Segment a -> Result a
 
   default convertSegment :: IsString a => Segment a -> Result a
   convertSegment = \case
     Segment.String a ->
       Result (fromString a)
+    Segment.Expression a | isEmpty @tag a ->
+      Empty
     Segment.Expression a ->
       Result a
     Segment.Whitespace _ ->
@@ -49,6 +55,8 @@ class Exon (tag :: Type) (a :: Type) where
       spin (Result s1) = \case
         [] ->
           Result s1
+        Segment.Whitespace _ : (Segment.Expression a) : ss | isEmpty @tag a ->
+          spin (Result s1) ss
         Segment.Whitespace ws : s2 : ss ->
           spin (insertWhitespace @tag (Result s1) ws s2) ss
         [Segment.Whitespace _] ->
