@@ -35,7 +35,7 @@ Concatenation is performed by the class `Exon.Exon`:
 class Exon (tag :: Type) (a :: Type) where
   convertSegment :: Segment a -> Result a
 
-  appendSegments :: Result a -> Segment a -> Result a
+  appendSegment :: Result a -> Segment a -> Result a
 
   insertWhitespace :: Result a -> String -> Segment a -> Result a
 

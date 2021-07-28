@@ -1,5 +1,7 @@
+-- |Description: Internal
 module Exon.Data.Result where
 
+-- |The combined segments, either empty or a value.
 data Result a =
   Empty
   |

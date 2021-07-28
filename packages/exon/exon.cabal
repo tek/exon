@@ -119,8 +119,8 @@ test-suite exon-unit
   type: exitcode-stdio-1.0
   main-is: Main.hs
   other-modules:
+      Exon.Test.BasicTest
       Exon.Test.Quote
-      Exon.Test.TextTest
       Paths_exon
   hs-source-dirs:
       test

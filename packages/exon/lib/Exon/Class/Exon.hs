@@ -1,3 +1,4 @@
+-- |Description: Internal
 module Exon.Class.Exon where
 
 import Exon.Data.Result (Result (Empty, Result))
@@ -8,11 +9,41 @@ data ExonDefault
 
 data KeepWhitespace
 
+{- |
+This class is responsible for combining segments of an interpolated string, allowing users to define their own rules
+for how the result is constructed.
+The default implementation converts each literal part with 'IsString' and uses the result type's 'Monoid' to
+concatenate them.
+
+The raw parts are encoded as 'Segment', getting combined into a 'Result'.
+
+The default for 'convertSegment' skips whitespace by encoding it into the 'Result' constructor 'Empty', which is a
+unit object.
+To change this behavior, it can be easily overridden:
+
+@
+newtype Thing = Thing String deriving newtype (IsString, Semigroup, Monoid, Show)
+
+instance Exon ExonDefault Thing where
+  convertSegment = \case
+    Segment.String s -> Result (Thing s)
+    Segment.Expression thing -> Result thing
+    Segment.Whitespace _ -> Result (Thing " >>> ")
+
+  insertWhitespace s1 ws s2 =
+    appendSegment @ExonDefault (appendSegment @ExonDefault s1 (Segment.Whitespace ws)) s2
+@
+-}
 class Exon (tag :: Type) (a :: Type) where
+
+  -- |This check is used to allow empty expression segments to be skipped when they are empty.
+  -- The default is to never skip expressions.
   isEmpty :: a -> Bool
   isEmpty =
     const False
 
+  -- |Convert a 'Segment' to a 'Result'.
+  -- The default implementation uses 'IsString' and ignores whitespace, returning 'Empty'.
   convertSegment :: Segment a -> Result a
 
   default convertSegment :: IsString a => Segment a -> Result a
@@ -26,18 +57,25 @@ class Exon (tag :: Type) (a :: Type) where
     Segment.Whitespace _ ->
       Empty
 
-  appendSegments :: Result a -> Segment a -> Result a
+  -- |Append a 'Segment' to a 'Result'.
+  -- The default implementation uses '(<>)'.
+  appendSegment :: Result a -> Segment a -> Result a
 
-  default appendSegments :: Monoid a => Result a -> Segment a -> Result a
-  appendSegments z a =
+  default appendSegment :: Semigroup a => Result a -> Segment a -> Result a
+  appendSegment z a =
     z <> convertSegment @tag a
 
+  -- |Append whitespace and a 'Segment' to a 'Result', i.e. joining two parts of the interpolation by whitespace.
+  -- The default implementation ignores the whitespace, calling 'appendSegment' with the second argument.
   insertWhitespace :: Result a -> String -> Segment a -> Result a
 
   default insertWhitespace :: Result a -> String -> Segment a -> Result a
   insertWhitespace s1 _ s2 =
-    appendSegments @tag s1 s2
+    appendSegment @tag s1 s2
 
+  -- |The entry point for concatenation, taking a list of segments parsed from the interpolation.
+  -- The default implementation skips leading whitespace and calls 'appendSegment' and 'insertWhitespace' to
+  -- concatenate.
   concatSegments :: NonEmpty (Segment a) -> a
 
   default concatSegments :: Monoid a => NonEmpty (Segment a) -> a
@@ -62,7 +100,7 @@ class Exon (tag :: Type) (a :: Type) where
         [Segment.Whitespace _] ->
           (Result s1)
         s2 : ss ->
-          spin (appendSegments @tag (Result s1) s2) ss
+          spin (appendSegment @tag (Result s1) s2) ss
 
 instance {-# overlappable #-} (
     Monoid a,
@@ -88,7 +126,7 @@ concatKeepWs ::
   NonEmpty (Segment a) ->
   a
 concatKeepWs =
-  fold . foldl' (appendSegments @tag) Empty
+  fold . foldl' (appendSegment @tag) Empty
 
 instance Exon ExonDefault String where
   convertSegment =

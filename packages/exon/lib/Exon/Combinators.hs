@@ -1,3 +1,4 @@
+-- |Description: Internal
 module Exon.Combinators where
 
 import Prelude hiding (intercalate)

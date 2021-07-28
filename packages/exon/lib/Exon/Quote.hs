@@ -1,3 +1,4 @@
+-- |Description: Internal
 module Exon.Quote where
 
 import Data.Traversable (for)
@@ -84,6 +85,20 @@ quoteExp code = do
   consE <- runQ [e|(:|)|]
   pure (AppE conc (InfixE (Just hseg) consE (Just (ListE segs))))
 
+-- |A quasiquoter that allows interpolation, concatenating the resulting segments monoidally.
+--
+-- >>> [exon|write #{show @Text (5 :: Int)} lines of code|] :: Text
+-- "write 5 lines of code"
+--
+-- The default implementation for any non-stringly type uses 'IsString' to construct the literal segments and 'mappend'
+-- to combine them, ignoring whitespace segments.
+--
+-- >>> newtype Part = Part Text deriving newtype (Show, Semigroup, Monoid, IsString)
+--
+-- >>> [exon|x #{Part "y"}z|] :: Part
+-- Part "xyz"
+--
+-- This behavior can be customized by writing an instance of 'Exon.Exon'.
 exon :: QuasiQuoter
 exon =
   QuasiQuoter quoteExp (err "pattern") (err "type") (err "decl")

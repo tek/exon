@@ -1,3 +1,4 @@
+-- |Description: Internal
 module Exon.Parse where
 
 import Data.Char (isSpace)
