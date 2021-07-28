@@ -14,14 +14,11 @@
       tasty-hedgehog = hackage "1.1.0.0" "0cs96s7z5csrlwj334v8zl459j5s4ws6gmjh59cv01wwvvrrjwd9";
     };
 
-    compat = { hackage, source, only, ... }: {
-    };
-
   in hix.flake {
     base = ./.;
     packages.exon = "packages/exon";
     overrides = [common main];
-    compatOverrides = [common compat];
+    compatOverrides = common;
     compatVersions = ["8104" "884"];
     versionFile = "ops/hpack/shared/meta.yaml";
   };
