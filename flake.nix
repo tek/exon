@@ -21,5 +21,6 @@
     compatOverrides = common;
     compatVersions = ["8104" "884"];
     versionFile = "ops/hpack/shared/meta.yaml";
+    ghcid.easy-hls = false;
   };
 }

@@ -54,8 +54,7 @@ reifyExp ::
   m Exp
 reifyExp s = do
   exts <- fileExtensions
-  parseMode <- pure (defaultParseMode { extensions = exts })
-  case parseExpWithMode parseMode s of
+  case parseExpWithMode defaultParseMode { extensions = exts } s of
     ParseFailed _ err -> exonError err
     ParseOk e -> pure (toExp e)
 
