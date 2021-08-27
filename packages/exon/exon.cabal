@@ -121,6 +121,7 @@ test-suite exon-unit
   other-modules:
       Exon.Test.BasicTest
       Exon.Test.Quote
+      Exon.Test.ShowsPrecTest
       Paths_exon
   hs-source-dirs:
       test

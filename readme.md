@@ -1,4 +1,5 @@
 This Haskell library provides quasiquote string interpolation with customizable concatenation for arbitrary types.
+Visit [hackage] to read the full API documentation.
 
 The default case uses `Monoid` and `IsString`:
 
@@ -26,6 +27,23 @@ Name "Philip | J. | FRY"
 Individual segments are tokenized at whitespace boundaries, expressions between `#{` and `}` are inserted verbatim.
 
 The default implementation ignores whitespace when concatenating, while it is preserved for `String`, `Text` etc.
+
+An instance for `String -> String` is provided, used by `showsPrec` for example:
+
+```haskell
+
+data Record =
+  Record {
+    number :: Int,
+    maybeNumber :: Maybe Int,
+    value :: Value
+  }
+
+instance Show Record where
+  showsPrec d Record {..} =
+    showParen (d > 10) $
+      [exon|Record #{showsPrec 11 number} #{showsPrec 11 maybeNumber} #{showsPrec 11 value}|]
+```
 
 # Customization
 
@@ -63,4 +81,5 @@ instance Exon ExonDefault Name where
 
 Inspired by the magnificent [string-interpolate].
 
+[hackage]: https://hackage.haskell.org/package/exon/docs/Exon.html
 [string-interpolate]: https://hackage.haskell.org/package/string-interpolate

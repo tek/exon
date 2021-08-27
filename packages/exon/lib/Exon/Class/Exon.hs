@@ -1,6 +1,8 @@
 -- |Description: Internal
 module Exon.Class.Exon where
 
+import Text.Show (showString)
+
 import Exon.Data.Result (Result (Empty, Result))
 import qualified Exon.Data.Segment as Segment
 import Exon.Data.Segment (Segment)
@@ -159,6 +161,29 @@ instance Exon ExonDefault ByteString where
 instance Exon ExonDefault LByteString where
   convertSegment =
     convertKeepWs
+
+  concatSegments =
+    concatKeepWs @ExonDefault
+
+instance Exon ExonDefault (String -> String) where
+  convertSegment = \case
+    Segment.String a ->
+      Result (showString a)
+    Segment.Expression a | isEmpty @ExonDefault a ->
+      Empty
+    Segment.Expression a ->
+      Result a
+    Segment.Whitespace ws ->
+      Result (showString ws)
+
+  appendSegment z a =
+    case (z, convertSegment @ExonDefault a) of
+      (Result z', Result a') ->
+        Result (z' . a')
+      (z', Empty) ->
+        z'
+      (Empty, a') ->
+        a'
 
   concatSegments =
     concatKeepWs @ExonDefault
