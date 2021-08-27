@@ -6,7 +6,7 @@ description: See <https://hackage.haskell.org/package/exon/docs/Exon.html>
 
 extra-source-files:
   - readme.md
-  - Changelog.md
+  - changelog.md
 
 library:
   source-dirs: lib
