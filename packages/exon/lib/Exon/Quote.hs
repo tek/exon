@@ -106,6 +106,8 @@ quoteExp =
 -- >>> exonnl = exonWith [t|Nl|]
 -- >>> [exonnl|one   two     three|]
 -- "one\ntwo\nthree"
+--
+-- @since 0.2.0.0
 exonWith :: Q TH.Type -> QuasiQuoter
 exonWith tag =
   QuasiQuoter (quoteExpWith tag) (err "pattern") (err "type") (err "decl")
@@ -133,6 +135,8 @@ exon =
   exonWith [t|ExonDefault|]
 
 -- |A variant of 'exon' that always keeps whitespace verbatim.
+--
+-- @since 0.2.0.0
 exonws :: QuasiQuoter
 exonws =
   exonWith [t|KeepWhitespace|]
