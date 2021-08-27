@@ -111,6 +111,7 @@ instance {-# overlappable #-} (
     IsString a
   ) => Exon ExonDefault a where
 
+-- |Variant of 'convertSegment' that preserves whitespace verbatim.
 convertKeepWs ::
   IsString a =>
   Segment a ->
@@ -123,6 +124,7 @@ convertKeepWs = \case
   Segment.Whitespace a ->
     Result (fromString a)
 
+-- |Variant of 'concatSegments' that preserves whitespace verbatim.
 concatKeepWs ::
   ∀ tag a .
   Monoid a =>

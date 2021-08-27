@@ -1,3 +1,4 @@
+{-# options_haddock prune #-}
 -- |Description: Internal
 module Exon.Quote where
 

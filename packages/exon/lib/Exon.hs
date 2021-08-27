@@ -1,3 +1,4 @@
+-- |Monoidal Quasiquote Interpolation
 module Exon (
   -- $intro
   exon,
@@ -47,4 +48,4 @@ import Exon.Quote (exon, exonWith, exonws)
 --
 -- Individual segments are tokenized at whitespace boundaries, expressions between `#{` and `}` are inserted verbatim.
 --
--- The default implementation ignores whitespace when concatenating, while it is preserved for `String`, `Text` etc.
+-- The default implementation ignores whitespace when concatenating, while it is preserved for `GHC.String`, `Text` etc.
