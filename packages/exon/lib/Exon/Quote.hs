@@ -11,11 +11,12 @@ import Language.Haskell.Exts (
   parseExtension,
   )
 import Language.Haskell.Meta (toExp)
+import qualified Language.Haskell.TH as TH
 import Language.Haskell.TH (Exp (AppE, InfixE, ListE), Q, extsEnabled, runQ)
 import Language.Haskell.TH.Quote (QuasiQuoter (QuasiQuoter))
 import Language.Haskell.TH.Syntax (Quasi)
 
-import Exon.Class.Exon (ExonDefault, concatSegments)
+import Exon.Class.Exon (ExonDefault, KeepWhitespace, concatSegments)
 import Exon.Data.RawSegment (RawSegment (ExpSegment, StringSegment, WsSegment))
 import qualified Exon.Data.Segment as Segment
 import Exon.Parse (parse)
@@ -74,16 +75,43 @@ reifySegments segs = do
     WsSegment s ->
      runQ [e|Segment.Whitespace s|]
 
+quoteExpWith ::
+  QOrIO m =>
+  Q TH.Type ->
+  String ->
+  m Exp
+quoteExpWith tag code = do
+  raw <- segmentsQ code
+  hseg :| segs <- reifySegments raw
+  conc <- runQ [e|concatSegments @($tag)|]
+  consE <- runQ [e|(:|)|]
+  pure (AppE conc (InfixE (Just hseg) consE (Just (ListE segs))))
+
 quoteExp ::
   QOrIO m =>
   String ->
   m Exp
-quoteExp code = do
-  raw <- segmentsQ code
-  hseg :| segs <- reifySegments raw
-  conc <- runQ [e|concatSegments @ExonDefault|]
-  consE <- runQ [e|(:|)|]
-  pure (AppE conc (InfixE (Just hseg) consE (Just (ListE segs))))
+quoteExp =
+  quoteExpWith [t|ExonDefault|]
+
+-- |Constructor for a quasiquoter for an arbitrary tag.
+--
+-- This can be used to define quoters with custom logic, requiring an instance of 'Exon.Class.Exon' for the given type:
+--
+-- >>> import Exon.Class.Exon (Exon(..))
+-- >>> import Exon.Data.Segment (Segment(String))
+-- >>> data Nl
+-- >>> instance (Monoid a, IsString a) => Exon Nl a where insertWhitespace s1 _ s2 = appendSegment @Nl (appendSegment @Nl s1 (String "\n")) s2
+-- >>> exonnl = exonWith [t|Nl|]
+-- >>> [exonnl|one   two     three|]
+-- "one\ntwo\nthree"
+exonWith :: Q TH.Type -> QuasiQuoter
+exonWith tag =
+  QuasiQuoter (quoteExpWith tag) (err "pattern") (err "type") (err "decl")
+  where
+    err :: String -> String -> Q a
+    err tpe _ =
+      exonError ("Cannot quote " <> tpe)
 
 -- |A quasiquoter that allows interpolation, concatenating the resulting segments monoidally.
 --
@@ -96,13 +124,14 @@ quoteExp code = do
 -- >>> newtype Part = Part Text deriving newtype (Show, Semigroup, Monoid, IsString)
 --
 -- >>> [exon|x #{Part "y"}z|] :: Part
--- Part "xyz"
+-- "xyz"
 --
 -- This behavior can be customized by writing an instance of 'Exon.Exon'.
 exon :: QuasiQuoter
 exon =
-  QuasiQuoter quoteExp (err "pattern") (err "type") (err "decl")
-  where
-    err :: String -> String -> Q a
-    err tpe _ =
-      exonError ("Cannot quote " <> tpe)
+  exonWith [t|ExonDefault|]
+
+-- |A variant of 'exon' that always keeps whitespace verbatim.
+exonws :: QuasiQuoter
+exonws =
+  exonWith [t|KeepWhitespace|]

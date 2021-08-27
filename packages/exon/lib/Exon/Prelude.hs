@@ -1,4 +1,6 @@
-{-# LANGUAGE NoImplicitPrelude #-}
+{-# options_haddock hide #-}
+-- |Description: Prelude
+{-# language NoImplicitPrelude #-}
 
 module Exon.Prelude (
   module Data.Kind,

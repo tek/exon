@@ -1,3 +1,5 @@
+{-# options_haddock hide #-}
+-- |Description: Debug Printing Combinators
 {-# language NoImplicitPrelude #-}
 
 module Exon.Debug where

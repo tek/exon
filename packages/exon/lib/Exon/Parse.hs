@@ -1,4 +1,5 @@
--- |Description: Internal
+{-# options_haddock prune #-}
+-- |Description: The Quasiquote Body Parser
 module Exon.Parse where
 
 import Data.Char (isSpace)

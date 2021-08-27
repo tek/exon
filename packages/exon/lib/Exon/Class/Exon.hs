@@ -7,8 +7,10 @@ import Exon.Data.Result (Result (Empty, Result))
 import qualified Exon.Data.Segment as Segment
 import Exon.Data.Segment (Segment)
 
+-- |The tag for the default quoter 'Exon.exon'.
 data ExonDefault
 
+-- |The tag for the quoter 'Exon.exonws', keeping whitespace verbatim.
 data KeepWhitespace
 
 {- |
@@ -130,6 +132,16 @@ concatKeepWs ::
 concatKeepWs =
   fold . foldl' (appendSegment @tag) Empty
 
+instance (
+    Monoid a,
+    IsString a
+  ) => Exon KeepWhitespace a where
+  convertSegment =
+    convertKeepWs
+
+  concatSegments =
+    concatKeepWs @KeepWhitespace
+
 instance Exon ExonDefault String where
   convertSegment =
     convertKeepWs
@@ -139,31 +151,31 @@ instance Exon ExonDefault String where
 
 instance Exon ExonDefault Text where
   convertSegment =
-    convertKeepWs
+    convertSegment @KeepWhitespace
 
   concatSegments =
-    concatKeepWs @ExonDefault
+    concatSegments @KeepWhitespace
 
 instance Exon ExonDefault LText where
   convertSegment =
-    convertKeepWs
+    convertSegment @KeepWhitespace
 
   concatSegments =
-    concatKeepWs @ExonDefault
+    concatSegments @KeepWhitespace
 
 instance Exon ExonDefault ByteString where
   convertSegment =
-    convertKeepWs
+    convertSegment @KeepWhitespace
 
   concatSegments =
-    concatKeepWs @ExonDefault
+    concatSegments @KeepWhitespace
 
 instance Exon ExonDefault LByteString where
   convertSegment =
-    convertKeepWs
+    convertSegment @KeepWhitespace
 
   concatSegments =
-    concatKeepWs @ExonDefault
+    concatSegments @KeepWhitespace
 
 instance Exon ExonDefault (String -> String) where
   convertSegment = \case

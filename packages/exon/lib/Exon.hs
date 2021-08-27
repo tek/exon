@@ -1,6 +1,8 @@
 module Exon (
   -- $intro
-  module Exon.Quote,
+  exon,
+  exonws,
+  exonWith,
   -- * Customizing Concatenation
   module Exon.Class.Exon,
   -- * Combinators
@@ -10,11 +12,11 @@ module Exon (
   module Exon.Data.Result,
 ) where
 
-import Exon.Class.Exon (Exon (..), ExonDefault)
+import Exon.Class.Exon (Exon (..), ExonDefault, KeepWhitespace)
+import Exon.Combinators (intercalate)
 import Exon.Data.Result (Result (..))
 import Exon.Data.Segment (Segment (..))
-import Exon.Quote (exon)
-import Exon.Combinators (intercalate)
+import Exon.Quote (exon, exonWith, exonws)
 
 -- $intro
 -- This Haskell library provides quasiquote string interpolation with customizable concatenation for arbitrary types.

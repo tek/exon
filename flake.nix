@@ -6,7 +6,7 @@
   outputs = { hix, ... }:
   let
     common = { hackage, source, jailbreak, ... }: {
-      flatparse = hackage "0.2.1.0" "1s9a40sqf07fpm6dcpinmgdczm6vl26vy2agkaivgsfxm3w5qsha";
+      flatparse = hackage "0.2.2.0" "030daxpl0g7p5szmai6w1imgvvy11gx9yp5b1iaml3069s95qdqk";
     };
 
     main = { hackage, source, ... }: {

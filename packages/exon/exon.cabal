@@ -120,6 +120,7 @@ test-suite exon-unit
   main-is: Main.hs
   other-modules:
       Exon.Test.BasicTest
+      Exon.Test.KeepWsTest
       Exon.Test.Quote
       Exon.Test.ShowsPrecTest
       Paths_exon

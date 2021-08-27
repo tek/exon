@@ -58,6 +58,6 @@ instance Exon ExonDefault Thing where
   insertWhitespace s1 ws s2 =
     appendSegment @ExonDefault (appendSegment @ExonDefault s1 (Segment.Whitespace ws)) s2
 
-test_keepWhitespace :: TestT IO ()
-test_keepWhitespace =
+test_customWhitespace :: TestT IO ()
+test_customWhitespace =
   Thing "1 >>> 2 >>> 3" === [exon|1 #{Thing "2"}    3|]

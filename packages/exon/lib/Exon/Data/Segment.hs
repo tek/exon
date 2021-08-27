@@ -1,4 +1,4 @@
--- |Description: Internal
+-- |Description: Data Type 'Segment'
 module Exon.Data.Segment where
 
 -- |The parts of an interpolation quasiquote.
