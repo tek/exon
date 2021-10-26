@@ -14,18 +14,17 @@ library:
     - Prelude
   generated-other-modules:
     - Paths_exon
-
-dependencies:
-  - name: base
-    version: '>= 4 && < 5'
-    mixin:
-      - hiding (Prelude)
-  - flatparse >= 0.2 && < 0.3
-  - haskell-src-exts < 1.24
-  - haskell-src-meta < 0.9
-  - relude >= 0.7 && < 1.2
-  - template-haskell
-  - text
+  dependencies:
+    - name: base
+      version: '>= 4 && < 5'
+      mixin:
+        - hiding (Prelude)
+    - flatparse >= 0.2
+    - haskell-src-exts < 1.24
+    - haskell-src-meta < 0.9
+    - relude >= 0.7 && < 1.2
+    - template-haskell
+    - text
 
 ghc-options:
   - -Wall
@@ -42,10 +41,16 @@ tests:
       - -rtsopts
       - -with-rtsopts=-N
     dependencies:
-      - hedgehog
-      - name: exon
+      - name: base
+        version: '>= 4 && < 5'
         mixin:
           - hiding (Prelude)
+      - name: exon
+        mixin:
+          - hiding (Exon.Prelude)
           - (Exon.Prelude as Prelude)
+      - hedgehog
       - tasty
       - tasty-hedgehog
+      - template-haskell
+      - text

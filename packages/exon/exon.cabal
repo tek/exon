@@ -105,7 +105,7 @@ library
   ghc-options: -Wall -Wredundant-constraints -Wsimplifiable-class-constraints -Wunused-type-patterns
   build-depends:
       base ==4.*
-    , flatparse ==0.2.*
+    , flatparse >=0.2
     , haskell-src-exts <1.24
     , haskell-src-meta <0.9
     , relude >=0.7 && <1.2
@@ -188,17 +188,13 @@ test-suite exon-unit
   build-depends:
       base ==4.*
     , exon
-    , flatparse ==0.2.*
-    , haskell-src-exts <1.24
-    , haskell-src-meta <0.9
     , hedgehog
-    , relude >=0.7 && <1.2
     , tasty
     , tasty-hedgehog
     , template-haskell
     , text
   mixins:
       base hiding (Prelude)
-    , exon hiding (Prelude)
+    , exon hiding (Exon.Prelude)
     , exon (Exon.Prelude as Prelude)
   default-language: Haskell2010
