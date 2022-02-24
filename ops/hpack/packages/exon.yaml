@@ -10,26 +10,25 @@ extra-source-files:
 
 library:
   source-dirs: lib
-  other-modules:
-    - Prelude
-  generated-other-modules:
-    - Paths_exon
   dependencies:
     - name: base
       version: '>= 4 && < 5'
       mixin:
         - hiding (Prelude)
+    - incipit-base >= 0.1.0.3
     - flatparse >= 0.2
     - haskell-src-exts < 1.24
     - haskell-src-meta < 0.9
-    - relude >= 0.7 && < 1.2
     - template-haskell
     - text
+  when:
+    condition: false
+    generated-other-modules:
+      - Paths_exon
 
 ghc-options:
   - -Wall
   - -Wredundant-constraints
-  - -Wsimplifiable-class-constraints
   - -Wunused-type-patterns
 
 tests:
@@ -45,12 +44,14 @@ tests:
         version: '>= 4 && < 5'
         mixin:
           - hiding (Prelude)
-      - name: exon
-        mixin:
-          - hiding (Exon.Prelude)
-          - (Exon.Prelude as Prelude)
+      - incipit-base
+      - exon
       - hedgehog
       - tasty
       - tasty-hedgehog
       - template-haskell
       - text
+    when:
+      condition: false
+      generated-other-modules:
+        - Paths_exon

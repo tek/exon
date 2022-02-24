@@ -67,7 +67,7 @@ The `tag` parameter is an arbitrary type that allows the creation of different q
 In order to get the default quoter to support custom rules for a type, one simply has to write an instance:
 
 ```haskell
-import Exon (Exon, ExonDefault, Result)
+import Exon (Exon (..), ExonDefault, Result (..))
 import qualified Exon as Segment (Segment(..))
 
 instance Exon ExonDefault Name where

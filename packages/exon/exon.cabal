@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.34.6.
 --
 -- see: https://github.com/sol/hpack
 
@@ -33,15 +33,8 @@ library
       Exon.Data.RawSegment
       Exon.Data.Result
       Exon.Data.Segment
-      Exon.Debug
       Exon.Parse
-      Exon.Prelude
       Exon.Quote
-  other-modules:
-      Prelude
-      Paths_exon
-  autogen-modules:
-      Paths_exon
   hs-source-dirs:
       lib
   default-extensions:
@@ -102,13 +95,13 @@ library
       UndecidableInstances
       UnicodeSyntax
       ViewPatterns
-  ghc-options: -Wall -Wredundant-constraints -Wsimplifiable-class-constraints -Wunused-type-patterns
+  ghc-options: -Wall -Wredundant-constraints -Wunused-type-patterns
   build-depends:
       base ==4.*
     , flatparse >=0.2
     , haskell-src-exts <1.24
     , haskell-src-meta <0.9
-    , relude >=0.7 && <1.2
+    , incipit-base >=0.1.0.3
     , template-haskell
     , text
   mixins:
@@ -123,7 +116,6 @@ test-suite exon-unit
       Exon.Test.KeepWsTest
       Exon.Test.Quote
       Exon.Test.ShowsPrecTest
-      Paths_exon
   hs-source-dirs:
       test
   default-extensions:
@@ -184,17 +176,16 @@ test-suite exon-unit
       UndecidableInstances
       UnicodeSyntax
       ViewPatterns
-  ghc-options: -Wall -Wredundant-constraints -Wsimplifiable-class-constraints -Wunused-type-patterns -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wredundant-constraints -Wunused-type-patterns -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base ==4.*
     , exon
     , hedgehog
+    , incipit-base
     , tasty
     , tasty-hedgehog
     , template-haskell
     , text
   mixins:
       base hiding (Prelude)
-    , exon hiding (Exon.Prelude)
-    , exon (Exon.Prelude as Prelude)
   default-language: Haskell2010

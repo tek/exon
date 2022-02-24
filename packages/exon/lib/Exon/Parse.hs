@@ -1,5 +1,6 @@
 {-# options_haddock prune #-}
--- |Description: The Quasiquote Body Parser
+
+-- |Description: The parser for the quasiquote body, using "FlatParse".
 module Exon.Parse where
 
 import Data.Char (isSpace)
@@ -24,7 +25,7 @@ import FlatParse.Stateful (
   takeRest,
   (<|>),
   )
-import Prelude hiding (empty, get, modify, put, span, (<|>))
+import Prelude hiding (empty, span, (<|>))
 
 import Exon.Data.RawSegment (RawSegment (ExpSegment, StringSegment, WsSegment))
 
@@ -56,7 +57,7 @@ finishBefore ::
   Parser () ->
   Parser ()
 finishBefore cond =
-  before (lookahead cond) pass
+  before (lookahead cond) unit
 
 expr :: Parser ()
 expr =
@@ -65,7 +66,7 @@ expr =
   where
     closing =
       get >>= \case
-        0 -> pass
+        0 -> unit
         cur -> put (cur - 1) *> $(char '}') *> expr
 
 interpolation :: Parser RawSegment

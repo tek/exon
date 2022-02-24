@@ -1,8 +1,8 @@
 {-# options_haddock prune #-}
+
 -- |Description: Internal
 module Exon.Quote where
 
-import Data.Traversable (for)
 import Language.Haskell.Exts (
   Extension,
   ParseMode (extensions),
