@@ -41,8 +41,7 @@ data Record =
 
 instance Show Record where
   showsPrec d Record {..} =
-    showParen (d > 10) $
-      [exon|Record #{showsPrec 11 number} #{showsPrec 11 maybeNumber} #{showsPrec 11 value}|]
+    showParen (d > 10) [exon|Record #{showsPrec 11 number} #{showsPrec 11 maybeNumber} #{showsPrec 11 value}|]
 ```
 
 # Customization

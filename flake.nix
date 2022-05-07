@@ -15,5 +15,6 @@
     packages.exon = ./packages/exon;
     overrides = { inherit all; };
     hackage.versionFile = "ops/hpack/shared/meta.yaml";
+    ghci.preludePackage = "incipit-base";
   };
 }

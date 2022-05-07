@@ -57,7 +57,7 @@ finishBefore ::
   Parser () ->
   Parser ()
 finishBefore cond =
-  before (lookahead cond) unit
+  before cond unit
 
 expr :: Parser ()
 expr =
