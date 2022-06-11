@@ -74,8 +74,8 @@ class Exon (tag :: Type) (a :: Type) where
   insertWhitespace :: Result a -> String -> Segment a -> Result a
 
   default insertWhitespace :: Result a -> String -> Segment a -> Result a
-  insertWhitespace s1 _ s2 =
-    appendSegment @tag s1 s2
+  insertWhitespace s1 _ =
+    appendSegment @tag s1
 
   -- |The entry point for concatenation, taking a list of segments parsed from the interpolation.
   -- The default implementation skips leading whitespace and calls 'appendSegment' and 'insertWhitespace' to

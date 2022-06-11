@@ -34,8 +34,10 @@ segmentsQ ::
   QOrIO m =>
   String ->
   m (NonEmpty RawSegment)
-segmentsQ =
-  parse >>> fmap nonEmpty >>> \case
+segmentsQ "" =
+  exonError ("empty interpolation" :: String)
+segmentsQ s =
+  parse s & fmap nonEmpty & \case
     Right (Just segs) -> pure segs
     Right Nothing -> pure (pure (StringSegment ""))
     Left err -> exonError err
