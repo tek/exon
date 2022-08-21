@@ -7,6 +7,7 @@
   let
     all = { hackage, ... }: {
       incipit-base = hackage "0.3.0.0" "1078yyl5k94c9pr16rqd1i1g1fj8zx4iswhk7rcxb8f10fjqzapg";
+      flatparse = hackage "0.3.5.1" "0gbn93jnmj0x8akcani59ivnqzyyv1mzw0jmmc3pfklq7x9b17cm";
     };
 
   in hix.lib.flake ({ config, lib, ... }: {

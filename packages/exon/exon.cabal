@@ -99,7 +99,7 @@ library
   ghc-options: -Wall -Wredundant-constraints -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Widentities -Wunused-packages
   build-depends:
       base >=4.12 && <5
-    , flatparse >=0.2
+    , flatparse >=0.3.5.1
     , haskell-src-exts <1.24
     , haskell-src-meta <0.9
     , incipit-base >=0.2

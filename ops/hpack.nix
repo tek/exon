@@ -77,7 +77,7 @@ in {
   exon = merge (project "exon" "Exon") {
     synopsis = "Monoidal Quasiquote Interpolation";
     library.dependencies = [
-      "flatparse >= 0.2"
+      "flatparse >= 0.3.5.1"
       "haskell-src-exts < 1.24"
       "haskell-src-meta < 0.9"
       "template-haskell"
