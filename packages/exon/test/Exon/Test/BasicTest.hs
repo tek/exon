@@ -10,7 +10,7 @@ import Exon.Data.Result (Result(Result))
 
 newtype Mon =
   Mon String
-  deriving (Eq, Show)
+  deriving stock (Eq, Show)
   deriving newtype (IsString)
 
 instance Semigroup Mon where

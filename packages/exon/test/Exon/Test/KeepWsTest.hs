@@ -6,7 +6,7 @@ import Exon.Quote (exon, exonws)
 
 newtype Mon =
   Mon String
-  deriving (Eq, Show)
+  deriving stock (Eq, Show)
   deriving newtype (IsString, Semigroup, Monoid)
 
 test_keepWs :: TestT IO ()

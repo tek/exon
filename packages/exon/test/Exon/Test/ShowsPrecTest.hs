@@ -10,7 +10,7 @@ data Value =
     x :: Int,
     y :: Int
   }
-  deriving (Eq, Show)
+  deriving stock (Eq, Show)
 
 data Record =
   Record {
@@ -18,11 +18,11 @@ data Record =
     maybeNumber :: Maybe Int,
     value :: Value
   }
-  deriving (Eq)
+  deriving stock (Eq)
 
 data Wrap =
   Wrap Int Record
-  deriving (Eq, Show)
+  deriving stock (Eq, Show)
 
 instance Show Record where
   showsPrec d Record {..} =
