@@ -6,7 +6,7 @@ data Result a =
   Empty
   |
   Result a 
-  deriving (Eq, Show, Foldable)
+  deriving stock (Eq, Show, Foldable)
 
 instance Semigroup a => Semigroup (Result a) where
   (<>) Empty a = a

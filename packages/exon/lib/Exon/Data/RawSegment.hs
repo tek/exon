@@ -9,4 +9,4 @@ data RawSegment =
   StringSegment String
   |
   ExpSegment String
-  deriving (Eq, Show)
+  deriving stock (Eq, Show)

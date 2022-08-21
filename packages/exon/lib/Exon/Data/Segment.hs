@@ -9,4 +9,4 @@ data Segment a =
   Whitespace String
   |
   Expression a
-  deriving (Eq, Show)
+  deriving stock (Eq, Show)
