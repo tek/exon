@@ -20,7 +20,7 @@ import FlatParse.Stateful (
   runParserS,
   satisfy,
   some_,
-  spanned,
+  withSpan,
   string,
   takeRest,
   (<|>),
@@ -30,11 +30,11 @@ import Prelude hiding (empty, span, (<|>))
 import Exon.Data.RawSegment (RawSegment (ExpSegment, StringSegment, WsSegment))
 
 type Parser =
-  FlatParse.Parser Text
+  FlatParse.Parser Int Text
 
 span :: Parser () -> Parser String
 span seek =
-  spanned seek \ _ sp -> inSpan sp takeRest
+  withSpan seek \ _ sp -> inSpan sp takeRest
 
 ws :: Parser Char
 ws =
