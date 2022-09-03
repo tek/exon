@@ -11,7 +11,7 @@
     };
 
   in hix.lib.flake ({ config, lib, ... }: {
-    base = ./.;
+    devGhc.compiler = "ghc902";
     packages.exon = ./packages/exon;
     overrides = { inherit all; };
     hpack.packages = import ./ops/hpack.nix { inherit config lib; };
