@@ -17,10 +17,11 @@ import Language.Haskell.TH (Exp (AppE, InfixE, ListE), Q, extsEnabled, runQ)
 import Language.Haskell.TH.Quote (QuasiQuoter (QuasiQuoter))
 import Language.Haskell.TH.Syntax (Quasi)
 
-import Exon.Class.Exon (ExonDefault, KeepWhitespace, concatSegments)
-import Exon.Data.RawSegment (RawSegment (ExpSegment, StringSegment, WsSegment))
+import Exon.Class.Exon (SkipWs (SkipWs), exonProcess, exonProcessWith, skipWs)
+import Exon.Class.ToSegment (toSegment)
+import Exon.Data.RawSegment (RawSegment (AutoExpSegment, ExpSegment, StringSegment, WsSegment))
 import qualified Exon.Data.Segment as Segment
-import Exon.Parse (parse)
+import Exon.Parse (parse, parseWs)
 
 exonError ::
   ToString e =>
@@ -32,12 +33,13 @@ exonError err =
 
 segmentsQ ::
   QOrIO m =>
+  Bool ->
   String ->
   m (NonEmpty RawSegment)
-segmentsQ "" =
+segmentsQ _ "" =
   exonError ("empty interpolation" :: String)
-segmentsQ s =
-  parse s & fmap nonEmpty & \case
+segmentsQ whitespace s =
+  (if whitespace then parseWs else parse) s & fmap nonEmpty & \case
     Right (Just segs) -> pure segs
     Right Nothing -> pure (pure (StringSegment ""))
     Left err -> exonError err
@@ -65,80 +67,133 @@ reifyExp s = do
 
 reifySegments ::
   QOrIO m =>
+  Bool ->
   NonEmpty RawSegment ->
   m (NonEmpty Exp)
-reifySegments segs = do
+reifySegments unsafe segs = do
   expCon <- runQ [e|Segment.Expression|]
+  expToSegment <- runQ [e|toSegment|]
   for segs \case
     StringSegment s ->
       runQ [e|Segment.String s|]
+    ExpSegment s | unsafe -> do
+      e <- reifyExp s
+      pure (AppE expCon (AppE expToSegment e))
     ExpSegment s -> do
       e <- reifyExp s
       pure (AppE expCon e)
+    AutoExpSegment s -> do
+      e <- reifyExp s
+      pure (AppE expCon (AppE expToSegment e))
     WsSegment s ->
      runQ [e|Segment.Whitespace s|]
 
 quoteExpWith ::
   QOrIO m =>
-  Q TH.Type ->
+  Maybe (Q TH.Exp, Q TH.Exp) ->
+  Bool ->
+  Bool ->
   String ->
   m Exp
-quoteExpWith tag code = do
-  raw <- segmentsQ code
-  hseg :| segs <- reifySegments raw
-  conc <- runQ [e|concatSegments @($tag)|]
+quoteExpWith wrapper whitespace unsafe code = do
+  raw <- segmentsQ whitespace code
+  hseg :| segs <- reifySegments unsafe raw
+  conc <- runQ $ maybe [e|exonProcess|] wrapped wrapper
   consE <- runQ [e|(:|)|]
   pure (AppE conc (InfixE (Just hseg) consE (Just (ListE segs))))
+  where
+    wrapped (wrap, unwrap) = do
+      [e|exonProcessWith ($wrap) $(unwrap)|]
 
 quoteExp ::
   QOrIO m =>
+  Bool ->
+  Bool ->
   String ->
   m Exp
 quoteExp =
-  quoteExpWith [t|ExonDefault|]
+  quoteExpWith Nothing
 
--- |Constructor for a quasiquoter for an arbitrary tag.
+quoteSegments ::
+  QOrIO m =>
+  String ->
+  m Exp
+quoteSegments code = do
+  raw <- segmentsQ True code
+  hseg :| segs <- reifySegments False raw
+  consE <- runQ [e|(:|)|]
+  pure (InfixE (Just hseg) consE (Just (ListE segs)))
+
+-- |Constructor for a quasiquoter that wraps all segments with the first expression and unwraps the result with the
+-- second.
 --
--- This can be used to define quoters with custom logic, requiring an instance of 'Exon.Class.Exon' for the given type:
+-- This can be used to define quoters with custom logic by providing instances of any of the classes in
+-- "Exon.Class.Exon" with the result type argument set to the wrapper type:
 --
--- >>> import Exon.Class.Exon (Exon(..))
+-- >>> import Exon.Class.Exon (ExonString (..))
 -- >>> import Exon.Data.Segment (Segment(String))
--- >>> data Nl
--- >>> instance (Monoid a, IsString a) => Exon Nl a where insertWhitespace s1 _ s2 = appendSegment @Nl (appendSegment @Nl s1 (String "\n")) s2
--- >>> exonnl = exonWith [t|Nl|]
+-- >>> import qualified Data.Text.Lazy.Builder as Text
+-- >>> newtype Nl = Nl Text deriving (Generic)
+-- >>> getNl (Nl t) = t
+-- >>> instance ExonString Nl Text.Builder where exonWhitespace _ = exonString @Nl "\n"
+-- >>> exonnl = exonWith (Just ([e|Nl|], [e|getNl|])) True False
 -- >>> [exonnl|one   two     three|]
 -- "one\ntwo\nthree"
 --
 -- @since 0.2.0.0
-exonWith :: Q TH.Type -> QuasiQuoter
-exonWith tag =
-  QuasiQuoter (quoteExpWith tag) (err "pattern") (err "type") (err "decl")
+exonWith ::
+  Maybe (Q TH.Exp, Q TH.Exp) ->
+  Bool ->
+  Bool ->
+  QuasiQuoter
+exonWith wrapper whitespace unsafe =
+  QuasiQuoter (quoteExpWith wrapper whitespace unsafe) (err "pattern") (err "type") (err "decl")
   where
     err :: String -> String -> Q a
     err tpe _ =
       exonError ("Cannot quote " <> tpe)
 
--- |A quasiquoter that allows interpolation, concatenating the resulting segments monoidally.
+-- |A quasiquoter that allows interpolation, concatenating the resulting segments with '(<>)' or a an arbitrary
+-- user-defined implementation.
+-- See the [introduction]("Exon") for details.
 --
--- >>> [exon|write #{show @Text (5 :: Int)} lines of code|] :: Text
+-- >>> [exon|write #{show (5 :: Int)} lines of ##{"code" :: ByteString}|] :: Text
 -- "write 5 lines of code"
---
--- The default implementation for any non-stringly type uses 'IsString' to construct the literal segments and 'mappend'
--- to combine them, ignoring whitespace segments.
---
--- >>> newtype Part = Part Text deriving newtype (Show, Semigroup, Monoid, IsString)
---
--- >>> [exon|x #{Part "y"}z|] :: Part
--- "xyz"
---
--- This behavior can be customized by writing an instance of 'Exon.Exon'.
 exon :: QuasiQuoter
 exon =
-  exonWith [t|ExonDefault|]
+  exonWith Nothing False False
 
--- |A variant of 'exon' that always keeps whitespace verbatim.
+-- |Unsafe version of 'exon', allowing automatic conversion with the same splice brackets as matching types.
 --
--- @since 0.2.0.0
+-- @since 1.0.0.0
+exun :: QuasiQuoter
+exun =
+  exonWith Nothing False True
+
+-- |A variant of 'exon' that ignores all literal whitespace in the quote (not in interpolated expressions).
+--
+-- > [intron|x|] === skipWs [exonws|x|]
+--
+-- @since 1.0.0.0
+intron :: QuasiQuoter
+intron =
+  exonWith (Just ([e|SkipWs|], [e|skipWs|])) True False
+
+-- |A variant of 'exon' that creates segments for each sequence of whitespace characters that can be processed
+-- differently by 'Exon.ExonAppend', 'Exon.ExonSegment' or 'Exon.ExonString'.
+--
+-- @since 1.0.0.0
 exonws :: QuasiQuoter
 exonws =
-  exonWith [t|KeepWhitespace|]
+  exonWith Nothing True False
+
+-- |Internal debugging quoter that produces the raw segments.
+--
+-- @since 1.0.0.0
+exonSegments :: QuasiQuoter
+exonSegments =
+  QuasiQuoter quoteSegments (err "pattern") (err "type") (err "decl")
+  where
+    err :: String -> String -> Q a
+    err tpe _ =
+      exonError ("Cannot quote " <> tpe)

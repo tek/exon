@@ -1,7 +1,0 @@
-cradle:
-  cabal:
-    - path: "./packages/exon/lib"
-      component: "lib:exon"
-
-    - path: "./packages/exon/test"
-      component: "exon:test:exon-unit"

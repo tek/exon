@@ -3,10 +3,10 @@ module Exon.Test.BasicTest where
 import Data.Text (toUpper)
 import Hedgehog (TestT, (===))
 
-import Exon.Class.Exon (Exon(..), ExonDefault)
+import Exon.Class.Exon (ExonSegment (exonSegment), SkipWs (SkipWs), skipWs)
+import Exon.Data.Result (Result (Result))
 import qualified Exon.Data.Segment as Segment
-import Exon.Quote (exon)
-import Exon.Data.Result (Result(Result))
+import Exon.Quote (exon, exonws, intron)
 
 newtype Mon =
   Mon String
@@ -38,26 +38,26 @@ up (Name name) =
 
 test_basic :: TestT IO ()
 test_basic = do
-  Mon "fooandbar" === [exon|foo
+  Mon "fooandbar" === [intron|foo
     #{var} bar|]
   "foo and \\#{bar}" === ([exon|foo #{var} \#{bar}|] :: Text)
-  "Philip | J. | FRY" === [exon|Philip J. #{up lastName}|]
+  "Philip | J. | FRY" === [intron|Philip J. #{up lastName}|]
+  "Philip | J. | FRY" === skipWs [exonws|Philip J. #{SkipWs (up lastName)}|]
+  "Philip J. | FRY" === [exon|Philip J.#{up lastName}|]
+  ("abc" :: Text) === skipWs [exonws|a  ##{"b" :: Text} #{"c"}|]
   where
     var :: IsString a => a
     var =
       "and"
 
-newtype Thing = Thing String deriving newtype (IsString, Semigroup, Monoid, Show, Eq)
+newtype Thing = Thing String deriving stock (Generic) deriving newtype (IsString, Show, Eq)
 
-instance Exon ExonDefault Thing where
-  convertSegment = \case
-    Segment.String s -> Result (Thing s)
+instance ExonSegment Thing String where
+  exonSegment = \case
+    Segment.String s -> Result s
     Segment.Expression thing -> Result thing
-    Segment.Whitespace _ -> Result (Thing " >>> ")
-
-  insertWhitespace s1 ws s2 =
-    appendSegment @ExonDefault (appendSegment @ExonDefault s1 (Segment.Whitespace ws)) s2
+    Segment.Whitespace _ -> Result " >>> "
 
 test_customWhitespace :: TestT IO ()
 test_customWhitespace =
-  Thing "1 >>> 2 >>> 3" === [exon|1 #{Thing "2"}    3|]
+  Thing "1 >>> 2 >>> 3" === [exonws|1 #{Thing "2"}    3|]

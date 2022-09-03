@@ -20,14 +20,14 @@ import FlatParse.Stateful (
   runParserS,
   satisfy,
   some_,
-  withSpan,
   string,
   takeRest,
+  withSpan,
   (<|>),
   )
 import Prelude hiding (empty, span, (<|>))
 
-import Exon.Data.RawSegment (RawSegment (ExpSegment, StringSegment, WsSegment))
+import Exon.Data.RawSegment (RawSegment (AutoExpSegment, ExpSegment, StringSegment, WsSegment))
 
 type Parser =
   FlatParse.Parser Int Text
@@ -69,32 +69,62 @@ expr =
         0 -> unit
         cur -> put (cur - 1) *> $(char '}') *> expr
 
-interpolation :: Parser RawSegment
-interpolation =
+autoInterpolation :: Parser RawSegment
+autoInterpolation =
+  $(string "##{") *> (AutoExpSegment <$> span expr) <* $(char '}')
+
+verbatimInterpolation :: Parser RawSegment
+verbatimInterpolation =
   $(string "#{") *> (ExpSegment <$> span expr) <* $(char '}')
 
 untilTokenEnd :: Parser ()
 untilTokenEnd =
   branch $(char '\\') (anyChar *> untilTokenEnd) $
-  finishBefore ($(string "#{") <|> void ws) $
+  finishBefore ($(string "##{") <|> $(string "#{")) $
   eof <|> (anyChar *> untilTokenEnd)
+
+untilTokenEndWs :: Parser ()
+untilTokenEndWs =
+  branch $(char '\\') (anyChar *> untilTokenEndWs) $
+  finishBefore ($(string "##{") <|> $(string "#{") <|> void ws) $
+  eof <|> (anyChar *> untilTokenEndWs)
 
 text :: Parser RawSegment
 text =
   StringSegment <$> span untilTokenEnd
 
+textWs :: Parser RawSegment
+textWs =
+  StringSegment <$> span untilTokenEndWs
+
 segment :: Parser RawSegment
 segment =
-  branch eof empty (whitespace <|> interpolation <|> text)
+  branch eof empty (autoInterpolation <|> verbatimInterpolation <|> text)
+
+segmentWs :: Parser RawSegment
+segmentWs =
+  branch eof empty (whitespace <|> autoInterpolation <|> verbatimInterpolation <|> textWs)
 
 parser :: Parser [RawSegment]
 parser =
   FlatParse.many segment
 
-parse :: String -> Either Text [RawSegment]
-parse =
-  runParserS parser 0 0 >>> \case
+parserWs :: Parser [RawSegment]
+parserWs =
+  FlatParse.many segmentWs
+
+parseWith :: Parser [RawSegment] -> String -> Either Text [RawSegment]
+parseWith p =
+  runParserS p 0 0 >>> \case
     OK a _ "" -> Right a
     OK _ _ u -> Left ("unconsumed: " <> decodeUtf8 u)
     Fail -> Left "fail"
     Err e -> Left e
+
+parse :: String -> Either Text [RawSegment]
+parse =
+  parseWith parser
+
+parseWs :: String -> Either Text [RawSegment]
+parseWs =
+  parseWith parserWs

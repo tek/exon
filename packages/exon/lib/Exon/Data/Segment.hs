@@ -9,4 +9,8 @@ data Segment a =
   Whitespace String
   |
   Expression a
-  deriving stock (Eq, Show)
+  deriving stock (Eq, Show, Functor)
+
+instance IsString (Segment a) where
+  fromString =
+    String

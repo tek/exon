@@ -1,8 +1,10 @@
 module Main where
 
 import Exon.Test.BasicTest (test_basic, test_customWhitespace)
-import Exon.Test.KeepWsTest (test_keepWs)
+import Exon.Test.BuildTest (test_build)
+import Exon.Test.NewtypeTest (test_newtype)
 import Exon.Test.ShowsPrecTest (test_showsPrec)
+import Exon.Test.SkipWsTest (test_skipWs)
 import Hedgehog (TestT, property, test, withTests)
 import Test.Tasty (TestName, TestTree, defaultMain, testGroup)
 import Test.Tasty.Hedgehog (testProperty)
@@ -17,10 +19,12 @@ unitTest desc =
 tests :: TestTree
 tests =
   testGroup "all" [
+    unitTest "build" test_build,
     unitTest "basic" test_basic,
     unitTest "custom whitespace handling" test_customWhitespace,
     unitTest "concat showsPrec fragments" test_showsPrec,
-    unitTest "keep whitespace quoter" test_keepWs
+    unitTest "skip whitespace quoter" test_skipWs,
+    unitTest "segment newtype conversion" test_newtype
   ]
 
 main :: IO ()

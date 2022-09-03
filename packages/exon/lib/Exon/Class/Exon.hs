@@ -1,203 +1,265 @@
 -- |Description: Internal
 module Exon.Class.Exon where
 
+import qualified Data.ByteString.Builder as ByteString
+import Data.ByteString.Builder (toLazyByteString)
+import qualified Data.Text.Lazy.Builder as Text
+import Data.Text.Lazy.Builder (toLazyText)
 import Text.Show (showString)
 
+import Exon.Class.Newtype (OverNewtypes, overNewtypes)
 import Exon.Data.Result (Result (Empty, Result))
 import qualified Exon.Data.Segment as Segment
 import Exon.Data.Segment (Segment)
 
--- |The tag for the default quoter 'Exon.exon'.
-data ExonDefault
+-- |Wrapping a quote type with this causes whitespace to be ignored.
+--
+-- @since 1.0.0.0
+newtype SkipWs a =
+  SkipWs a
+  deriving stock (Eq, Show, Generic)
+  deriving newtype (IsString)
 
--- |The tag for the quoter 'Exon.exonws', keeping whitespace verbatim.
-data KeepWhitespace
+-- |Defined separately because TH chokes on the selector.
+--
+-- @since 1.0.0.0
+skipWs :: SkipWs a -> a
+skipWs (SkipWs a) =
+  a
 
-{- |
-This class is responsible for combining segments of an interpolated string, allowing users to define their own rules
-for how the result is constructed.
-The default implementation converts each literal part with 'IsString' and uses the result type's 'Monoid' to
-concatenate them.
+-- |Wrapping a quote type with this causes @a@ to be used irrespective of whether it is an unwrappable newtype.
+--
+-- @since 1.0.0.0
+newtype ExonUse a =
+  ExonUse { exonUse :: a }
+  deriving stock (Eq, Show)
+  deriving newtype (IsString)
 
-The raw parts are encoded as 'Segment', getting combined into a 'Result'.
+-- |This class converts a segment into a builder.
+--
+-- A builder is an auxiliary data type that may improve performance when concatenating segments, like 'Text.Builder'.
+-- The default instance uses no builder and is implemented as 'id'.
+--
+-- @since 1.0.0.0
+class ExonBuilder (inner :: Type) (builder :: Type) | inner -> builder where
+  -- |Construct a builder from the newtype-unwrapped result type.
+  exonBuilder :: inner -> builder
 
-The default for 'convertSegment' skips whitespace by encoding it into the 'Result' constructor 'Empty', which is a
-unit object.
-To change this behavior, it can be easily overridden:
-
-@
-newtype Thing = Thing String deriving newtype (IsString, Semigroup, Monoid, Show)
-
-instance Exon ExonDefault Thing where
-  convertSegment = \case
-    Segment.String s -> Result (Thing s)
-    Segment.Expression thing -> Result thing
-    Segment.Whitespace _ -> Result (Thing " >>> ")
-
-  insertWhitespace s1 ws s2 =
-    appendSegment @ExonDefault (appendSegment @ExonDefault s1 (Segment.Whitespace ws)) s2
-@
--}
-class Exon (tag :: Type) (a :: Type) where
-
-  -- |This check is used to allow empty expression segments to be skipped when they are empty.
-  -- The default is to never skip expressions.
-  isEmpty :: a -> Bool
-  isEmpty =
-    const False
-
-  -- |Convert a 'Segment' to a 'Result'.
-  -- The default implementation uses 'IsString' and ignores whitespace, returning 'Empty'.
-  convertSegment :: Segment a -> Result a
-
-  default convertSegment :: IsString a => Segment a -> Result a
-  convertSegment = \case
-    Segment.String a ->
-      Result (fromString a)
-    Segment.Expression a | isEmpty @tag a ->
-      Empty
-    Segment.Expression a ->
-      Result a
-    Segment.Whitespace _ ->
-      Empty
-
-  -- |Append a 'Segment' to a 'Result'.
-  -- The default implementation uses '(<>)'.
-  appendSegment :: Result a -> Segment a -> Result a
-
-  default appendSegment :: Semigroup a => Result a -> Segment a -> Result a
-  appendSegment z a =
-    z <> convertSegment @tag a
-
-  -- |Append whitespace and a 'Segment' to a 'Result', i.e. joining two parts of the interpolation by whitespace.
-  -- The default implementation ignores the whitespace, calling 'appendSegment' with the second argument.
-  insertWhitespace :: Result a -> String -> Segment a -> Result a
-
-  default insertWhitespace :: Result a -> String -> Segment a -> Result a
-  insertWhitespace s1 _ =
-    appendSegment @tag s1
-
-  -- |The entry point for concatenation, taking a list of segments parsed from the interpolation.
-  -- The default implementation skips leading whitespace and calls 'appendSegment' and 'insertWhitespace' to
-  -- concatenate.
-  concatSegments :: NonEmpty (Segment a) -> a
-
-  default concatSegments :: Monoid a => NonEmpty (Segment a) -> a
-  concatSegments (h :| t) =
-    fold (spin (convertSegment @tag h) t)
-    where
-      spin :: Result a -> [Segment a] -> Result a
-      spin Empty = \case
-        [] ->
-          Empty
-        Segment.Whitespace _ : ss ->
-          spin Empty ss
-        s1 : ss ->
-          spin (convertSegment @tag s1) ss
-      spin (Result s1) = \case
-        [] ->
-          Result s1
-        Segment.Whitespace _ : (Segment.Expression a) : ss | isEmpty @tag a ->
-          spin (Result s1) ss
-        Segment.Whitespace ws : s2 : ss ->
-          spin (insertWhitespace @tag (Result s1) ws s2) ss
-        [Segment.Whitespace _] ->
-          (Result s1)
-        s2 : ss ->
-          spin (appendSegment @tag (Result s1) s2) ss
+  -- |Convert the result of the builder concatenation back to the newtype-unwrapped result type.
+  exonBuilderExtract :: Result builder -> inner
 
 instance {-# overlappable #-} (
-    Monoid a,
-    IsString a
-  ) => Exon ExonDefault a where
-
--- |Variant of 'convertSegment' that preserves whitespace verbatim.
-convertKeepWs ::
-  IsString a =>
-  Segment a ->
-  Result a
-convertKeepWs = \case
-  Segment.String a ->
-    Result (fromString a)
-  Segment.Expression a ->
-    Result a
-  Segment.Whitespace a ->
-    Result (fromString a)
-
--- |Variant of 'concatSegments' that preserves whitespace verbatim.
-concatKeepWs ::
-  ∀ tag a .
-  Monoid a =>
-  Exon tag a =>
-  NonEmpty (Segment a) ->
-  a
-concatKeepWs =
-  fold . foldl' (appendSegment @tag) Empty
+    Monoid builder,
+    result ~ builder
+  ) => ExonBuilder result builder where
+  exonBuilder =
+    id
+  {-# inline exonBuilder #-}
+  exonBuilderExtract =
+    fold
+  {-# inline exonBuilderExtract #-}
 
 instance (
-    Monoid a,
-    IsString a
-  ) => Exon KeepWhitespace a where
-  convertSegment =
-    convertKeepWs
+    ExonBuilder a builder
+  ) => ExonBuilder (ExonUse a) builder where
+  exonBuilder =
+    exonBuilder @a . exonUse
+  exonBuilderExtract =
+    ExonUse . exonBuilderExtract
 
-  concatSegments =
-    concatKeepWs @KeepWhitespace
+instance ExonBuilder Text Text.Builder where
+  exonBuilder =
+    Text.fromText
+  {-# inline exonBuilder #-}
+  exonBuilderExtract =
+    foldMap (toStrict . toLazyText)
+  {-# inline exonBuilderExtract #-}
 
-instance Exon ExonDefault String where
-  convertSegment =
-    convertKeepWs
+instance ExonBuilder LText Text.Builder where
+  exonBuilder =
+    Text.fromLazyText
+  exonBuilderExtract =
+    foldMap toLazyText
 
-  concatSegments =
-    concatKeepWs @ExonDefault
+instance ExonBuilder ByteString ByteString.Builder where
+  exonBuilder =
+    ByteString.byteString
+  exonBuilderExtract =
+    foldMap (toStrict . toLazyByteString)
 
-instance Exon ExonDefault Text where
-  convertSegment =
-    convertSegment @KeepWhitespace
+instance ExonBuilder LByteString ByteString.Builder where
+  exonBuilder =
+    ByteString.lazyByteString
+  exonBuilderExtract =
+    foldMap toLazyByteString
 
-  concatSegments =
-    concatSegments @KeepWhitespace
+-- |This class generalizes 'IsString' for use in 'ExonSegment'.
+--
+-- When a plain text segment (not interpolated) is processed, it is converted to the result type, which usually happens
+-- via 'fromString'.
+--
+-- For the type of 'Text.Show.showsPrec' (@'String' -> 'String'@), there is no instance of 'IsString', so this class
+-- provides an instance that works around that by calling 'showString'.
+--
+-- @since 1.0.0.0
+class ExonString (result :: Type) (builder :: Type) where
+  -- |Convert a 'String' to the builder type.
+  exonString :: String -> Result builder
 
-instance Exon ExonDefault LText where
-  convertSegment =
-    convertSegment @KeepWhitespace
+  default exonString :: IsString builder => String -> Result builder
+  exonString =
+    Result . fromString
+  {-# inline exonString #-}
 
-  concatSegments =
-    concatSegments @KeepWhitespace
+  -- |Convert a 'String' containing whitespace to the builder type.
+  -- This is only used by whitespace-aware quoters, like 'Exon.exonws' or 'Exon.intron'.
+  exonWhitespace :: String -> Result builder
 
-instance Exon ExonDefault ByteString where
-  convertSegment =
-    convertSegment @KeepWhitespace
+  default exonWhitespace :: String -> Result builder
+  exonWhitespace =
+    exonString @result @builder
+  {-# inline exonWhitespace #-}
 
-  concatSegments =
-    concatSegments @KeepWhitespace
+instance {-# overlappable #-} IsString a => ExonString result a where
 
-instance Exon ExonDefault LByteString where
-  convertSegment =
-    convertSegment @KeepWhitespace
+-- |The instance for the type used by 'Text.Show.showsPrec'.
+instance ExonString result (String -> String) where
+  exonString =
+    Result . showString
+  {-# inline exonString #-}
 
-  concatSegments =
-    concatSegments @KeepWhitespace
+-- |The instance used when the result type is wrapped in 'SkipWs', which is done by 'Exon.intron'.
+--
+-- It returns 'Empty' for any whitespace.
+instance (
+    IsString builder
+  ) => ExonString (SkipWs result) builder where
+  exonWhitespace _ =
+    Empty
+  {-# inline exonWhitespace #-}
 
-instance Exon ExonDefault (String -> String) where
-  convertSegment = \case
-    Segment.String a ->
-      Result (showString a)
-    Segment.Expression a | isEmpty @ExonDefault a ->
-      Empty
-    Segment.Expression a ->
-      Result a
-    Segment.Whitespace ws ->
-      Result (showString ws)
+-- |This class converts a 'Segment' to a builder.
+--
+-- The default implementation performs the following conversions for the differnet segment variants:
+--
+-- - [Segment.String]('Segment.String') and [Segment.Whitespace]('Segment.Whitespace') are plain 'String's parsed
+-- literally from the quasiquote.
+-- They are converted to the builder type by 'fromString' (handled by 'ExonString').
+--
+-- - [Segment.Whitespace]('Segment.Whitespace') is ignored when the quoter 'Exon.intron' was used.
+--
+-- - [Segment.Expression]('Segment.Expression') contains a value of the builder type, which is returned as-is.
+--
+-- @since 1.0.0.0
+class ExonSegment (result :: Type) (builder :: Type) where
+  -- |Convert literal string segments to the result type.
+  exonSegment :: Segment builder -> Result builder
 
-  appendSegment z a =
-    case (z, convertSegment @ExonDefault a) of
-      (Result z', Result a') ->
-        Result (z' . a')
-      (z', Empty) ->
-        z'
-      (Empty, a') ->
-        a'
+instance {-# overlappable #-} (
+    ExonString result builder
+  ) => ExonSegment result builder where
+    exonSegment = \case
+      Segment.String a ->
+        exonString @result a
+      Segment.Expression a ->
+        Result a
+      Segment.Whitespace a ->
+        exonWhitespace @result a
+    {-# inline exonSegment #-}
 
-  concatSegments =
-    concatKeepWs @ExonDefault
+-- |This class handles concatenation of segments, which might be a builder or the result type.
+--
+-- The default instance simply uses '(<>)', and there is only one special instance for @'String' -> 'String'@, the type
+-- used by 'Text.Show.showsPrec'.
+--
+-- @since 1.0.0.0
+class ExonAppend (result :: Type) (builder :: Type) where
+  -- |Concatenate two segments of the builder type.
+  exonAppend :: builder -> builder -> Result builder
+
+instance {-# overlappable #-} (
+    Semigroup builder
+  ) => ExonAppend result builder where
+  exonAppend z a =
+    Result (z <> a)
+  {-# inline exonAppend #-}
+
+instance ExonAppend result (String -> String) where
+  exonAppend z a =
+    Result (z . a)
+  {-# inline exonAppend #-}
+
+-- |Wrapper for 'exonAppend' that handles the 'Empty' case.
+--
+-- @since 1.0.0.0
+exonAppendResult ::
+  ∀ result builder .
+  ExonAppend result builder =>
+  Result builder ->
+  Result builder ->
+  Result builder
+exonAppendResult (Result z) (Result a) =
+  exonAppend @result z a
+exonAppendResult z Empty =
+  z
+exonAppendResult Empty a =
+  a
+{-# inline exonAppendResult #-}
+
+-- |This class implements the 'Segment' concatenation logic.
+--
+-- 1. Each 'Segment.Expression' is converted to the builder type by 'ExonBuilder'.
+-- 2. Each 'Segment.String' and 'Segment.Whitespace' is converted to the builder type by 'ExonSegment' and 'ExonString'.
+-- 3. The segments are folded over 'ExonAppend'.
+-- 4. The result is converted from the builder type to the original type by 'ExonBuilder'.
+--
+-- Each step may be overridden individually
+--
+-- @since 1.0.0.0
+class ExonBuild (result :: Type) (inner :: Type) where
+  -- |Concatenate a list of 'Segment's.
+  exonBuild :: NonEmpty (Segment inner) -> inner
+
+instance {-# overlappable #-} (
+    ExonAppend result builder,
+    ExonSegment result builder,
+    ExonBuilder inner builder
+  ) => ExonBuild result inner where
+  exonBuild =
+    exonBuilderExtract .
+    foldl1 (exonAppendResult @result) .
+    fmap (exonSegment @result . fmap exonBuilder)
+  {-# inline exonBuild #-}
+
+-- |This class is the main entry point for Exon.
+--
+-- The default instance unwraps all newtypes that are 'Generic' and passes the innermost type to 'ExonBuild'.
+--
+-- The original type is also used as a parameter to 'ExonBuild', so customizations can be based on it.
+class Exon (result :: Type) where
+  -- |Concatenate a list of 'Segment's.
+  --
+  -- @since 1.0.0.0
+  exonProcess :: NonEmpty (Segment result) -> result
+
+instance {-# overlappable #-} (
+    OverNewtypes result inner,
+    ExonBuild result inner
+  ) => Exon result where
+    exonProcess =
+      overNewtypes @result (exonBuild @result)
+    {-# inline exonProcess #-}
+
+-- |Call 'exonProcess', but unwrap the arguments and rewrap the result using the supplied functions.
+--
+-- @since 1.0.0.0
+exonProcessWith ::
+  ∀ wrapped result .
+  Exon wrapped =>
+  (result -> wrapped) ->
+  (wrapped -> result) ->
+  NonEmpty (Segment result) ->
+  result
+exonProcessWith unwrap wrap =
+  wrap . exonProcess @wrapped . fmap (fmap unwrap)
+{-# inline exonProcessWith #-}

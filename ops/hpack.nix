@@ -75,13 +75,14 @@ let
 in {
 
   exon = merge (project "exon" "Exon") {
-    synopsis = "Monoidal Quasiquote Interpolation";
+    synopsis = "Customizable Quasiquote Interpolation";
     library.dependencies = [
       "flatparse >= 0.3.5.1"
+      "generics-sop"
       "haskell-src-exts < 1.24"
       "haskell-src-meta < 0.9"
       "template-haskell"
-      "text"
+      "type-errors-pretty"
     ];
     tests.exon-unit = exe "exon" "test" {
       dependencies = [
@@ -90,7 +91,14 @@ in {
       "tasty"
       "tasty-hedgehog"
       "template-haskell"
-      "text"
+      ];
+    };
+    benchmarks.exon-bench = merge (paths "exon") {
+    main = "Main.hs";
+    source-dirs = "benchmark";
+      dependencies = dependencies ++ [
+        "exon"
+        "criterion"
       ];
     };
   };
