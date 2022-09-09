@@ -9,8 +9,8 @@ version:        1.0.0.0
 synopsis:       Customizable Quasiquote Interpolation
 description:    See https://hackage.haskell.org/package/exon/docs/Exon.html
 category:       String
-homepage:       https://github.com/tek/exon#readme
-bug-reports:    https://github.com/tek/exon/issues
+homepage:       https://git.tryp.io/tek/exon
+bug-reports:    https://git.tryp.io/tek/exon/issues
 author:         Torsten Schmits
 maintainer:     hackage@tryp.io
 copyright:      2022 Torsten Schmits
@@ -20,7 +20,7 @@ build-type:     Simple
 
 source-repository head
   type: git
-  location: https://github.com/tek/exon
+  location: https://git.tryp.io/tek/exon
 
 library
   exposed-modules:
@@ -103,12 +103,11 @@ library
   build-depends:
       base >=4.12 && <5
     , flatparse >=0.3.5.1
-    , generics-sop
-    , haskell-src-exts <1.24
-    , haskell-src-meta <0.9
+    , generics-sop >=0.5.1.1
+    , ghc-hs-meta >=0.1
     , incipit-base >=0.2
     , template-haskell
-    , type-errors-pretty
+    , type-errors-pretty >=0.0.1.1
   mixins:
       base hiding (Prelude)
     , incipit-base (IncipitBase as Prelude)

@@ -34,7 +34,9 @@ let
     copyright = "2022 Torsten Schmits";
     category = "String";
     build-type = "Simple";
-    github = "tek/exon";
+    git = "https://git.tryp.io/tek/exon";
+    homepage = "https://git.tryp.io/tek/exon";
+    bug-reports = "https://git.tryp.io/tek/exon/issues";
   };
 
   options.ghc-options = [
@@ -78,11 +80,10 @@ in {
     synopsis = "Customizable Quasiquote Interpolation";
     library.dependencies = [
       "flatparse >= 0.3.5.1"
-      "generics-sop"
-      "haskell-src-exts < 1.24"
-      "haskell-src-meta < 0.9"
+      "generics-sop >= 0.5.1.1"
+      "ghc-hs-meta >= 0.1"
       "template-haskell"
-      "type-errors-pretty"
+      "type-errors-pretty >= 0.0.1.1"
     ];
     tests.exon-unit = exe "exon" "test" {
       dependencies = [

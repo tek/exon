@@ -14,7 +14,6 @@ for arbitrary types.
 For example, `String -> String` is the type used by `showsPrec`, which can be a bit of a hassle to write:
 
 ```haskell
-
 data Record =
   Record {
     number :: Int,

@@ -3,15 +3,7 @@
 -- |Description: Internal
 module Exon.Quote where
 
-import Language.Haskell.Exts (
-  Extension,
-  ParseMode (extensions),
-  ParseResult (ParseFailed, ParseOk),
-  defaultParseMode,
-  parseExpWithMode,
-  parseExtension,
-  )
-import Language.Haskell.Meta (toExp)
+import Language.Haskell.Meta.Parse (parseExpWithExts)
 import qualified Language.Haskell.TH as TH
 import Language.Haskell.TH (Exp (AppE, InfixE, ListE), Q, extsEnabled, runQ)
 import Language.Haskell.TH.Quote (QuasiQuoter (QuasiQuoter))
@@ -37,7 +29,7 @@ segmentsQ ::
   String ->
   m (NonEmpty RawSegment)
 segmentsQ _ "" =
-  exonError ("empty interpolation" :: String)
+  exonError ("empty quasiquote" :: String)
 segmentsQ whitespace s =
   (if whitespace then parseWs else parse) s & fmap nonEmpty & \case
     Right (Just segs) -> pure segs
@@ -45,7 +37,7 @@ segmentsQ whitespace s =
     Left err -> exonError err
 
 class Quasi m => QOrIO (m :: Type -> Type) where
-  fileExtensions :: m [Extension]
+  fileExtensions :: m [TH.Extension]
 
 instance QOrIO IO where
   fileExtensions =
@@ -53,7 +45,7 @@ instance QOrIO IO where
 
 instance QOrIO Q where
   fileExtensions =
-    fmap (fmap (parseExtension . show)) extsEnabled
+    extsEnabled
 
 reifyExp ::
   QOrIO m =>
@@ -61,9 +53,9 @@ reifyExp ::
   m Exp
 reifyExp s = do
   exts <- fileExtensions
-  case parseExpWithMode defaultParseMode { extensions = exts } s of
-    ParseFailed _ err -> exonError err
-    ParseOk e -> pure (toExp e)
+  case parseExpWithExts exts s of
+    Left (_, _, err) -> exonError err
+    Right e -> pure e
 
 reifySegments ::
   QOrIO m =>
