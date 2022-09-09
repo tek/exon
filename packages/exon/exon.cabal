@@ -17,6 +17,9 @@ copyright:      2022 Torsten Schmits
 license:        BSD-2-Clause-Patent
 license-file:   LICENSE
 build-type:     Simple
+extra-source-files:
+    changelog.md
+    readme.md
 
 source-repository head
   type: git

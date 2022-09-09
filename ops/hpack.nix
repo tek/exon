@@ -78,6 +78,7 @@ in {
 
   exon = merge (project "exon" "Exon") {
     synopsis = "Customizable Quasiquote Interpolation";
+    extra-source-files = ["changelog.md" "readme.md"];
     library.dependencies = [
       "flatparse >= 0.3.5.1"
       "generics-sop >= 0.5.1.1"
