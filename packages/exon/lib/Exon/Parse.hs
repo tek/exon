@@ -79,13 +79,11 @@ verbatimInterpolation =
 
 untilTokenEnd :: Parser ()
 untilTokenEnd =
-  branch $(char '\\') (anyChar *> untilTokenEnd) $
   finishBefore ($(string "##{") <|> $(string "#{")) $
   eof <|> (anyChar *> untilTokenEnd)
 
 untilTokenEndWs :: Parser ()
 untilTokenEndWs =
-  branch $(char '\\') (anyChar *> untilTokenEndWs) $
   finishBefore ($(string "##{") <|> $(string "#{") <|> void ws) $
   eof <|> (anyChar *> untilTokenEndWs)
 

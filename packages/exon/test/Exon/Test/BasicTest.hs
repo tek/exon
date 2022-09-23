@@ -40,7 +40,6 @@ test_basic :: TestT IO ()
 test_basic = do
   Mon "fooandbar" === [intron|foo
     #{var} bar|]
-  "foo and \\#{bar}" === ([exon|foo #{var} \#{bar}|] :: Text)
   "Philip | J. | FRY" === [intron|Philip J. #{up lastName}|]
   "Philip | J. | FRY" === skipWs [exonws|Philip J. #{SkipWs (up lastName)}|]
   "Philip J. | FRY" === [exon|Philip J.#{up lastName}|]
