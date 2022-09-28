@@ -36,7 +36,7 @@ let
     build-type = "Simple";
     git = "https://git.tryp.io/tek/exon";
     homepage = "https://git.tryp.io/tek/exon";
-    bug-reports = "https://git.tryp.io/tek/exon/issues";
+    bug-reports = "https://github.com/tek/exon/issues";
   };
 
   options.ghc-options = [

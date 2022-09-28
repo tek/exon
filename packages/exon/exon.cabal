@@ -10,7 +10,7 @@ synopsis:       Customizable Quasiquote Interpolation
 description:    See https://hackage.haskell.org/package/exon/docs/Exon.html
 category:       String
 homepage:       https://git.tryp.io/tek/exon
-bug-reports:    https://git.tryp.io/tek/exon/issues
+bug-reports:    https://github.com/tek/exon/issues
 author:         Torsten Schmits
 maintainer:     hackage@tryp.io
 copyright:      2022 Torsten Schmits
