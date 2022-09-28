@@ -18,7 +18,6 @@
     devGhc.compiler = "ghc902";
     packages.exon = ./packages/exon;
     overrides = { inherit all ghc924; };
-    compat.projects."884".enable = false;
     hpack.packages = import ./ops/hpack.nix { inherit config lib; };
     hackage.versionFile = "ops/version.nix";
     ghci = {
