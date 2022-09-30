@@ -1,3 +1,10 @@
+# 1.2.0.0
+
+* Add class `ExonExpression`, allowing customization of how interpolated expressions are converted to builders.
+  The method `exonExpression` is provided with the function `exonBuilder` as an argument to avoid having to depend on
+  the class manually.
+* Change multi-method classes to use the default-method implementation style for the overlappable instance.
+
 # 1.1.0.0
 
 * Add `exonConcat` to `ExonAppend`. The function is pulled out of `exonBuild` to allow using a different way of folding
