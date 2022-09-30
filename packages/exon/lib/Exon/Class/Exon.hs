@@ -138,9 +138,22 @@ instance (
     Empty
   {-# inline exonWhitespace #-}
 
+-- |This class allows manipulation of interpolated expressions before they are processed, for example to replace empty
+-- strings with 'Empty' for the purpose of collapsing multiple whitespaces.
+--
+-- The default instance does nothing.
+class ExonExpression (result :: Type) (builder :: Type) where
+  -- |Process a builder value constructed from an expression before concatenation.
+  exonExpression :: builder -> Result builder
+
+instance {-# overlappable #-} ExonExpression result builder where
+  exonExpression =
+    Result
+  {-# inline exonExpression #-}
+
 -- |This class converts a 'Segment' to a builder.
 --
--- The default implementation performs the following conversions for the differnet segment variants:
+-- The default implementation performs the following conversions for the different segment variants:
 --
 -- - [Segment.String]('Segment.String') and [Segment.Whitespace]('Segment.Whitespace') are plain 'String's parsed
 -- literally from the quasiquote.
@@ -156,13 +169,14 @@ class ExonSegment (result :: Type) (builder :: Type) where
   exonSegment :: Segment builder -> Result builder
 
 instance {-# overlappable #-} (
-    ExonString result builder
+    ExonString result builder,
+    ExonExpression result builder
   ) => ExonSegment result builder where
     exonSegment = \case
       Segment.String a ->
         exonString @result a
       Segment.Expression a ->
-        Result a
+        exonExpression @result a
       Segment.Whitespace a ->
         exonWhitespace @result a
     {-# inline exonSegment #-}

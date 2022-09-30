@@ -24,6 +24,7 @@ module Exon (
   ExonSegment (..),
   ExonBuilder (..),
   ExonString (..),
+  ExonExpression (..),
   ToSegment (..),
   SkipWs (..),
   skipWs,
@@ -45,6 +46,7 @@ import Exon.Class.Exon (
   ExonAppend (..),
   ExonBuild (..),
   ExonBuilder (..),
+  ExonExpression (..),
   ExonSegment (..),
   ExonString (..),
   ExonUse (..),
@@ -55,7 +57,7 @@ import Exon.Class.ToSegment (ToSegment (..))
 import Exon.Combinators (intercalate)
 import Exon.Data.Result (Result (..))
 import Exon.Data.Segment (Segment (..))
-import Exon.Quote (exon, exonWith, exun, intron, exonws)
+import Exon.Quote (exon, exonWith, exonws, exun, intron)
 
 {- $intro
 This Haskell library provides quasiquote string interpolation with customizable concatenation for arbitrary types.
