@@ -15,7 +15,7 @@ instance (
     OverNewtype wrapped next inner
   ) => OverNewtype current ('Just wrapped) inner where
     overNewtype f segments =
-      unsafeCoerce (overNewtype @wrapped @next @inner f (fmap unsafeCoerce <$> segments))
+      unsafeCoerce (overNewtype @wrapped @next @inner f (unsafeCoerce segments))
     {-# inline overNewtype #-}
 
 instance OverNewtype current 'Nothing current where
