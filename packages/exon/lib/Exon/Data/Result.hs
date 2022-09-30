@@ -13,6 +13,6 @@ instance Semigroup a => Semigroup (Result a) where
   (<>) a Empty = a
   (<>) (Result l) (Result r) = Result (l <> r)
 
-instance Monoid a => Monoid (Result a) where
+instance Semigroup (Result a) => Monoid (Result a) where
   mempty =
-    Result mempty
+    Empty
