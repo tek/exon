@@ -1,3 +1,8 @@
+# 1.1.0.0
+
+* Add `exonConcat` to `ExonAppend`. The function is pulled out of `exonBuild` to allow using a different way of folding
+  the segment list.
+
 # 1.0.0.0
 
 * Rewrite the main logic, splitting it across multiple classes.

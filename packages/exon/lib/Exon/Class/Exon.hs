@@ -177,6 +177,22 @@ class ExonAppend (result :: Type) (builder :: Type) where
   -- |Concatenate two segments of the builder type.
   exonAppend :: builder -> builder -> Result builder
 
+  -- |Concatenate a list of segments of the result type.
+  --
+  -- Folds the list over 'exonAppend', skipping over 'Empty' segments.
+  --
+  -- A possible overload may implement lookahead to skip whitespace.
+  --
+  -- @since 1.1.0.0
+  exonConcat :: NonEmpty (Result builder) -> Result builder
+  exonConcat =
+    foldl1 \case
+      Empty -> id
+      Result z -> \case
+        Empty -> Result z
+        Result a -> exonAppend @result @builder z a
+  {-# inline exonConcat #-}
+
 instance {-# overlappable #-} (
     Semigroup builder
   ) => ExonAppend result builder where
@@ -188,23 +204,6 @@ instance ExonAppend result (String -> String) where
   exonAppend z a =
     Result (z . a)
   {-# inline exonAppend #-}
-
--- |Wrapper for 'exonAppend' that handles the 'Empty' case.
---
--- @since 1.0.0.0
-exonAppendResult ::
-  ∀ result builder .
-  ExonAppend result builder =>
-  Result builder ->
-  Result builder ->
-  Result builder
-exonAppendResult (Result z) (Result a) =
-  exonAppend @result z a
-exonAppendResult z Empty =
-  z
-exonAppendResult Empty a =
-  a
-{-# inline exonAppendResult #-}
 
 -- |This class implements the 'Segment' concatenation logic.
 --
@@ -227,7 +226,7 @@ instance {-# overlappable #-} (
   ) => ExonBuild result inner where
   exonBuild =
     exonBuilderExtract .
-    foldl1 (exonAppendResult @result) .
+    exonConcat @result .
     fmap (exonSegment @result . fmap exonBuilder)
   {-# inline exonBuild #-}
 

@@ -14,7 +14,7 @@
       type-errors-pretty = notest jailbreak;
     };
 
-  in hix.lib.flake ({ config, lib, ... }: {
+  in hix.lib.pro ({ config, lib, ... }: {
     devGhc.compiler = "ghc902";
     packages.exon = ./packages/exon;
     overrides = { inherit all ghc924; };
