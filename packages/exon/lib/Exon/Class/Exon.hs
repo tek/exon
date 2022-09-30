@@ -142,13 +142,13 @@ instance (
 -- strings with 'Empty' for the purpose of collapsing multiple whitespaces.
 --
 -- The default instance does nothing.
-class ExonExpression (result :: Type) (builder :: Type) where
+class ExonExpression (result :: Type) (inner :: Type) (builder :: Type) where
   -- |Process a builder value constructed from an expression before concatenation.
-  exonExpression :: builder -> Result builder
+  exonExpression :: (inner -> builder) -> inner -> Result builder
 
-instance {-# overlappable #-} ExonExpression result builder where
-  exonExpression =
-    Result
+instance {-# overlappable #-} ExonExpression result inner builder where
+  exonExpression builder =
+    Result . builder
   {-# inline exonExpression #-}
 
 -- |This class converts a 'Segment' to a builder.
@@ -159,24 +159,26 @@ instance {-# overlappable #-} ExonExpression result builder where
 -- literally from the quasiquote.
 -- They are converted to the builder type by 'fromString' (handled by 'ExonString').
 --
--- - [Segment.Whitespace]('Segment.Whitespace') is ignored when the quoter 'Exon.intron' was used.
+-- - [Segment.Whitespace]('Segment.Whitespace') is ignored when the quoter 'Exon.intron' was used (default behaviour of
+-- 'ExonString').
 --
--- - [Segment.Expression]('Segment.Expression') contains a value of the builder type, which is returned as-is.
+-- - [Segment.Expression]('Segment.Expression') contains a value of the unwrapped type and is converted to a builder
+-- using the function in the first argument, which is usually 'exonBuilder', supplied by 'exonBuild'.
 --
 -- @since 1.0.0.0
-class ExonSegment (result :: Type) (builder :: Type) where
+class ExonSegment (result :: Type) (inner :: Type) (builder :: Type) where
   -- |Convert literal string segments to the result type.
-  exonSegment :: Segment builder -> Result builder
+  exonSegment :: (inner -> builder) -> Segment inner -> Result builder
 
 instance {-# overlappable #-} (
     ExonString result builder,
-    ExonExpression result builder
-  ) => ExonSegment result builder where
-    exonSegment = \case
+    ExonExpression result inner builder
+  ) => ExonSegment result inner builder where
+    exonSegment builder = \case
       Segment.String a ->
         exonString @result a
       Segment.Expression a ->
-        exonExpression @result a
+        exonExpression @result builder a
       Segment.Whitespace a ->
         exonWhitespace @result a
     {-# inline exonSegment #-}
@@ -221,12 +223,12 @@ instance ExonAppend result (String -> String) where
 
 -- |This class implements the 'Segment' concatenation logic.
 --
--- 1. Each 'Segment.Expression' is converted to the builder type by 'ExonBuilder'.
--- 2. Each 'Segment.String' and 'Segment.Whitespace' is converted to the builder type by 'ExonSegment' and 'ExonString'.
--- 3. The segments are folded over 'ExonAppend'.
--- 4. The result is converted from the builder type to the original type by 'ExonBuilder'.
+-- 1. Each 'Segment' is converted to the builder type by 'ExonSegment' using 'exonBuilder' to construct the builder from
+--    expressions.
+-- 2. The segments are folded over 'ExonAppend'.
+-- 3. The result is converted from the builder type to the original type by 'ExonBuilder'.
 --
--- Each step may be overridden individually
+-- Each step may be overridden individually by writing overlapping instances for the involved classes.
 --
 -- @since 1.0.0.0
 class ExonBuild (result :: Type) (inner :: Type) where
@@ -235,13 +237,13 @@ class ExonBuild (result :: Type) (inner :: Type) where
 
 instance {-# overlappable #-} (
     ExonAppend result builder,
-    ExonSegment result builder,
+    ExonSegment result inner builder,
     ExonBuilder inner builder
   ) => ExonBuild result inner where
   exonBuild =
     exonBuilderExtract .
     exonConcat @result .
-    fmap (exonSegment @result . fmap exonBuilder)
+    fmap (exonSegment @result exonBuilder)
   {-# inline exonBuild #-}
 
 -- |This class is the main entry point for Exon.

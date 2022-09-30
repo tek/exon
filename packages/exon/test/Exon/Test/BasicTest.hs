@@ -51,10 +51,10 @@ test_basic = do
 
 newtype Thing = Thing String deriving stock (Generic) deriving newtype (IsString, Show, Eq)
 
-instance ExonSegment Thing String where
-  exonSegment = \case
+instance ExonSegment Thing inner String where
+  exonSegment builder = \case
     Segment.String s -> Result s
-    Segment.Expression thing -> Result thing
+    Segment.Expression thing -> Result (builder thing)
     Segment.Whitespace _ -> Result " >>> "
 
 test_customWhitespace :: TestT IO ()
