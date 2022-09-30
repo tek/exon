@@ -12,21 +12,6 @@ import Exon.Data.Result (Result (Empty, Result))
 import qualified Exon.Data.Segment as Segment
 import Exon.Data.Segment (Segment)
 
--- |Wrapping a quote type with this causes whitespace to be ignored.
---
--- @since 1.0.0.0
-newtype SkipWs a =
-  SkipWs a
-  deriving stock (Eq, Show, Generic)
-  deriving newtype (IsString)
-
--- |Defined separately because TH chokes on the selector.
---
--- @since 1.0.0.0
-skipWs :: SkipWs a -> a
-skipWs (SkipWs a) =
-  a
-
 -- |Wrapping a quote type with this causes @a@ to be used irrespective of whether it is an unwrappable newtype.
 --
 -- @since 1.0.0.0
@@ -127,16 +112,6 @@ instance ExonString result (String -> String) where
   exonString =
     Result . showString
   {-# inline exonString #-}
-
--- |The instance used when the result type is wrapped in 'SkipWs', which is done by 'Exon.intron'.
---
--- It returns 'Empty' for any whitespace.
-instance (
-    IsString builder
-  ) => ExonString (SkipWs result) builder where
-  exonWhitespace _ =
-    Empty
-  {-# inline exonWhitespace #-}
 
 -- |This class allows manipulation of interpolated expressions before they are processed, for example to replace empty
 -- strings with 'Empty' for the purpose of collapsing multiple whitespaces.

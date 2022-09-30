@@ -50,14 +50,13 @@ import Exon.Class.Exon (
   ExonSegment (..),
   ExonString (..),
   ExonUse (..),
-  SkipWs (..),
-  skipWs,
   )
 import Exon.Class.ToSegment (ToSegment (..))
 import Exon.Combinators (intercalate)
 import Exon.Data.Result (Result (..))
 import Exon.Data.Segment (Segment (..))
-import Exon.Quote (exon, exonWith, exonws, exun, intron)
+import Exon.Quote (exon, exonWith, exonws, exun)
+import Exon.SkipWs (SkipWs (..), intron, skipWs)
 
 {- $intro
 This Haskell library provides quasiquote string interpolation with customizable concatenation for arbitrary types.

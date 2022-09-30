@@ -3,10 +3,11 @@ module Exon.Test.BasicTest where
 import Data.Text (toUpper)
 import Hedgehog (TestT, (===))
 
-import Exon.Class.Exon (ExonSegment (exonSegment), SkipWs (SkipWs), skipWs)
+import Exon.Class.Exon (ExonSegment (exonSegment))
 import Exon.Data.Result (Result (Result))
 import qualified Exon.Data.Segment as Segment
-import Exon.Quote (exon, exonws, intron)
+import Exon.Quote (exon, exonws)
+import Exon.SkipWs (SkipWs (SkipWs), intron, skipWs)
 
 newtype Mon =
   Mon String

@@ -9,7 +9,7 @@ import Language.Haskell.TH (Exp (AppE, InfixE, ListE), Q, extsEnabled, runQ)
 import Language.Haskell.TH.Quote (QuasiQuoter (QuasiQuoter))
 import Language.Haskell.TH.Syntax (Quasi)
 
-import Exon.Class.Exon (SkipWs (SkipWs), exonProcess, exonProcessWith, skipWs)
+import Exon.Class.Exon (exonProcess, exonProcessWith)
 import Exon.Class.ToSegment (toSegment)
 import Exon.Data.RawSegment (RawSegment (AutoExpSegment, ExpSegment, StringSegment, WsSegment))
 import qualified Exon.Data.Segment as Segment
@@ -161,15 +161,6 @@ exon =
 exun :: QuasiQuoter
 exun =
   exonWith Nothing False True
-
--- |A variant of 'exon' that ignores all literal whitespace in the quote (not in interpolated expressions).
---
--- > [intron|x|] === skipWs [exonws|x|]
---
--- @since 1.0.0.0
-intron :: QuasiQuoter
-intron =
-  exonWith (Just ([e|SkipWs|], [e|skipWs|])) True False
 
 -- |A variant of 'exon' that creates segments for each sequence of whitespace characters that can be processed
 -- differently by 'Exon.ExonAppend', 'Exon.ExonSegment' or 'Exon.ExonString'.

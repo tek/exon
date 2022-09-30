@@ -2,7 +2,8 @@ module Exon.Test.SkipWsTest where
 
 import Hedgehog (TestT, (===))
 
-import Exon.Quote (exon, intron)
+import Exon.Quote (exon)
+import Exon.SkipWs (intron)
 
 newtype Mon =
   Mon String

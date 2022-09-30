@@ -38,6 +38,7 @@ library
       Exon.Generic
       Exon.Parse
       Exon.Quote
+      Exon.SkipWs
   hs-source-dirs:
       lib
   default-extensions:

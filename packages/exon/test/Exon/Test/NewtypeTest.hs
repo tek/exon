@@ -2,8 +2,9 @@ module Exon.Test.NewtypeTest where
 
 import Hedgehog (TestT, (===))
 
-import Exon.Class.Exon (exonUse, skipWs)
+import Exon.Class.Exon (exonUse)
 import Exon.Quote (exon, exonws, exun)
+import Exon.SkipWs (skipWs)
 
 newtype Nt =
   Nt Text

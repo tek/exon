@@ -2,9 +2,10 @@ module Exon.Test.BuildTest where
 
 import Hedgehog (TestT, (===))
 
-import Exon.Class.Exon (SkipWs (SkipWs), exonProcess, exonProcessWith, skipWs)
+import Exon.Class.Exon (exonProcess, exonProcessWith)
 import Exon.Class.ToSegment (toSegment)
 import Exon.Data.Segment (Segment (Expression, Whitespace))
+import Exon.SkipWs (SkipWs (SkipWs), skipWs)
 
 newtype Str =
   Str String
