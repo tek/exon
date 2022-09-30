@@ -30,19 +30,27 @@ class ExonBuilder (inner :: Type) (builder :: Type) | inner -> builder where
   -- |Construct a builder from the newtype-unwrapped result type.
   exonBuilder :: inner -> builder
 
-  -- |Convert the result of the builder concatenation back to the newtype-unwrapped result type.
-  exonBuilderExtract :: Result builder -> inner
-
-instance {-# overlappable #-} (
-    Monoid builder,
-    result ~ builder
-  ) => ExonBuilder result builder where
+  default exonBuilder :: inner ~ builder => inner -> builder
   exonBuilder =
     id
   {-# inline exonBuilder #-}
+
+  -- |Convert the result of the builder concatenation back to the newtype-unwrapped result type.
+  exonBuilderExtract :: Result builder -> inner
+
+  default exonBuilderExtract ::
+    Monoid builder =>
+    inner ~ builder =>
+    Result builder ->
+    inner
   exonBuilderExtract =
     fold
   {-# inline exonBuilderExtract #-}
+
+instance {-# overlappable #-} (
+    Monoid builder,
+    inner ~ builder
+  ) => ExonBuilder inner builder where
 
 instance (
     ExonBuilder a builder
@@ -63,20 +71,26 @@ instance ExonBuilder Text Text.Builder where
 instance ExonBuilder LText Text.Builder where
   exonBuilder =
     Text.fromLazyText
+  {-# inline exonBuilder #-}
   exonBuilderExtract =
     foldMap toLazyText
+  {-# inline exonBuilderExtract #-}
 
 instance ExonBuilder ByteString ByteString.Builder where
   exonBuilder =
     ByteString.byteString
+  {-# inline exonBuilder #-}
   exonBuilderExtract =
     foldMap (toStrict . toLazyByteString)
+  {-# inline exonBuilderExtract #-}
 
 instance ExonBuilder LByteString ByteString.Builder where
   exonBuilder =
     ByteString.lazyByteString
+  {-# inline exonBuilder #-}
   exonBuilderExtract =
     foldMap toLazyByteString
+  {-# inline exonBuilderExtract #-}
 
 -- |This class generalizes 'IsString' for use in 'ExonSegment'.
 --
@@ -120,11 +134,11 @@ instance ExonString result (String -> String) where
 class ExonExpression (result :: Type) (inner :: Type) (builder :: Type) where
   -- |Process a builder value constructed from an expression before concatenation.
   exonExpression :: (inner -> builder) -> inner -> Result builder
-
-instance {-# overlappable #-} ExonExpression result inner builder where
   exonExpression builder =
     Result . builder
   {-# inline exonExpression #-}
+
+instance {-# overlappable #-} ExonExpression result inner builder where
 
 -- |This class converts a 'Segment' to a builder.
 --
@@ -168,6 +182,11 @@ class ExonAppend (result :: Type) (builder :: Type) where
   -- |Concatenate two segments of the builder type.
   exonAppend :: builder -> builder -> Result builder
 
+  default exonAppend :: Semigroup builder => builder -> builder -> Result builder
+  exonAppend z a =
+    Result (z <> a)
+  {-# inline exonAppend #-}
+
   -- |Concatenate a list of segments of the result type.
   --
   -- Folds the list over 'exonAppend', skipping over 'Empty' segments.
@@ -187,9 +206,6 @@ class ExonAppend (result :: Type) (builder :: Type) where
 instance {-# overlappable #-} (
     Semigroup builder
   ) => ExonAppend result builder where
-  exonAppend z a =
-    Result (z <> a)
-  {-# inline exonAppend #-}
 
 instance ExonAppend result (String -> String) where
   exonAppend z a =
