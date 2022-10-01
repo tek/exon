@@ -195,12 +195,14 @@ class ExonAppend (result :: Type) (builder :: Type) where
   --
   -- @since 1.1.0.0
   exonConcat :: NonEmpty (Result builder) -> Result builder
-  exonConcat =
-    foldl1 \case
-      Empty -> id
-      Result z -> \case
-        Empty -> Result z
-        Result a -> exonAppend @result @builder z a
+  exonConcat (h :| t) =
+    foldl folder h t
+    where
+      folder = \case
+        Empty -> id
+        Result z -> \case
+          Empty -> Result z
+          Result a -> exonAppend @result @builder z a
   {-# inline exonConcat #-}
 
 instance {-# overlappable #-} (
