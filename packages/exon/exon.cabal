@@ -1,6 +1,6 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.34.7.
+-- This file has been generated from package.yaml by hpack version 0.35.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -106,12 +106,11 @@ library
   ghc-options: -Wall -Wredundant-constraints -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Widentities -Wunused-packages
   build-depends:
       base >=4.12 && <5
-    , flatparse >=0.3.5.1
-    , generics-sop >=0.5.1.1
-    , ghc-hs-meta >=0.1
-    , incipit-base >=0.2
+    , flatparse >=0.3.5.1 && <0.4
+    , generics-sop >=0.5.1.1 && <0.6
+    , ghc-hs-meta ==0.1.*
+    , incipit-base ==0.5.*
     , template-haskell
-    , type-errors-pretty >=0.0.1.1
   mixins:
       base hiding (Prelude)
     , incipit-base (IncipitBase as Prelude)
@@ -197,7 +196,7 @@ test-suite exon-unit
       base >=4.12 && <5
     , exon
     , hedgehog
-    , incipit-base >=0.2
+    , incipit-base ==0.5.*
     , tasty
     , tasty-hedgehog
     , template-haskell
@@ -279,7 +278,7 @@ benchmark exon-bench
       base >=4.12 && <5
     , criterion
     , exon
-    , incipit-base >=0.2
+    , incipit-base ==0.5.*
   mixins:
       base hiding (Prelude)
     , incipit-base (IncipitBase as Prelude)

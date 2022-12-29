@@ -32,7 +32,7 @@ instance (
     Empty
   {-# inline exonWhitespace #-}
 
--- |A variant of 'exon' that ignores all literal whitespace in the quote (not in interpolated expressions).
+-- |A variant of 'Exon.exon' that ignores all literal whitespace in the quote (not in interpolated expressions).
 --
 -- > [intron|x|] === skipWs [exonws|x|]
 --

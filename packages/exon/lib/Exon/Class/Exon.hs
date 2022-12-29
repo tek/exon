@@ -5,7 +5,6 @@ import qualified Data.ByteString.Builder as ByteString
 import Data.ByteString.Builder (toLazyByteString)
 import qualified Data.Text.Lazy.Builder as Text
 import Data.Text.Lazy.Builder (toLazyText)
-import Text.Show (showString)
 
 import Exon.Class.Newtype (OverNewtypes, overNewtypes)
 import Exon.Data.Result (Result (Empty, Result))

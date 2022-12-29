@@ -1,28 +1,26 @@
 {
   description = "Customizable Quasiquote Interpolation";
 
-  inputs.hix.url = git+https://git.tryp.io/tek/hix;
+  inputs.hix.url = "git+https://git.tryp.io/tek/hix";
 
   outputs = { hix, ... }:
   let
-    all = { hackage, ... }: {
+    all = { hackage, bench, ... }: {
+      incipit-base = hackage "0.5.0.0" "02fdppamn00m94xqi4zhm6sl1ndg6lhn24m74w24pq84h44mynl6";
       flatparse = hackage "0.3.5.1" "0gbn93jnmj0x8akcani59ivnqzyyv1mzw0jmmc3pfklq7x9b17cm";
-      incipit-base = hackage "0.3.0.0" "1078yyl5k94c9pr16rqd1i1g1fj8zx4iswhk7rcxb8f10fjqzapg";
-    };
-
-    ghc924 = { jailbreak, notest, ... }: {
-      type-errors-pretty = notest jailbreak;
+      exon = bench;
     };
 
   in hix.lib.pro ({ config, lib, ... }: {
     devGhc.compiler = "ghc902";
     packages.exon = ./packages/exon;
-    overrides = { inherit all ghc924; };
+    overrides = { inherit all; };
     hpack.packages = import ./ops/hpack.nix { inherit config lib; };
     hackage.versionFile = "ops/version.nix";
     ghci = {
       preludePackage = "incipit-base";
       preludeModule = "IncipitBase";
     };
+    compat.projects."943".enable = false;
   });
 }

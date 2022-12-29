@@ -50,7 +50,7 @@ let
 
   dependencies = [
       { name = "base"; version = ">= 4.12 && < 5"; mixin = "hiding (Prelude)"; }
-      { name = "incipit-base"; version = ">= 0.2"; mixin = ["(IncipitBase as Prelude)" "hiding (IncipitBase)"]; }
+      { name = "incipit-base"; version = "^>= 0.5"; mixin = ["(IncipitBase as Prelude)" "hiding (IncipitBase)"]; }
     ];
 
   project = name: doc: merge (meta // { library = paths name; } // options) {
@@ -66,7 +66,7 @@ let
   exe = name: dir: merge (paths name // {
     main = "Main.hs";
     source-dirs = dir;
-    inherit dependencies;
+    dependencies = dependencies ++ ["exon"];
     ghc-options = [
       "-threaded"
       "-rtsopts"
@@ -80,15 +80,13 @@ in {
     synopsis = "Customizable Quasiquote Interpolation";
     extra-source-files = ["changelog.md" "readme.md"];
     library.dependencies = [
-      "flatparse >= 0.3.5.1"
-      "generics-sop >= 0.5.1.1"
-      "ghc-hs-meta >= 0.1"
+      "flatparse ^>= 0.3.5.1"
+      "generics-sop ^>= 0.5.1.1"
+      "ghc-hs-meta ^>= 0.1"
       "template-haskell"
-      "type-errors-pretty >= 0.0.1.1"
     ];
     tests.exon-unit = exe "exon" "test" {
       dependencies = [
-      "exon"
       "hedgehog"
       "tasty"
       "tasty-hedgehog"
@@ -96,8 +94,8 @@ in {
       ];
     };
     benchmarks.exon-bench = merge (paths "exon") {
-    main = "Main.hs";
-    source-dirs = "benchmark";
+      main = "Main.hs";
+      source-dirs = "benchmark";
       dependencies = dependencies ++ [
         "exon"
         "criterion"

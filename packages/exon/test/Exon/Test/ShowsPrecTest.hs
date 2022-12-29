@@ -1,7 +1,6 @@
 module Exon.Test.ShowsPrecTest where
 
 import Hedgehog (TestT, (===))
-import Text.Show (showParen, showsPrec)
 
 import Exon.Quote (exon)
 

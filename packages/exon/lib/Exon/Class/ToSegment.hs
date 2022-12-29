@@ -4,9 +4,8 @@
 module Exon.Class.ToSegment where
 
 import GHC.TypeLits (ErrorMessage)
-import Generics.SOP (SOP (SOP), unZ, I (I), NP ((:*), Nil))
+import Generics.SOP (I (I), NP (Nil, (:*)), SOP (SOP), unZ)
 import Generics.SOP.GGP (GCode, GFrom, gfrom)
-import Type.Errors.Pretty (type (%), type (<>))
 
 import Exon.Generic (IsNewtype)
 
