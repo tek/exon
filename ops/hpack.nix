@@ -80,7 +80,7 @@ in {
     synopsis = "Customizable Quasiquote Interpolation";
     extra-source-files = ["changelog.md" "readme.md"];
     library.dependencies = [
-      "flatparse ^>= 0.3.5.1"
+      "flatparse ^>= 0.4"
       "generics-sop ^>= 0.5.1.1"
       "ghc-hs-meta ^>= 0.1"
       "template-haskell"

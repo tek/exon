@@ -17,11 +17,10 @@ import FlatParse.Stateful (
   lookahead,
   modify,
   put,
-  runParserS,
+  runParserUtf8,
   satisfy,
-  some_,
   string,
-  takeRest,
+  takeRestString,
   withSpan,
   (<|>),
   )
@@ -34,7 +33,7 @@ type Parser =
 
 span :: Parser () -> Parser String
 span seek =
-  withSpan seek \ _ sp -> inSpan sp takeRest
+  withSpan seek \ _ sp -> inSpan sp takeRestString
 
 ws :: Parser Char
 ws =
@@ -42,7 +41,7 @@ ws =
 
 whitespace :: Parser RawSegment
 whitespace =
-  WsSegment <$> span (some_ ws)
+  WsSegment <$> span (void (some ws))
 
 before ::
   Parser a ->
@@ -113,7 +112,7 @@ parserWs =
 
 parseWith :: Parser [RawSegment] -> String -> Either Text [RawSegment]
 parseWith p =
-  runParserS p 0 0 >>> \case
+  runParserUtf8 p 0 0 >>> \case
     OK a _ "" -> Right a
     OK _ _ u -> Left ("unconsumed: " <> decodeUtf8 u)
     Fail -> Left "fail"
