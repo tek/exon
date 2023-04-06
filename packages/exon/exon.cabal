@@ -6,24 +6,24 @@ cabal-version: 2.2
 
 name:           exon
 version:        1.4.0.0
-synopsis:       Customizable Quasiquote Interpolation
+synopsis:       Customizable quasiquote interpolation
 description:    See https://hackage.haskell.org/package/exon/docs/Exon.html
 category:       String
-homepage:       https://git.tryp.io/tek/exon
+homepage:       https://github.com/tek/exon#readme
 bug-reports:    https://github.com/tek/exon/issues
 author:         Torsten Schmits
 maintainer:     hackage@tryp.io
-copyright:      2022 Torsten Schmits
+copyright:      2023 Torsten Schmits
 license:        BSD-2-Clause-Patent
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
-    changelog.md
     readme.md
+    changelog.md
 
 source-repository head
   type: git
-  location: https://git.tryp.io/tek/exon
+  location: https://github.com/tek/exon
 
 library
   exposed-modules:
@@ -44,72 +44,72 @@ library
   default-extensions:
       AllowAmbiguousTypes
       ApplicativeDo
-      BangPatterns
-      BinaryLiterals
       BlockArguments
-      ConstraintKinds
       DataKinds
       DefaultSignatures
       DeriveAnyClass
+      DerivingStrategies
+      DerivingVia
+      DisambiguateRecordFields
+      DuplicateRecordFields
+      FunctionalDependencies
+      GADTs
+      LambdaCase
+      LiberalTypeSynonyms
+      MultiWayIf
+      OverloadedLabels
+      OverloadedLists
+      OverloadedStrings
+      PackageImports
+      PartialTypeSignatures
+      PatternSynonyms
+      QuantifiedConstraints
+      QuasiQuotes
+      RecordWildCards
+      RecursiveDo
+      RoleAnnotations
+      TemplateHaskell
+      TypeFamilies
+      TypeFamilyDependencies
+      UndecidableInstances
+      UnicodeSyntax
+      ViewPatterns
+      BangPatterns
+      BinaryLiterals
+      ConstraintKinds
       DeriveDataTypeable
       DeriveFoldable
       DeriveFunctor
       DeriveGeneric
       DeriveLift
       DeriveTraversable
-      DerivingStrategies
-      DerivingVia
-      DisambiguateRecordFields
       DoAndIfThenElse
-      DuplicateRecordFields
       EmptyCase
       EmptyDataDecls
       ExistentialQuantification
       FlexibleContexts
       FlexibleInstances
-      FunctionalDependencies
-      GADTs
       GeneralizedNewtypeDeriving
       InstanceSigs
       KindSignatures
-      LambdaCase
-      LiberalTypeSynonyms
       MultiParamTypeClasses
-      MultiWayIf
       NamedFieldPuns
-      OverloadedLabels
-      OverloadedLists
-      OverloadedStrings
-      PackageImports
-      PartialTypeSignatures
       PatternGuards
-      PatternSynonyms
       PolyKinds
-      QuantifiedConstraints
-      QuasiQuotes
       RankNTypes
-      RecordWildCards
-      RecursiveDo
-      RoleAnnotations
       ScopedTypeVariables
       StandaloneDeriving
-      TemplateHaskell
       TupleSections
       TypeApplications
-      TypeFamilies
-      TypeFamilyDependencies
       TypeOperators
       TypeSynonymInstances
-      UndecidableInstances
-      UnicodeSyntax
-      ViewPatterns
-  ghc-options: -Wall -Wredundant-constraints -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Widentities -Wunused-packages
+  ghc-options: -Wall -Widentities -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wredundant-constraints -Wunused-type-patterns -Wunused-packages
   build-depends:
-      base >=4.12 && <5
+      base ==4.*
     , flatparse ==0.4.*
     , generics-sop >=0.5.1.1 && <0.6
     , ghc-hs-meta ==0.1.*
-    , incipit-base ==0.5.*
+    , incipit-base >=0.4 && <0.6
     , template-haskell
   mixins:
       base hiding (Prelude)
@@ -117,7 +117,7 @@ library
     , incipit-base hiding (IncipitBase)
   default-language: Haskell2010
 
-test-suite exon-unit
+test-suite exon-test
   type: exitcode-stdio-1.0
   main-is: Main.hs
   other-modules:
@@ -132,73 +132,73 @@ test-suite exon-unit
   default-extensions:
       AllowAmbiguousTypes
       ApplicativeDo
-      BangPatterns
-      BinaryLiterals
       BlockArguments
-      ConstraintKinds
       DataKinds
       DefaultSignatures
       DeriveAnyClass
+      DerivingStrategies
+      DerivingVia
+      DisambiguateRecordFields
+      DuplicateRecordFields
+      FunctionalDependencies
+      GADTs
+      LambdaCase
+      LiberalTypeSynonyms
+      MultiWayIf
+      OverloadedLabels
+      OverloadedLists
+      OverloadedStrings
+      PackageImports
+      PartialTypeSignatures
+      PatternSynonyms
+      QuantifiedConstraints
+      QuasiQuotes
+      RecordWildCards
+      RecursiveDo
+      RoleAnnotations
+      TemplateHaskell
+      TypeFamilies
+      TypeFamilyDependencies
+      UndecidableInstances
+      UnicodeSyntax
+      ViewPatterns
+      BangPatterns
+      BinaryLiterals
+      ConstraintKinds
       DeriveDataTypeable
       DeriveFoldable
       DeriveFunctor
       DeriveGeneric
       DeriveLift
       DeriveTraversable
-      DerivingStrategies
-      DerivingVia
-      DisambiguateRecordFields
       DoAndIfThenElse
-      DuplicateRecordFields
       EmptyCase
       EmptyDataDecls
       ExistentialQuantification
       FlexibleContexts
       FlexibleInstances
-      FunctionalDependencies
-      GADTs
       GeneralizedNewtypeDeriving
       InstanceSigs
       KindSignatures
-      LambdaCase
-      LiberalTypeSynonyms
       MultiParamTypeClasses
-      MultiWayIf
       NamedFieldPuns
-      OverloadedLabels
-      OverloadedLists
-      OverloadedStrings
-      PackageImports
-      PartialTypeSignatures
       PatternGuards
-      PatternSynonyms
       PolyKinds
-      QuantifiedConstraints
-      QuasiQuotes
       RankNTypes
-      RecordWildCards
-      RecursiveDo
-      RoleAnnotations
       ScopedTypeVariables
       StandaloneDeriving
-      TemplateHaskell
       TupleSections
       TypeApplications
-      TypeFamilies
-      TypeFamilyDependencies
       TypeOperators
       TypeSynonymInstances
-      UndecidableInstances
-      UnicodeSyntax
-      ViewPatterns
-  ghc-options: -Wall -Wredundant-constraints -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Widentities -Wunused-packages -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall -Widentities -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wredundant-constraints -Wunused-type-patterns -Wunused-packages
   build-depends:
-      base >=4.12 && <5
+      base ==4.*
     , exon
-    , hedgehog
-    , incipit-base ==0.5.*
-    , tasty
-    , tasty-hedgehog
+    , hedgehog >=1.1 && <1.3
+    , incipit-base >=0.4 && <0.6
+    , tasty ==1.4.*
+    , tasty-hedgehog >=1.3 && <1.5
     , template-haskell
   mixins:
       base hiding (Prelude)
@@ -214,71 +214,71 @@ benchmark exon-bench
   default-extensions:
       AllowAmbiguousTypes
       ApplicativeDo
-      BangPatterns
-      BinaryLiterals
       BlockArguments
-      ConstraintKinds
       DataKinds
       DefaultSignatures
       DeriveAnyClass
+      DerivingStrategies
+      DerivingVia
+      DisambiguateRecordFields
+      DuplicateRecordFields
+      FunctionalDependencies
+      GADTs
+      LambdaCase
+      LiberalTypeSynonyms
+      MultiWayIf
+      OverloadedLabels
+      OverloadedLists
+      OverloadedStrings
+      PackageImports
+      PartialTypeSignatures
+      PatternSynonyms
+      QuantifiedConstraints
+      QuasiQuotes
+      RecordWildCards
+      RecursiveDo
+      RoleAnnotations
+      TemplateHaskell
+      TypeFamilies
+      TypeFamilyDependencies
+      UndecidableInstances
+      UnicodeSyntax
+      ViewPatterns
+      BangPatterns
+      BinaryLiterals
+      ConstraintKinds
       DeriveDataTypeable
       DeriveFoldable
       DeriveFunctor
       DeriveGeneric
       DeriveLift
       DeriveTraversable
-      DerivingStrategies
-      DerivingVia
-      DisambiguateRecordFields
       DoAndIfThenElse
-      DuplicateRecordFields
       EmptyCase
       EmptyDataDecls
       ExistentialQuantification
       FlexibleContexts
       FlexibleInstances
-      FunctionalDependencies
-      GADTs
       GeneralizedNewtypeDeriving
       InstanceSigs
       KindSignatures
-      LambdaCase
-      LiberalTypeSynonyms
       MultiParamTypeClasses
-      MultiWayIf
       NamedFieldPuns
-      OverloadedLabels
-      OverloadedLists
-      OverloadedStrings
-      PackageImports
-      PartialTypeSignatures
       PatternGuards
-      PatternSynonyms
       PolyKinds
-      QuantifiedConstraints
-      QuasiQuotes
       RankNTypes
-      RecordWildCards
-      RecursiveDo
-      RoleAnnotations
       ScopedTypeVariables
       StandaloneDeriving
-      TemplateHaskell
       TupleSections
       TypeApplications
-      TypeFamilies
-      TypeFamilyDependencies
       TypeOperators
       TypeSynonymInstances
-      UndecidableInstances
-      UnicodeSyntax
-      ViewPatterns
-  ghc-options: -Wall -Wredundant-constraints -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Widentities -Wunused-packages
+  ghc-options: -Wall -Widentities -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wredundant-constraints -Wunused-type-patterns -Wunused-packages
   build-depends:
-      base >=4.12 && <5
+      base ==4.*
     , criterion
     , exon
-    , incipit-base ==0.5.*
+    , incipit-base >=0.4 && <0.6
   mixins:
       base hiding (Prelude)
     , incipit-base (IncipitBase as Prelude)

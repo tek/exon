@@ -1,31 +1,71 @@
 {
-  description = "Customizable Quasiquote Interpolation";
+  description = "Customizable quasiquote interpolation";
 
-  inputs = {
-    hix.url = "git+https://git.tryp.io/tek/hix";
-    hls.url = "github:haskell/haskell-language-server?ref=1.9.0.0";
-  };
+  inputs.hix.url = "git+https://git.tryp.io/tek/hix";
 
-  outputs = { hix, hls, ... }:
-  let
-    all = { hackage, bench, notest, ... }: {
+  outputs = { hix, ... }: hix.lib.pro {
+    ghcVersions = ["ghc810" "ghc90" "ghc92" "ghc94"];
+    hackage.versionFile = "ops/version.nix";
+
+    overrides = { hackage, bench, notest, ... }: {
       incipit-base = hackage "0.5.0.0" "02fdppamn00m94xqi4zhm6sl1ndg6lhn24m74w24pq84h44mynl6";
-      ghcid = notest;
       flatparse = hackage "0.4.0.1" "1i91kd28vabbw4i7yc44k08i80340r9qd6z59b3fmj1n9vlnmgpz";
       exon = bench;
     };
 
-  in hix.lib.pro ({ config, lib, ... }: {
-    devGhc.compiler = "ghc943";
-    packages.exon = ./packages/exon;
-    overrides = { inherit all; };
-    hpack.packages = import ./ops/hpack.nix { inherit config lib; };
-    hackage.versionFile = "ops/version.nix";
-    ghci = {
-      preludePackage = "incipit-base";
-      preludeModule = "IncipitBase";
+    packages.exon = {
+      src = ./packages/exon;
+
+      cabal = {
+        license = "BSD-2-Clause-Patent";
+        license-file = "LICENSE";
+        author = "Torsten Schmits";
+        prelude = {
+          enable = true;
+          package = {
+            name = "incipit-base";
+            version = ">= 0.4 && < 0.6";
+          };
+          module = "IncipitBase";
+        };
+        meta = {
+          synopsis = "Customizable quasiquote interpolation";
+          maintainer = "hackage@tryp.io";
+          category = "String";
+          github = "tek/exon";
+          extra-source-files = ["readme.md" "changelog.md"];
+        };
+      };
+
+      library = {
+        enable = true;
+        dependencies = [
+          "flatparse ^>= 0.4"
+          "generics-sop ^>= 0.5.1.1"
+          "ghc-hs-meta ^>= 0.1"
+          "template-haskell"
+        ];
+      };
+
+      test = {
+        enable = true;
+        dependencies = [
+          "hedgehog >= 1.1 && < 1.3"
+          "tasty ^>= 1.4"
+          "tasty-hedgehog >= 1.3 && < 1.5"
+          "template-haskell"
+        ];
+      };
+
+      benchmark = {
+        enable = true;
+        dependencies = [
+          "exon"
+          "criterion"
+        ];
+      };
+
     };
-    shell.ghcid.vanilla = false;
-    shell.hls.package = hls.packages.${config.system}.haskell-language-server-943;
-  });
+
+  };
 }
