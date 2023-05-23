@@ -52,7 +52,7 @@ import Exon.Class.Exon (
   ExonUse (..),
   )
 import Exon.Class.ToSegment (ToSegment (..))
-import Exon.Combinators (intercalate)
+import Exon.Combinators (intercalate, intercalate1, intercalateMay)
 import Exon.Data.Result (Result (..))
 import Exon.Data.Segment (Segment (..))
 import Exon.Quote (exon, exonWith, exonws, exun)
