@@ -6,9 +6,9 @@
   outputs = { hix, ... }: hix.lib.pro {
     ghcVersions = ["ghc810" "ghc90" "ghc92" "ghc94"];
     hackage.versionFile = "ops/version.nix";
+    gen-overrides.enable = true;
 
     overrides = { hackage, bench, notest, ... }: {
-      incipit-base = hackage "0.5.0.0" "02fdppamn00m94xqi4zhm6sl1ndg6lhn24m74w24pq84h44mynl6";
       flatparse = hackage "0.4.0.1" "1i91kd28vabbw4i7yc44k08i80340r9qd6z59b3fmj1n9vlnmgpz";
       exon = bench;
     };
