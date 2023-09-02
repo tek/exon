@@ -62,7 +62,7 @@
         enable = true;
         dependencies = [
           "exon"
-          "criterion"
+          "criterion ^>= 1.6"
         ];
       };
 

@@ -1,4 +1,4 @@
-# Unreleased
+# 1.5.0.0
 
 * Use `exonProcess` for `intercalate`
 * Add `intercalate1` for `NonEmpty`
