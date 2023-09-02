@@ -79,7 +79,7 @@ library
   ghc-options: -Wall -Widentities -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wredundant-constraints -Wunused-type-patterns -Wunused-packages
   build-depends:
       base ==4.*
-    , flatparse ==0.4.*
+    , flatparse >=0.4 && <0.6
     , generics-sop >=0.5.1.1 && <0.6
     , ghc-hs-meta ==0.1.*
     , incipit-base >=0.4 && <0.6

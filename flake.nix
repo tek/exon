@@ -3,10 +3,14 @@
 
   inputs.hix.url = "git+https://git.tryp.io/tek/hix";
 
-  outputs = { hix, ... }: hix.lib.pro {
+  outputs = {hix, ...}: hix.lib.pro {
     ghcVersions = ["ghc92" "ghc94" "ghc96"];
     hackage.versionFile = "ops/version.nix";
     gen-overrides.enable = true;
+
+    envs.dev.overrides = {hackage, ...}: {
+      flatparse = hackage "0.5.0.1" "0y6axksh2hqp8v58676a7zmwf0in7v6hmyfv8sfdx4x0acq2vjhr";
+    };
 
     packages.exon = {
       src = ./packages/exon;
@@ -37,7 +41,7 @@
       library = {
         enable = true;
         dependencies = [
-          "flatparse ^>= 0.4"
+          "flatparse >= 0.4 && < 0.6"
           "generics-sop ^>= 0.5.1.1"
           "ghc-hs-meta ^>= 0.1"
           "template-haskell"
