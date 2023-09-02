@@ -1,3 +1,8 @@
+# Unreleased
+
+* Use `exonProcess` for `intercalate`
+* Add `intercalate1` for `NonEmpty`
+
 # 1.2.0.0
 
 * Add class `ExonExpression`, allowing customization of how interpolated expressions are converted to builders.
