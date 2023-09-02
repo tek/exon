@@ -15,9 +15,12 @@ import Exon.Data.Segment (Segment)
 --
 -- @since 1.0.0.0
 newtype ExonUse a =
-  ExonUse { exonUse :: a }
+  ExonUse a
   deriving stock (Eq, Show)
   deriving newtype (IsString)
+
+exonUse :: ExonUse a -> a
+exonUse = coerce
 
 -- |This class converts a segment into a builder.
 --

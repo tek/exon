@@ -4,14 +4,9 @@
   inputs.hix.url = "git+https://git.tryp.io/tek/hix";
 
   outputs = { hix, ... }: hix.lib.pro {
-    ghcVersions = ["ghc810" "ghc90" "ghc92" "ghc94"];
+    ghcVersions = ["ghc92" "ghc94" "ghc96"];
     hackage.versionFile = "ops/version.nix";
     gen-overrides.enable = true;
-
-    overrides = { hackage, bench, notest, ... }: {
-      flatparse = hackage "0.4.0.1" "1i91kd28vabbw4i7yc44k08i80340r9qd6z59b3fmj1n9vlnmgpz";
-      exon = bench;
-    };
 
     packages.exon = {
       src = ./packages/exon;
@@ -36,6 +31,8 @@
           extra-source-files = ["readme.md" "changelog.md"];
         };
       };
+
+      override = {bench, ...}: bench;
 
       library = {
         enable = true;
