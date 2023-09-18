@@ -8,7 +8,12 @@
     hackage.versionFile = "ops/version.nix";
     gen-overrides.enable = true;
 
-    envs.dev.overrides = {hackage, ...}: {
+    envs.ghc96.overrides = {hackage, jailbreak, ...}: {
+      ghc-hs-meta = hackage "0.1.2.0" "1072k0a5svmw2f7sniq3z3n9ga4y8l5kx3qnsnbfsp4xhgcyq26i";
+      vector-binary-instances = jailbreak;
+    };
+
+    overrides = {hackage, ...}: {
       flatparse = hackage "0.5.0.1" "0y6axksh2hqp8v58676a7zmwf0in7v6hmyfv8sfdx4x0acq2vjhr";
     };
 
@@ -62,7 +67,7 @@
         enable = true;
         dependencies = [
           "exon"
-          "criterion ^>= 1.6"
+          "criterion >= 1.5 && < 1.7"
         ];
       };
 
