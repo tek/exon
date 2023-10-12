@@ -13,10 +13,6 @@
       vector-binary-instances = jailbreak;
     };
 
-    overrides = {hackage, ...}: {
-      flatparse = hackage "0.5.0.1" "0y6axksh2hqp8v58676a7zmwf0in7v6hmyfv8sfdx4x0acq2vjhr";
-    };
-
     packages.exon = {
       src = ./packages/exon;
 
@@ -46,7 +42,7 @@
       library = {
         enable = true;
         dependencies = [
-          "flatparse >= 0.4 && < 0.6"
+          "parsec"
           "generics-sop ^>= 0.5.1.1"
           "ghc-hs-meta ^>= 0.1"
           "template-haskell"

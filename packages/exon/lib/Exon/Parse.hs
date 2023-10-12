@@ -1,39 +1,32 @@
 {-# options_haddock prune #-}
 
--- |Description: The parser for the quasiquote body, using "FlatParse".
+-- |Description: The parser for the quasiquote body, using parsec.
 module Exon.Parse where
 
 import Data.Char (isSpace)
-import qualified FlatParse.Stateful as FlatParse
-import FlatParse.Stateful (
-  Result (Err, Fail, OK),
+import Prelude hiding ((<|>))
+import Text.Parsec as Parsec (
+  Parsec,
   anyChar,
-  branch,
   char,
-  empty,
-  eof,
-  get,
-  inSpan,
-  lookahead,
-  modify,
-  put,
-  runParserUtf8,
+  choice,
+  getState,
+  lookAhead,
+  many1,
+  modifyState,
+  notFollowedBy,
+  option,
+  putState,
+  runParser,
   satisfy,
   string,
-  takeRestString,
-  withSpan,
+  try,
   (<|>),
   )
-import Prelude hiding (empty, span, (<|>))
 
 import Exon.Data.RawSegment (RawSegment (AutoExpSegment, ExpSegment, StringSegment, WsSegment))
 
-type Parser =
-  FlatParse.Parser Int Text
-
-span :: Parser () -> Parser String
-span seek =
-  withSpan seek \ _ sp -> inSpan sp takeRestString
+type Parser = Parsec String Int
 
 ws :: Parser Char
 ws =
@@ -41,82 +34,95 @@ ws =
 
 whitespace :: Parser RawSegment
 whitespace =
-  WsSegment <$> span (void (some ws))
+  WsSegment <$> some ws
 
-before ::
-  Parser a ->
-  Parser () ->
-  Parser () ->
-  Parser ()
-before =
-  branch . lookahead
+takeRestUnless :: Parser Char -> Parser String
+takeRestUnless end =
+  many1 (notFollowedBy end *> anyChar)
 
-finishBefore ::
-  Parser a ->
-  Parser () ->
-  Parser ()
-finishBefore cond =
-  before cond unit
-
-expr :: Parser ()
+expr :: Parser String
 expr =
-  branch $(char '{') (modify (1 +) *> expr) $
-  before $(char '}') closing (anyChar *> expr)
+  choice [try opening, try closing, anyChars]
   where
-    closing =
-      get >>= \case
-        0 -> unit
-        cur -> put (cur - 1) *> $(char '}') *> expr
+    opening = do
+      char '{'
+      modifyState (1 +)
+      e <- expr
+      pure ('{' : e)
+
+    closing = do
+      void $ lookAhead (char '}')
+      getState >>= \case
+        0 -> pure ""
+        cur -> do
+          putState (cur - 1)
+          char '}'
+          e <- expr
+          pure ('}' : e)
+
+    anyChars = do
+      c <- anyChar
+      e <- expr
+      pure (c : e)
 
 autoInterpolation :: Parser RawSegment
 autoInterpolation =
-  $(string "##{") *> (AutoExpSegment <$> span expr) <* $(char '}')
+  string "##{" *> (AutoExpSegment <$> expr) <* char '}'
 
 verbatimInterpolation :: Parser RawSegment
 verbatimInterpolation =
-  $(string "#{") *> (ExpSegment <$> span expr) <* $(char '}')
+  string "#{" *> (ExpSegment <$> expr) <* char '}'
 
-untilTokenEnd :: Parser ()
-untilTokenEnd =
-  finishBefore ($(string "##{") <|> $(string "#{")) $
-  eof <|> (anyChar *> untilTokenEnd)
+interpolations :: Parser RawSegment
+interpolations =
+  try autoInterpolation <|> try verbatimInterpolation
 
-untilTokenEndWs :: Parser ()
-untilTokenEndWs =
-  finishBefore ($(string "##{") <|> $(string "#{") <|> void ws) $
-  eof <|> (anyChar *> untilTokenEndWs)
+stopHerald :: Parser String
+stopHerald =
+  "" <$ lookAhead (try (string "##{") <|> try (string "#{"))
+
+hash :: Parser Char
+hash = char '#'
+
+verbatimWith :: Parser Char -> Parser String
+verbatimWith end =
+  takeRestUnless end <> (stopHerald <|> option "" (try (string "#" <> verbatim)))
+
+verbatim :: Parser String
+verbatim =
+  verbatimWith hash
+
+verbatimWs :: Parser String
+verbatimWs =
+  verbatimWith (ws <|> hash)
 
 text :: Parser RawSegment
 text =
-  StringSegment <$> span untilTokenEnd
+  StringSegment <$> verbatim
 
 textWs :: Parser RawSegment
 textWs =
-  StringSegment <$> span untilTokenEndWs
+  StringSegment <$> verbatimWs
 
 segment :: Parser RawSegment
 segment =
-  branch eof empty (autoInterpolation <|> verbatimInterpolation <|> text)
+  interpolations <|> text
 
 segmentWs :: Parser RawSegment
 segmentWs =
-  branch eof empty (whitespace <|> autoInterpolation <|> verbatimInterpolation <|> textWs)
+  try whitespace <|> interpolations <|> textWs
 
 parser :: Parser [RawSegment]
 parser =
-  FlatParse.many segment
+  many segment
 
 parserWs :: Parser [RawSegment]
 parserWs =
-  FlatParse.many segmentWs
+  many segmentWs
 
 parseWith :: Parser [RawSegment] -> String -> Either Text [RawSegment]
 parseWith p =
-  runParserUtf8 p 0 0 >>> \case
-    OK a _ "" -> Right a
-    OK _ _ u -> Left ("unconsumed: " <> decodeUtf8 u)
-    Fail -> Left "fail"
-    Err e -> Left e
+  first show . runParser p 0 ""
 
 parse :: String -> Either Text [RawSegment]
 parse =

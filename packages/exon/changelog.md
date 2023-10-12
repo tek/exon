@@ -1,3 +1,7 @@
+# Unreleased
+
+* Replace `flatparse` with `parsec` for less friction when updating GHC.
+
 # 1.5.0.0
 
 * Use `exonProcess` for `intercalate`
