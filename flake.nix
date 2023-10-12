@@ -9,7 +9,7 @@
     gen-overrides.enable = true;
 
     envs.ghc96.overrides = {hackage, jailbreak, ...}: {
-      ghc-hs-meta = hackage "0.1.2.0" "1072k0a5svmw2f7sniq3z3n9ga4y8l5kx3qnsnbfsp4xhgcyq26i";
+      ghc-hs-meta = hackage "0.1.3.0" "0imnz5gx5z23gnras211h1bm1js75wmy72mvkzw826jys1q5cshg";
       vector-binary-instances = jailbreak;
     };
 

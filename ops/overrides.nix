@@ -8,16 +8,16 @@ ghc94 = {
 ghc96 = {
   ghc-hs-meta = {
   meta = {
-    sha256 = "1072k0a5svmw2f7sniq3z3n9ga4y8l5kx3qnsnbfsp4xhgcyq26i";
-    ver = "0.1.2.0";
+    sha256 = "0imnz5gx5z23gnras211h1bm1js75wmy72mvkzw826jys1q5cshg";
+    ver = "0.1.3.0";
   };
   drv = { mkDerivation, base, bytestring, ghc, ghc-boot, hspec, lib
 , template-haskell
 }:
 mkDerivation {
   pname = "ghc-hs-meta";
-  version = "0.1.2.0";
-  src = /nix/store/23qd8fbqag6gmpwm9xi7fwks5byy13w6-source;
+  version = "0.1.3.0";
+  src = /nix/store/9650lm5fs6vrbbs1hhbxhdg74k8al8k5-source;
   libraryHaskellDepends = [
     base bytestring ghc ghc-boot template-haskell
   ];
