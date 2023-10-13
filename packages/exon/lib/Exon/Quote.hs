@@ -1,6 +1,6 @@
 {-# options_haddock prune #-}
 
--- |Description: Internal
+-- | Description: Internal
 module Exon.Quote where
 
 import Language.Haskell.Meta.Parse (parseExpWithExts)
@@ -116,7 +116,7 @@ quoteSegments code = do
   consE <- runQ [e|(:|)|]
   pure (InfixE (Just hseg) consE (Just (ListE segs)))
 
--- |Constructor for a quasiquoter that wraps all segments with the first expression and unwraps the result with the
+-- | Constructor for a quasiquoter that wraps all segments with the first expression and unwraps the result with the
 -- second.
 --
 -- This can be used to define quoters with custom logic by providing instances of any of the classes in
@@ -145,7 +145,7 @@ exonWith wrapper whitespace unsafe =
     err tpe _ =
       exonError ("Cannot quote " <> tpe)
 
--- |A quasiquoter that allows interpolation, concatenating the resulting segments with '(<>)' or a an arbitrary
+-- | A quasiquoter that allows interpolation, concatenating the resulting segments with '(<>)' or a an arbitrary
 -- user-defined implementation.
 -- See the [introduction]("Exon") for details.
 --
@@ -155,14 +155,14 @@ exon :: QuasiQuoter
 exon =
   exonWith Nothing False False
 
--- |Unsafe version of 'exon', allowing automatic conversion with the same splice brackets as matching types.
+-- | Unsafe version of 'exon', allowing automatic conversion with the same splice brackets as matching types.
 --
 -- @since 1.0.0.0
 exun :: QuasiQuoter
 exun =
   exonWith Nothing False True
 
--- |A variant of 'exon' that creates segments for each sequence of whitespace characters that can be processed
+-- | A variant of 'exon' that creates segments for each sequence of whitespace characters that can be processed
 -- differently by 'Exon.ExonAppend', 'Exon.ExonSegment' or 'Exon.ExonString'.
 --
 -- @since 1.0.0.0
@@ -170,7 +170,7 @@ exonws :: QuasiQuoter
 exonws =
   exonWith Nothing True False
 
--- |Internal debugging quoter that produces the raw segments.
+-- | Internal debugging quoter that produces the raw segments.
 --
 -- @since 1.0.0.0
 exonSegments :: QuasiQuoter

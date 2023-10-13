@@ -1,6 +1,6 @@
 {-# options_haddock prune #-}
 
--- |Description: The parser for the quasiquote body, using parsec.
+-- | Description: The parser for the quasiquote body, using parsec.
 module Exon.Parse where
 
 import Data.Char (isSpace)

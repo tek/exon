@@ -1,8 +1,8 @@
--- |Description: Data Type 'RawSegment', Internal
+-- | Description: Data Type 'RawSegment', Internal
 
 module Exon.Data.RawSegment where
 
--- |An intermediate representation for internal use.
+-- | An intermediate representation for internal use.
 data RawSegment =
   WsSegment String
   |

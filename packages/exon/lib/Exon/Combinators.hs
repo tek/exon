@@ -1,4 +1,4 @@
--- |Description: Internal
+-- | Description: Internal
 module Exon.Combinators where
 
 import qualified Data.List.NonEmpty as NonEmpty

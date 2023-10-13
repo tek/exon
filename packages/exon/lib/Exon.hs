@@ -1,4 +1,4 @@
--- |Customizable Quasiquote Interpolation
+-- | Customizable Quasiquote Interpolation
 module Exon (
   -- * Introduction
   -- $intro
