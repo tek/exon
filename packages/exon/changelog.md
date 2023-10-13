@@ -1,4 +1,4 @@
-# Unreleased
+# 1.6.0.0
 
 * Replace `flatparse` with `parsec` for less friction when updating GHC.
 
