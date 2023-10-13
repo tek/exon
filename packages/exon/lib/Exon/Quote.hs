@@ -3,7 +3,6 @@
 -- | Description: Internal
 module Exon.Quote where
 
-import Language.Haskell.Meta.Parse (parseExpWithExts)
 import qualified Language.Haskell.TH as TH
 import Language.Haskell.TH (Exp (AppE, InfixE, ListE), Q, extsEnabled, runQ)
 import Language.Haskell.TH.Quote (QuasiQuoter (QuasiQuoter))
@@ -13,6 +12,7 @@ import Exon.Class.Exon (exonProcess, exonProcessWith)
 import Exon.Class.ToSegment (toSegment)
 import Exon.Data.RawSegment (RawSegment (AutoExpSegment, ExpSegment, StringSegment, WsSegment))
 import qualified Exon.Data.Segment as Segment
+import Exon.Haskell.Parse (parseExpWithExts)
 import Exon.Parse (parse, parseWs)
 
 exonError ::

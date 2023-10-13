@@ -36,6 +36,9 @@ library
       Exon.Data.Result
       Exon.Data.Segment
       Exon.Generic
+      Exon.Haskell.Parse
+      Exon.Haskell.Settings
+      Exon.Haskell.Translate
       Exon.Parse
       Exon.Quote
       Exon.SkipWs
@@ -79,7 +82,7 @@ library
   ghc-options: -Wall -Widentities -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wredundant-constraints -Wunused-type-patterns -Wunused-packages
   build-depends:
       base ==4.*
-    , ghc-hs-meta ==0.1.*
+    , ghc
     , incipit-base >=0.4 && <0.6
     , parsec
     , template-haskell

@@ -37,8 +37,8 @@
       library = {
         enable = true;
         dependencies = [
+          "ghc"
           "parsec"
-          "ghc-hs-meta ^>= 0.1"
           "template-haskell"
         ];
       };
@@ -56,12 +56,13 @@
       benchmark = {
         enable = true;
         dependencies = [
-          "exon"
           "criterion >= 1.5 && < 1.7"
         ];
       };
 
     };
+
+    ghci.args = ["-package ghc"];
 
   };
 }
