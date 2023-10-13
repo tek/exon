@@ -8,6 +8,11 @@
     hackage.versionFile = "ops/version.nix";
     gen-overrides.enable = true;
 
+    envs.dev.overrides = {hackage, jailbreak, ...}: {
+      hedgehog = hackage "1.4" "1qxxhs720im0wpa5lsca0l8qsfmhbyphd1aq01nv96v29lgv795b";
+      tasty-hedgehog = hackage "1.4.0.2" "04kg2qdnsqzzmj3xggy2jcgidlp21lsjkz4sfnbq7b1yhrv2vbbc";
+    };
+
     packages.exon = {
       src = ./packages/exon;
 
@@ -46,8 +51,8 @@
       test = {
         enable = true;
         dependencies = [
-          "hedgehog >= 1.1 && < 1.3"
-          "tasty ^>= 1.4"
+          "hedgehog >= 1.1 && < 1.5"
+          "tasty >= 1.4 && < 1.6"
           "tasty-hedgehog >= 1.3 && < 1.5"
           "template-haskell"
         ];
