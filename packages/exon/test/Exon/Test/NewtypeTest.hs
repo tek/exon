@@ -10,6 +10,10 @@ newtype Nt =
   Nt Text
   deriving stock (Eq, Show, Generic)
 
+newtype NtR =
+  NtR { field :: Text }
+  deriving stock (Eq, Show, Generic)
+
 newtype Str =
   Str Text
   deriving stock (Eq, Show)
@@ -39,12 +43,15 @@ instance Monoid StrUse where
     StrUse (StrGen "")
 
 nt :: Nt
-nt =
-  Nt "nt"
+nt = Nt "nt"
+
+ntr :: NtR
+ntr = NtR "ntr"
 
 test_newtype :: TestT IO ()
 test_newtype = do
   ("pre nt Text" :: Text) === [exon|pre ##{nt} #{"Text" :: Text}|]
+  ("pre ntr Text" :: Text) === [exon|pre ##{ntr} #{"Text" :: Text}|]
   ("pre nt Nt \"nt\"" :: Text) === [exon|pre ##{nt} #{show nt}|]
   ("pre nt Nt \"nt\" IsString" :: Text) === [exon|pre ##{nt} #{show nt} #{"IsString"}|]
   ("pre nt Nt \"nt\" IsString Text" :: Text) === [exon|pre ##{nt} #{show nt} #{"IsString"} #{"Text" :: Text}|]

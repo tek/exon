@@ -43,7 +43,6 @@
         enable = true;
         dependencies = [
           "parsec"
-          "generics-sop ^>= 0.5.1.1"
           "ghc-hs-meta ^>= 0.1"
           "template-haskell"
         ];

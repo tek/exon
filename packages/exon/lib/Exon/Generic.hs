@@ -1,46 +1,67 @@
 {-# options_haddock prune #-}
 
--- |Description: Internal
+-- | Description: Internal
 module Exon.Generic where
 
-import Generics.SOP (All2, I (I), NP (Nil, (:*)), NS (S, Z), SOP (SOP), Top)
-import Generics.SOP.GGP (GCode, GDatatypeInfoOf, GFrom, GTo, gfrom, gto)
-import Generics.SOP.Type.Metadata (DatatypeInfo (Newtype))
+import GHC.Generics (C1, D1, K1 (K1), M1 (M1), Meta (MetaData), Rep, S1, from, to)
 
-type ReifySOP (a :: Type) (ass :: [[Type]]) =
-  (Generic a, GTo a, GCode a ~ ass, All2 Top ass)
+type family PrepRep (rep :: Type -> Type) :: Maybe Type where
+  PrepRep (D1 ('MetaData _ _ _ 'True) (C1 _ (S1 _ (K1 _ w)))) = 'Just w
+  PrepRep (D1 ('MetaData _ _ _ 'True) (C1 _ (K1 _ w))) = 'Just w
 
-type ConstructSOP (a :: Type) (ass :: [[Type]]) =
-  (Generic a, GFrom a, GCode a ~ ass, All2 Top ass)
+class RepIsNewtype (rep :: Maybe Type) (wrapped :: Maybe Type) | rep -> wrapped
+instance {-# incoherent #-} wrapped ~ 'Nothing => RepIsNewtype rep wrapped
+instance wrapped ~ 'Just w => RepIsNewtype ('Just w) wrapped
 
-type ReifyNt (a :: Type) (b :: Type) =
-  ReifySOP a '[ '[b] ]
+class IsNewtype w (wrapped :: Maybe Type) | w -> wrapped
+instance RepIsNewtype (PrepRep (Rep w)) wrapped => IsNewtype w wrapped
 
-type GenNt (a :: Type) (b :: Type) =
-  ConstructSOP a '[ '[b] ]
+type NewtypeRep :: Symbol -> Symbol -> Symbol -> Meta -> Type -> Type -> Type -> Type
+type NewtypeRep n m p c i w =
+  D1 ('MetaData n m p 'True) (S1 c (K1 i w))
 
-type OverNt (a :: Type) (b :: Type) =
-  (ReifyNt a b, GenNt a b)
+class UnwrapField (rep :: Type -> Type) (w :: Type) | rep -> w where
+  unwrapField :: rep x -> w
 
-unwrap ::
-  GenNt a b =>
-  a ->
-  b
-unwrap a =
-  case gfrom a of
-    SOP (Z (I b :* Nil)) -> b
-    SOP (S n) -> case n of
+-- | Record selector
+instance UnwrapField (S1 s (K1 i w)) w where
+  unwrapField (M1 (K1 w)) = w
 
-wrap ::
-  ReifyNt a b =>
-  b ->
-  a
-wrap b =
-  gto (SOP (Z (I b :* Nil)))
+-- | Plain field
+instance UnwrapField (K1 i w) w where
+  unwrapField (K1 w) = w
 
-class GDatatypeInfoIsNewtype (dss :: [[Type]]) (info :: DatatypeInfo) (wrapped :: Maybe Type) | dss info -> wrapped
-instance {-# incoherent #-} wrapped ~ 'Nothing => GDatatypeInfoIsNewtype dss info wrapped
-instance wrapped ~ 'Just d => GDatatypeInfoIsNewtype '[ '[d]] ('Newtype m n c) wrapped
+class Unwrap (a :: Type) (w :: Type) | a -> w where
+  unwrap :: a -> w
 
-class IsNewtype d (wrapped :: Maybe Type) | d -> wrapped
-instance GDatatypeInfoIsNewtype (GCode d) (GDatatypeInfoOf d) wrapped => IsNewtype d wrapped
+-- | Constructor ('C1') in a data type ('D1') that's a newtype (@'True@)
+instance (
+    Generic a,
+    Rep a ~ D1 ('MetaData n m p 'True) (C1 c field),
+    UnwrapField field w
+  ) => Unwrap a w where
+    unwrap (from -> M1 (M1 field)) = unwrapField field
+
+class WrapField (rep :: Type -> Type) (w :: Type) | rep -> w where
+  wrapField :: w -> rep x
+
+-- | Record selector
+instance WrapField (S1 s (K1 i w)) w where
+  wrapField = M1 . K1
+
+-- | Plain field
+instance WrapField (K1 i w) w where
+  wrapField = K1
+
+class Wrap (a :: Type) (w :: Type) | a -> w where
+  wrap :: w -> a
+
+instance (
+    Generic a,
+    Rep a ~ D1 ('MetaData n m p 'True) (C1 c field),
+    WrapField field w
+  ) => Wrap a w where
+    wrap w = to (M1 (M1 (wrapField w)))
+
+type OverNt (a :: Type) (w :: Type) =
+  (Wrap a w, Unwrap a w)

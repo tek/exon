@@ -1,25 +1,20 @@
 {-# options_haddock prune #-}
 
--- |Description: Internal
+-- | Description: Internal
 module Exon.Class.ToSegment where
 
 import GHC.TypeLits (ErrorMessage)
-import Generics.SOP (I (I), NP (Nil, (:*)), SOP (SOP), unZ)
-import Generics.SOP.GGP (GCode, GFrom, gfrom)
 
-import Exon.Generic (IsNewtype)
+import Exon.Generic (IsNewtype, Unwrap (unwrap))
 
 class NewtypeSegment (wrapped :: Maybe Type) a b where
   newtypeSegment :: a -> b
 
 instance (
-    Generic a,
-    GFrom a,
-    GCode a ~ '[ '[b]],
+    Unwrap a b,
     ToSegment b c
   ) => NewtypeSegment ('Just b) a c where
-    newtypeSegment (gfrom -> SOP (unZ -> I b :* Nil)) =
-      toSegment b
+    newtypeSegment = toSegment . unwrap
 
 type family Q (a :: k) :: ErrorMessage where
   Q a = "‘" <> a <> "’"
@@ -38,10 +33,9 @@ instance (
     NoGenericMessage a b,
     a ~ b
   ) => NewtypeSegment 'Nothing a b where
-  newtypeSegment =
-    id
+    newtypeSegment = id
 
--- |This class determines how an expression is converted to an interpolation quote's result type.
+-- | This class determines how an expression is converted to an interpolation quote's result type.
 --
 -- For a quote like @[exon|a #{exp :: T} c|] :: R@, the instance @ToSegment T R@ is used to turn @T@ into @R@.
 -- Aside from specialized instances for stringly types, the default implementation uses 'Generic' to unwrap newtypes
