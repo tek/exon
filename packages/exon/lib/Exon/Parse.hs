@@ -86,7 +86,9 @@ hash = char '#'
 
 verbatimWith :: Parser Char -> Parser String
 verbatimWith end =
-  takeRestUnless end <> (stopHerald <|> option "" (try (string "#" <> verbatim)))
+  go
+  where
+    go = takeRestUnless end <> (stopHerald <|> option "" (string "#" <> option "" go))
 
 verbatim :: Parser String
 verbatim =

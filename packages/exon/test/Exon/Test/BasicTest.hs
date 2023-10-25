@@ -45,12 +45,16 @@ test_basic = do
   "Philip | J. | FRY" === skipWs [exonws|Philip J. #{SkipWs (up lastName)}|]
   "Philip J. | FRY" === [exon|Philip J.#{up lastName}|]
   ("abc" :: Text) === skipWs [exonws|a  ##{"b" :: Text} #{"c"}|]
+  ("one #" :: Text) === [exon|one #|]
   where
     var :: IsString a => a
     var =
       "and"
 
-newtype Thing = Thing String deriving stock (Generic) deriving newtype (IsString, Show, Eq)
+newtype Thing =
+  Thing String
+  deriving stock (Generic)
+  deriving newtype (IsString, Show, Eq)
 
 instance ExonSegment Thing inner String where
   exonSegment builder = \case

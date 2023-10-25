@@ -63,3 +63,4 @@ test_newtype = do
   ("pre|post" :: StrUse) === exonUse (skipWs [exonws|pre ##{"post" :: Text}|])
   ("prepost" :: StrUse) === skipWs [exonws|pre ##{"post" :: Text}|]
   ("pre post" :: Str) === [exon|pre ##{StrUse "post"}|]
+  ("one #two" :: Text) === [exon|one ###{Nt "two"}|]
