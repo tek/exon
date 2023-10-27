@@ -51,6 +51,7 @@ reifyExp ::
   QOrIO m =>
   String ->
   m Exp
+reifyExp "" = exonError ("Empty interpolation" :: String)
 reifyExp s = do
   exts <- fileExtensions
   case parseExpWithExts exts s of
