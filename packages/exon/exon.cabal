@@ -99,6 +99,7 @@ test-suite exon-test
       Exon.Test.BasicTest
       Exon.Test.BuildTest
       Exon.Test.NewtypeTest
+      Exon.Test.ParseTest
       Exon.Test.Quote
       Exon.Test.ShowsPrecTest
       Exon.Test.SkipWsTest

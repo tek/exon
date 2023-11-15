@@ -46,6 +46,7 @@ test_basic = do
   "Philip J. | FRY" === [exon|Philip J.#{up lastName}|]
   ("abc" :: Text) === skipWs [exonws|a  ##{"b" :: Text} #{"c"}|]
   ("one #" :: Text) === [exon|one #|]
+  ("one ##bug} two three" :: Text) === [exon|one ##bug} two #{"three"}|]
   where
     var :: IsString a => a
     var =

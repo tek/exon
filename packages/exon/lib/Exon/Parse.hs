@@ -10,12 +10,10 @@ import Text.Parsec as Parsec (
   anyChar,
   char,
   choice,
+  eof,
   getState,
   lookAhead,
-  many1,
   modifyState,
-  notFollowedBy,
-  option,
   putState,
   runParser,
   satisfy,
@@ -35,10 +33,6 @@ ws =
 whitespace :: Parser RawSegment
 whitespace =
   WsSegment <$> some ws
-
-takeRestUnless :: Parser Char -> Parser String
-takeRestUnless end =
-  many1 (notFollowedBy end *> anyChar)
 
 expr :: Parser String
 expr =
@@ -77,26 +71,40 @@ interpolations :: Parser RawSegment
 interpolations =
   try autoInterpolation <|> try verbatimInterpolation
 
-stopHerald :: Parser String
-stopHerald =
-  "" <$ lookAhead (try (string "##{") <|> try (string "#{"))
+verbatimStep :: Bool -> Parser Bool
+verbatimStep =
+  lookAhead . \case
+    True -> False <$ ws <|> basic
+    False -> basic
+    where
+      basic =
+        False <$ (try (string "##{") <|> try (string "#{"))
+        <|>
+        False <$ eof
+        <|>
+        pure True
 
-hash :: Parser Char
-hash = char '#'
-
-verbatimWith :: Parser Char -> Parser String
-verbatimWith end =
-  go
+verbatimWith :: Parser Bool -> Parser String
+verbatimWith step =
+  step >>= \case
+    False -> fail "Empty verbatim segment"
+    True -> go
   where
-    go = takeRestUnless end <> (stopHerald <|> option "" (string "#" <> option "" go))
+    go =
+      step >>= \case
+        False -> pure ""
+        True -> do
+          h <- anyChar
+          t <- go
+          pure (h : t)
 
 verbatim :: Parser String
 verbatim =
-  verbatimWith hash
+  verbatimWith (verbatimStep False)
 
 verbatimWs :: Parser String
 verbatimWs =
-  verbatimWith (ws <|> hash)
+  verbatimWith (verbatimStep True)
 
 text :: Parser RawSegment
 text =
@@ -116,15 +124,15 @@ segmentWs =
 
 parser :: Parser [RawSegment]
 parser =
-  many segment
+  many segment <* eof
 
 parserWs :: Parser [RawSegment]
 parserWs =
-  many segmentWs
+  many segmentWs <* eof
 
 parseWith :: Parser [RawSegment] -> String -> Either Text [RawSegment]
 parseWith p =
-  first show . runParser p 0 ""
+  first (unwords . lines . show) . runParser p 0 ""
 
 parse :: String -> Either Text [RawSegment]
 parse =
