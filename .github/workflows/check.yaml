@@ -1,0 +1,22 @@
+name: Flake checks
+on: [push, pull_request]
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            extra-substituters = https://tek.cachix.org
+            extra-trusted-public-keys = tek.cachix.org-1:+sdc73WFq8aEKnrVv5j/kuhmnW2hQJuqdPJF5SnaCBk=
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v14
+        with:
+          name: tek
+          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+      - run: nix flake check
