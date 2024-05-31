@@ -82,11 +82,11 @@ library
       NoFieldSelectors
   ghc-options: -Wall -Widentities -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wredundant-constraints -Wunused-type-patterns -Wunused-packages
   build-depends:
-      base
-    , ghc
-    , incipit-base
-    , parsec
-    , template-haskell
+      base >=4.16.4.0 && <4.20
+    , ghc >=9.2.8 && <9.9
+    , incipit-base >=0.5.0.0 && <0.7
+    , parsec >=3.1.15.0 && <3.2
+    , template-haskell >=2.18.0.0 && <2.22
   mixins:
       base hiding (Prelude)
     , incipit-base (IncipitBase as Prelude)
@@ -144,13 +144,13 @@ test-suite exon-test
       NoFieldSelectors
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall -Widentities -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wredundant-constraints -Wunused-type-patterns -Wunused-packages
   build-depends:
-      base
+      base >=4.16.4.0 && <4.20
     , exon
-    , hedgehog
-    , incipit-base
-    , tasty
-    , tasty-hedgehog
-    , template-haskell
+    , hedgehog >=1.1 && <1.5
+    , incipit-base >=0.5.0.0 && <0.7
+    , tasty >=1.4.0.3 && <1.5
+    , tasty-hedgehog >=1.1.0.0 && <1.5
+    , template-haskell >=2.18.0.0 && <2.22
   mixins:
       base hiding (Prelude)
     , incipit-base (IncipitBase as Prelude)
@@ -200,10 +200,10 @@ benchmark exon-bench
       NoFieldSelectors
   ghc-options: -Wall -Widentities -Wincomplete-uni-patterns -Wmissing-deriving-strategies -Wredundant-constraints -Wunused-type-patterns -Wunused-packages
   build-depends:
-      base
-    , criterion
+      base >=4.16.4.0 && <4.20
+    , criterion >=1.5.11.0 && <1.7
     , exon
-    , incipit-base
+    , incipit-base >=0.5.0.0 && <0.7
   mixins:
       base hiding (Prelude)
     , incipit-base (IncipitBase as Prelude)
