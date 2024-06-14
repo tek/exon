@@ -27,7 +27,7 @@
       };
       tasty = {
         lower = "1.4.0.3";
-        upper = "1.5";
+        upper = "1.6";
       };
       tasty-hedgehog = {
         lower = "1.1.0.0";
@@ -47,7 +47,7 @@
       hedgehog = "1.4";
       incipit-base = "0.6.0.0";
       parsec = "3.1.17.0";
-      tasty = "1.4.3";
+      tasty = "1.5";
       tasty-hedgehog = "1.4.0.2";
       template-haskell = "2.21.0.0";
     };
@@ -79,6 +79,22 @@
       incipit-base = {
         version = "0.6.0.0";
         hash = "1hck35yfy0dcgimgnd90w02zvv7x7k456bljrbx2mwxalnhav9gf";
+      };
+      indexed-traversable-instances = {
+        version = "0.1.1.2";
+        hash = "1mmkklfpagv855p12dqq0r6xwg0v6dc1gj1n3nvzzy4b909ajgd0";
+      };
+      tasty = {
+        version = "1.5";
+        hash = "0v2xrmrxss6zkrny5zlxjanhp4a3zwsx7v9iszj62wqgcc13zva9";
+      };
+      tasty-hedgehog = {
+        version = "1.4.0.2";
+        hash = "04kg2qdnsqzzmj3xggy2jcgidlp21lsjkz4sfnbq7b1yhrv2vbbc";
+      };
+      time-compat = {
+        version = "1.9.6.1";
+        hash = "0ika8xx9zff8rwaabs17q5c30c1b9ii89jhbvahi5nk7rs0cd5fs";
       };
     };
     lower = {

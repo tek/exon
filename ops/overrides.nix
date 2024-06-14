@@ -34,6 +34,107 @@ mkDerivation {
 ;
 }
 ;
+  indexed-traversable-instances = {
+  meta = {
+    sha256 = "1mmkklfpagv855p12dqq0r6xwg0v6dc1gj1n3nvzzy4b909ajgd0";
+    ver = "0.1.1.2";
+  };
+  drv = { mkDerivation, base, containers, indexed-traversable, lib
+, OneTuple, QuickCheck, quickcheck-instances, tagged, tasty
+, tasty-quickcheck, transformers, unordered-containers, vector
+}:
+mkDerivation {
+  pname = "indexed-traversable-instances";
+  version = "0.1.1.2";
+  src = /nix/store/v0g4ddbkq1d9frb9j4pc0ga1vs6dlm2b-source;
+  libraryHaskellDepends = [
+    base indexed-traversable OneTuple tagged unordered-containers
+    vector
+  ];
+  testHaskellDepends = [
+    base containers indexed-traversable OneTuple QuickCheck
+    quickcheck-instances tasty tasty-quickcheck transformers
+    unordered-containers vector
+  ];
+  description = "More instances of FunctorWithIndex, FoldableWithIndex, TraversableWithIndex";
+  license = lib.licenses.bsd2;
+}
+;
+}
+;
+  tasty = {
+  meta = {
+    sha256 = "0v2xrmrxss6zkrny5zlxjanhp4a3zwsx7v9iszj62wqgcc13zva9";
+    ver = "1.5";
+  };
+  drv = { mkDerivation, ansi-terminal, base, containers, lib
+, optparse-applicative, stm, tagged, transformers, unix
+}:
+mkDerivation {
+  pname = "tasty";
+  version = "1.5";
+  src = /nix/store/z745l4r4wk305rfiz8wpc3f89288fi8r-source;
+  libraryHaskellDepends = [
+    ansi-terminal base containers optparse-applicative stm tagged
+    transformers unix
+  ];
+  homepage = "https://github.com/UnkindPartition/tasty";
+  description = "Modern and extensible testing framework";
+  license = lib.licenses.mit;
+}
+;
+}
+;
+  tasty-hedgehog = {
+  meta = {
+    sha256 = "04kg2qdnsqzzmj3xggy2jcgidlp21lsjkz4sfnbq7b1yhrv2vbbc";
+    ver = "1.4.0.2";
+  };
+  drv = { mkDerivation, base, hedgehog, lib, tagged, tasty
+, tasty-expected-failure
+}:
+mkDerivation {
+  pname = "tasty-hedgehog";
+  version = "1.4.0.2";
+  src = /nix/store/b9mxq4fh65sif22q9a4g041jvp847cyc-source;
+  libraryHaskellDepends = [ base hedgehog tagged tasty ];
+  testHaskellDepends = [
+    base hedgehog tasty tasty-expected-failure
+  ];
+  homepage = "https://github.com/qfpl/tasty-hedgehog";
+  description = "Integration for tasty and hedgehog";
+  license = lib.licenses.bsd3;
+}
+;
+}
+;
+  time-compat = {
+  meta = {
+    sha256 = "0ika8xx9zff8rwaabs17q5c30c1b9ii89jhbvahi5nk7rs0cd5fs";
+    ver = "1.9.6.1";
+  };
+  drv = { mkDerivation, base, base-compat, base-orphans, deepseq, hashable
+, HUnit, lib, QuickCheck, tagged, tasty, tasty-hunit
+, tasty-quickcheck, time
+}:
+mkDerivation {
+  pname = "time-compat";
+  version = "1.9.6.1";
+  src = /nix/store/r5pf6kwybjyjpwh4knlr4j6vr2lz5nym-source;
+  libraryHaskellDepends = [
+    base base-orphans deepseq hashable time
+  ];
+  testHaskellDepends = [
+    base base-compat deepseq hashable HUnit QuickCheck tagged tasty
+    tasty-hunit tasty-quickcheck time
+  ];
+  homepage = "https://github.com/haskellari/time-compat";
+  description = "Compatibility package for time";
+  license = lib.licenses.bsd3;
+}
+;
+}
+;
 };
 lower = {
   OneTuple = {
