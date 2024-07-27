@@ -15,7 +15,7 @@
       };
       hedgehog = {
         lower = "1.1";
-        upper = "1.5";
+        upper = "1.6";
       };
       incipit-base = {
         lower = "0.5.0.0";
@@ -44,7 +44,7 @@
       base = "4.19.1.0";
       criterion = "1.6.3.0";
       ghc = "9.8.2";
-      hedgehog = "1.4";
+      hedgehog = "1.5";
       incipit-base = "0.6.0.0";
       parsec = "3.1.17.0";
       tasty = "1.5";
@@ -76,6 +76,10 @@
   };
   overrides = {
     latest = {
+      hedgehog = {
+        version = "1.5";
+        hash = "1hz8xrg5p6vplvcj8c7pgidqnwqjmqahs9dla50nqpbcbdh932ll";
+      };
       incipit-base = {
         version = "0.6.0.0";
         hash = "1hck35yfy0dcgimgnd90w02zvv7x7k456bljrbx2mwxalnhav9gf";
