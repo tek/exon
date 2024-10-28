@@ -12,6 +12,7 @@
       enable = true;
       lower.enable = true;
       latest.compiler = "ghc98";
+      forceBounds.base.upper = "5";
     };
 
     packages.exon = {
