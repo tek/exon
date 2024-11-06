@@ -3,7 +3,7 @@
     exon = {
       base = {
         lower = "4.16.4.0";
-        upper = "4.20";
+        upper = "4.21";
       };
       criterion = {
         lower = "1.5.11.0";
@@ -11,7 +11,7 @@
       };
       ghc = {
         lower = "9.2.8";
-        upper = "9.9";
+        upper = "9.11";
       };
       hedgehog = {
         lower = "1.1";
@@ -35,21 +35,21 @@
       };
       template-haskell = {
         lower = "2.18.0.0";
-        upper = "2.22";
+        upper = "2.23";
       };
     };
   };
   versions = {
     latest = {
-      base = "4.19.1.0";
-      criterion = "1.6.3.0";
-      ghc = "9.8.2";
+      base = "4.20.0.0";
+      criterion = "1.6.4.0";
+      ghc = "9.10.1";
       hedgehog = "1.5";
       incipit-base = "0.6.1.0";
       parsec = "3.1.17.0";
-      tasty = "1.5";
+      tasty = "1.5.2";
       tasty-hedgehog = "1.4.0.2";
-      template-haskell = "2.21.0.0";
+      template-haskell = "2.22.0.0";
     };
     lower = {
       base = "4.16.4.0";
@@ -76,29 +76,21 @@
   };
   overrides = {
     latest = {
+      criterion = {
+        version = "1.6.4.0";
+        hash = "0c8rgqjjjhwyxcma35j4a5lqndqz8pyhxq1qnmbav4wrc0vi9gyh";
+      };
       hedgehog = {
         version = "1.5";
         hash = "1hz8xrg5p6vplvcj8c7pgidqnwqjmqahs9dla50nqpbcbdh932ll";
       };
-      incipit-base = {
-        version = "0.6.1.0";
-        hash = "0iyyvxpyyybn5ygr875pav6g5hbs00wa9jbr7qslszqpkfpy5x33";
-      };
-      indexed-traversable-instances = {
-        version = "0.1.1.2";
-        hash = "1mmkklfpagv855p12dqq0r6xwg0v6dc1gj1n3nvzzy4b909ajgd0";
-      };
       tasty = {
-        version = "1.5";
-        hash = "0v2xrmrxss6zkrny5zlxjanhp4a3zwsx7v9iszj62wqgcc13zva9";
+        version = "1.5.2";
+        hash = "1jqrcmibqv03109qc6lhi2jnip4mxygcd0j4j0g1n0q0akcplica";
       };
       tasty-hedgehog = {
         version = "1.4.0.2";
         hash = "04kg2qdnsqzzmj3xggy2jcgidlp21lsjkz4sfnbq7b1yhrv2vbbc";
-      };
-      time-compat = {
-        version = "1.9.6.1";
-        hash = "0ika8xx9zff8rwaabs17q5c30c1b9ii89jhbvahi5nk7rs0cd5fs";
       };
     };
     lower = {

@@ -21,13 +21,13 @@ import GHC.Types.SrcLoc
 import qualified GHC.Unit.Module as Module
 import GHC.Utils.Outputable (ppr)
 import qualified Language.Haskell.TH.Syntax as TH
+
+import qualified Exon.Haskell.Settings as Settings
+
 #if MIN_VERSION_ghc(9,6,0)
 import Language.Haskell.Syntax.Basic (FieldLabelString (..))
 #endif
 
-import qualified Exon.Haskell.Settings as Settings
-
--- TODO: why this disapears in GHC >= 9.2?
 fl_value = rationalFromFractionalLit
 
 
@@ -48,6 +48,14 @@ toLit (HsInteger _ i _) = TH.IntegerL i
 toLit (HsRat _ f _) = TH.FloatPrimL (fl_value f)
 toLit (HsFloatPrim _ f) = TH.FloatPrimL (fl_value f)
 toLit (HsDoublePrim _ f) = TH.DoublePrimL (fl_value f)
+#if MIN_VERSION_ghc(9,8,0)
+toLit (HsInt8Prim _ i) = TH.IntegerL i
+toLit (HsInt16Prim _ i) = TH.IntegerL i
+toLit (HsInt32Prim _ i) = TH.IntegerL i
+toLit (HsWord8Prim _ i) = TH.WordPrimL i
+toLit (HsWord16Prim _ i) = TH.WordPrimL i
+toLit (HsWord32Prim _ i) = TH.WordPrimL i
+#endif
 
 toLit' :: OverLitVal -> TH.Lit
 toLit' (HsIntegral i) = TH.IntegerL (il_value i)
@@ -98,7 +106,9 @@ toExp _ (Expr.HsOverLit _ OverLit {ol_val})
 toExp d (Expr.HsApp _ e1 e2)
   = TH.AppE (toExp d . unLoc $ e1) (toExp d . unLoc $ e2)
 
-#if MIN_VERSION_ghc(9,6,0)
+#if MIN_VERSION_ghc(9,10,0)
+toExp d (Expr.HsAppType _ e HsWC {hswc_body}) = TH.AppTypeE (toExp d . unLoc $ e) (toType . unLoc $ hswc_body)
+#elif MIN_VERSION_ghc(9,6,0)
 toExp d (Expr.HsAppType _ e _ HsWC {hswc_body}) = TH.AppTypeE (toExp d . unLoc $ e) (toType . unLoc $ hswc_body)
 #else
 toExp d (Expr.HsAppType _ e HsWC {hswc_body}) = TH.AppTypeE (toExp d . unLoc $ e) (toType . unLoc $ hswc_body)
@@ -113,7 +123,9 @@ toExp d (Expr.NegApp _ e _)
   = TH.AppE (TH.VarE 'negate) (toExp d . unLoc $ e)
 
 -- NOTE: for lambda, there is only one match
-#if MIN_VERSION_ghc(9,6,0)
+#if MIN_VERSION_ghc(9,10,0)
+toExp d (Expr.HsLam _ _ (Expr.MG _ (unLoc -> (map unLoc -> [Expr.Match _ _ (map unLoc -> ps) (Expr.GRHSs _ [unLoc -> Expr.GRHS _ _ (unLoc -> e)] _)]))))
+#elif MIN_VERSION_ghc(9,6,0)
 toExp d (Expr.HsLam _ (Expr.MG _ (unLoc -> (map unLoc -> [Expr.Match _ _ (map unLoc -> ps) (Expr.GRHSs _ [unLoc -> Expr.GRHS _ _ (unLoc -> e)] _)]))))
 #else
 toExp d (Expr.HsLam _ (Expr.MG _ (unLoc -> (map unLoc -> [Expr.Match _ _ (map unLoc -> ps) (Expr.GRHSs _ [unLoc -> Expr.GRHS _ _ (unLoc -> e)] _)])) _))
@@ -142,7 +154,9 @@ toExp d (Expr.ExplicitTuple _ args boxity) = ctor tupArgs
     tupArgs = fmap ((fmap (toExp d)) . toTupArg) args
 
 -- toExp (Expr.List _ xs)                        = TH.ListE (fmap toExp xs)
-#if MIN_VERSION_ghc(9, 4, 0)
+#if MIN_VERSION_ghc(9,10,0)
+toExp d (Expr.HsPar _ e)
+#elif MIN_VERSION_ghc(9,4,0)
 toExp d (Expr.HsPar _ _ e _)
 #else
 toExp d (Expr.HsPar _ e)

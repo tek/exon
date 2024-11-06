@@ -1,6 +1,30 @@
 {
 dev = {
 };
+ghc910 = {
+  incipit-base = {
+  meta = {
+    sha256 = "0iyyvxpyyybn5ygr875pav6g5hbs00wa9jbr7qslszqpkfpy5x33";
+    ver = "0.6.1.0";
+  };
+  drv = { mkDerivation, base, bytestring, containers, data-default, lib
+, stm, text
+}:
+mkDerivation {
+  pname = "incipit-base";
+  version = "0.6.1.0";
+  src = /nix/store/2k1isywgqm3pcbzdhwyp97n9250g044k-source;
+  libraryHaskellDepends = [
+    base bytestring containers data-default stm text
+  ];
+  homepage = "https://github.com/tek/incipit-core#readme";
+  description = "A Prelude for Polysemy – Base Reexports";
+  license = "BSD-2-Clause-Patent";
+}
+;
+}
+;
+};
 ghc92 = {
 };
 ghc94 = {
@@ -12,6 +36,51 @@ ghc98 = {
 hls = {
 };
 latest = {
+  criterion = {
+  meta = {
+    sha256 = "0c8rgqjjjhwyxcma35j4a5lqndqz8pyhxq1qnmbav4wrc0vi9gyh";
+    ver = "1.6.4.0";
+  };
+  drv = { mkDerivation, aeson, base, base-compat, base-compat-batteries
+, binary, binary-orphans, bytestring, cassava, code-page
+, containers, criterion-measurement, deepseq, directory, exceptions
+, filepath, Glob, HUnit, js-chart, lib, microstache, mtl
+, mwc-random, optparse-applicative, parsec, prettyprinter
+, prettyprinter-ansi-terminal, QuickCheck, statistics, tasty
+, tasty-hunit, tasty-quickcheck, text, time, transformers
+, transformers-compat, vector, vector-algorithms
+}:
+mkDerivation {
+  pname = "criterion";
+  version = "1.6.4.0";
+  src = /nix/store/l60vjvh174lbyp98af9mbszks4v9prbm-source;
+  isLibrary = true;
+  isExecutable = true;
+  enableSeparateDataOutput = true;
+  libraryHaskellDepends = [
+    aeson base base-compat-batteries binary binary-orphans bytestring
+    cassava code-page containers criterion-measurement deepseq
+    directory exceptions filepath Glob js-chart microstache mtl
+    mwc-random optparse-applicative parsec prettyprinter
+    prettyprinter-ansi-terminal statistics text time transformers
+    transformers-compat vector vector-algorithms
+  ];
+  executableHaskellDepends = [
+    base base-compat-batteries optparse-applicative
+  ];
+  testHaskellDepends = [
+    aeson base base-compat base-compat-batteries bytestring deepseq
+    directory HUnit QuickCheck statistics tasty tasty-hunit
+    tasty-quickcheck vector
+  ];
+  homepage = "http://www.serpentine.com/criterion";
+  description = "Robust, reliable performance measurement and analysis";
+  license = lib.licenses.bsd3;
+  mainProgram = "criterion-report";
+}
+;
+}
+;
   hedgehog = {
   meta = {
     sha256 = "1hz8xrg5p6vplvcj8c7pgidqnwqjmqahs9dla50nqpbcbdh932ll";
@@ -67,46 +136,18 @@ mkDerivation {
 ;
 }
 ;
-  indexed-traversable-instances = {
-  meta = {
-    sha256 = "1mmkklfpagv855p12dqq0r6xwg0v6dc1gj1n3nvzzy4b909ajgd0";
-    ver = "0.1.1.2";
-  };
-  drv = { mkDerivation, base, containers, indexed-traversable, lib
-, OneTuple, QuickCheck, quickcheck-instances, tagged, tasty
-, tasty-quickcheck, transformers, unordered-containers, vector
-}:
-mkDerivation {
-  pname = "indexed-traversable-instances";
-  version = "0.1.1.2";
-  src = /nix/store/v0g4ddbkq1d9frb9j4pc0ga1vs6dlm2b-source;
-  libraryHaskellDepends = [
-    base indexed-traversable OneTuple tagged unordered-containers
-    vector
-  ];
-  testHaskellDepends = [
-    base containers indexed-traversable OneTuple QuickCheck
-    quickcheck-instances tasty tasty-quickcheck transformers
-    unordered-containers vector
-  ];
-  description = "More instances of FunctorWithIndex, FoldableWithIndex, TraversableWithIndex";
-  license = lib.licenses.bsd2;
-}
-;
-}
-;
   tasty = {
   meta = {
-    sha256 = "0v2xrmrxss6zkrny5zlxjanhp4a3zwsx7v9iszj62wqgcc13zva9";
-    ver = "1.5";
+    sha256 = "1jqrcmibqv03109qc6lhi2jnip4mxygcd0j4j0g1n0q0akcplica";
+    ver = "1.5.2";
   };
   drv = { mkDerivation, ansi-terminal, base, containers, lib
 , optparse-applicative, stm, tagged, transformers, unix
 }:
 mkDerivation {
   pname = "tasty";
-  version = "1.5";
-  src = /nix/store/z745l4r4wk305rfiz8wpc3f89288fi8r-source;
+  version = "1.5.2";
+  src = /nix/store/ly5d0sscd0dwlyr06nqhyscj3a99j8np-source;
   libraryHaskellDepends = [
     ansi-terminal base containers optparse-applicative stm tagged
     transformers unix
@@ -136,33 +177,6 @@ mkDerivation {
   ];
   homepage = "https://github.com/qfpl/tasty-hedgehog";
   description = "Integration for tasty and hedgehog";
-  license = lib.licenses.bsd3;
-}
-;
-}
-;
-  time-compat = {
-  meta = {
-    sha256 = "0ika8xx9zff8rwaabs17q5c30c1b9ii89jhbvahi5nk7rs0cd5fs";
-    ver = "1.9.6.1";
-  };
-  drv = { mkDerivation, base, base-compat, base-orphans, deepseq, hashable
-, HUnit, lib, QuickCheck, tagged, tasty, tasty-hunit
-, tasty-quickcheck, time
-}:
-mkDerivation {
-  pname = "time-compat";
-  version = "1.9.6.1";
-  src = /nix/store/r5pf6kwybjyjpwh4knlr4j6vr2lz5nym-source;
-  libraryHaskellDepends = [
-    base base-orphans deepseq hashable time
-  ];
-  testHaskellDepends = [
-    base base-compat deepseq hashable HUnit QuickCheck tagged tasty
-    tasty-hunit tasty-quickcheck time
-  ];
-  homepage = "https://github.com/haskellari/time-compat";
-  description = "Compatibility package for time";
   license = lib.licenses.bsd3;
 }
 ;
