@@ -36,6 +36,50 @@ ghc98 = {
 hls = {
 };
 latest = {
+  aeson = {
+  meta = {
+    sha256 = "1a9a0z6ljbck5scwkk9r9p04y9avn9vja3n063lyqgn2v1vjb1sp";
+    ver = "2.2.3.0";
+  };
+  drv = { mkDerivation, base, base-compat, base-orphans, base16-bytestring
+, bytestring, character-ps, containers, data-fix, deepseq, Diff
+, directory, dlist, exceptions, filepath, generic-deriving
+, generically, ghc-prim, hashable, indexed-traversable
+, integer-conversion, integer-logarithms, lib, network-uri
+, OneTuple, primitive, QuickCheck, quickcheck-instances, scientific
+, semialign, strict, tagged, tasty, tasty-golden, tasty-hunit
+, tasty-quickcheck, template-haskell, text, text-iso8601
+, text-short, th-abstraction, these, time, time-compat
+, unordered-containers, uuid-types, vector, witherable
+}:
+mkDerivation {
+  pname = "aeson";
+  version = "2.2.3.0";
+  src = /nix/store/vq7zl31in59prbsdq05klwd4syk31nfv-source;
+  libraryHaskellDepends = [
+    base bytestring character-ps containers data-fix deepseq dlist
+    exceptions generically ghc-prim hashable indexed-traversable
+    integer-conversion integer-logarithms network-uri OneTuple
+    primitive QuickCheck scientific semialign strict tagged
+    template-haskell text text-iso8601 text-short th-abstraction these
+    time time-compat unordered-containers uuid-types vector witherable
+  ];
+  testHaskellDepends = [
+    base base-compat base-orphans base16-bytestring bytestring
+    containers data-fix deepseq Diff directory dlist filepath
+    generic-deriving generically ghc-prim hashable indexed-traversable
+    integer-logarithms network-uri OneTuple primitive QuickCheck
+    quickcheck-instances scientific strict tagged tasty tasty-golden
+    tasty-hunit tasty-quickcheck template-haskell text text-short these
+    time time-compat unordered-containers uuid-types vector
+  ];
+  homepage = "https://github.com/haskell/aeson";
+  description = "Fast JSON parsing and encoding";
+  license = lib.licenses.bsd3;
+}
+;
+}
+;
   criterion = {
   meta = {
     sha256 = "0c8rgqjjjhwyxcma35j4a5lqndqz8pyhxq1qnmbav4wrc0vi9gyh";
@@ -77,6 +121,28 @@ mkDerivation {
   description = "Robust, reliable performance measurement and analysis";
   license = lib.licenses.bsd3;
   mainProgram = "criterion-report";
+}
+;
+}
+;
+  criterion-measurement = {
+  meta = {
+    sha256 = "0759hlq6sh5rzmfdrb1hswpglh1m534zdp3hnyc5kfnyacnyyigw";
+    ver = "0.2.3.0";
+  };
+  drv = { mkDerivation, aeson, base, base-compat, binary, containers
+, deepseq, ghc-prim, lib, vector
+}:
+mkDerivation {
+  pname = "criterion-measurement";
+  version = "0.2.3.0";
+  src = /nix/store/alpx1vq99shknvxs46frvpxhfmi3k3bz-source;
+  libraryHaskellDepends = [
+    aeson base base-compat binary containers deepseq ghc-prim vector
+  ];
+  homepage = "https://github.com/haskell/criterion";
+  description = "Criterion measurement functionality and associated types";
+  license = lib.licenses.bsd3;
 }
 ;
 }
@@ -136,18 +202,127 @@ mkDerivation {
 ;
 }
 ;
+  microstache = {
+  meta = {
+    sha256 = "0qcld6ns7sp0m664grdvjp0yzip2yajhqiq1r6nkaicgq2v6dxjr";
+    ver = "1.0.3";
+  };
+  drv = { mkDerivation, aeson, base, base-orphans, bytestring, containers
+, deepseq, directory, filepath, lib, parsec, tasty, tasty-hunit
+, text, transformers, unordered-containers, vector
+}:
+mkDerivation {
+  pname = "microstache";
+  version = "1.0.3";
+  src = /nix/store/4ci68b59vb19kxphcykjxd82ywlgrwp6-source;
+  libraryHaskellDepends = [
+    aeson base containers deepseq directory filepath parsec text
+    transformers unordered-containers vector
+  ];
+  testHaskellDepends = [
+    aeson base base-orphans bytestring containers parsec tasty
+    tasty-hunit text
+  ];
+  homepage = "https://github.com/haskellari/microstache";
+  description = "Mustache templates for Haskell";
+  license = lib.licenses.bsd3;
+}
+;
+}
+;
+  network-uri = {
+  meta = {
+    sha256 = "0zj83viziy80f7nybpmc1hki8wrd8pzps31fxns9vxhc1p7l9chj";
+    ver = "2.6.4.2";
+  };
+  drv = { mkDerivation, base, criterion, deepseq, HUnit, lib, parsec
+, QuickCheck, tasty, tasty-hunit, tasty-quickcheck
+, template-haskell, th-compat
+}:
+mkDerivation {
+  pname = "network-uri";
+  version = "2.6.4.2";
+  src = /nix/store/7rvxjdh21n002q701i7lrx33c3z2y5dl-source;
+  libraryHaskellDepends = [
+    base deepseq parsec template-haskell th-compat
+  ];
+  testHaskellDepends = [
+    base HUnit QuickCheck tasty tasty-hunit tasty-quickcheck
+  ];
+  benchmarkHaskellDepends = [ base criterion deepseq HUnit ];
+  homepage = "https://github.com/haskell/network-uri";
+  description = "URI manipulation";
+  license = lib.licenses.bsd3;
+}
+;
+}
+;
+  parsec = {
+  meta = {
+    sha256 = "089j939xxi6w6a2ggr40c4s2kdbwkzap2mnhvimmf45hg865h48n";
+    ver = "3.1.18.0";
+  };
+  drv = { mkDerivation, base, bytestring, deepseq, lib, mtl, tasty
+, tasty-hunit, text
+}:
+mkDerivation {
+  pname = "parsec";
+  version = "3.1.18.0";
+  src = /nix/store/js4bapxi3l3jskjy1mm4fr21rllvymxh-source;
+  libraryHaskellDepends = [ base bytestring mtl text ];
+  testHaskellDepends = [ base deepseq mtl tasty tasty-hunit ];
+  homepage = "https://github.com/haskell/parsec";
+  description = "Monadic parser combinators";
+  license = lib.licenses.bsd2;
+}
+;
+}
+;
+  statistics = {
+  meta = {
+    sha256 = "141s4yaci3jxaq8pgfs6mqiqc1krlgibr0ld0hh56d6c585jiyar";
+    ver = "0.16.2.1";
+  };
+  drv = { mkDerivation, aeson, async, base, binary, data-default-class
+, deepseq, dense-linear-algebra, erf, ieee754, lib, math-functions
+, mwc-random, parallel, primitive, QuickCheck, random, tasty
+, tasty-expected-failure, tasty-hunit, tasty-quickcheck, vector
+, vector-algorithms, vector-binary-instances, vector-th-unbox
+}:
+mkDerivation {
+  pname = "statistics";
+  version = "0.16.2.1";
+  src = /nix/store/xpsrx7f07jjrs3pbrrqzq1641yg7xjx3-source;
+  libraryHaskellDepends = [
+    aeson async base binary data-default-class deepseq
+    dense-linear-algebra math-functions mwc-random parallel primitive
+    random vector vector-algorithms vector-binary-instances
+    vector-th-unbox
+  ];
+  testHaskellDepends = [
+    aeson base binary dense-linear-algebra erf ieee754 math-functions
+    primitive QuickCheck tasty tasty-expected-failure tasty-hunit
+    tasty-quickcheck vector vector-algorithms
+  ];
+  homepage = "https://github.com/haskell/statistics";
+  description = "A library of statistical types, data, and functions";
+  license = lib.licenses.bsd2;
+}
+;
+}
+;
   tasty = {
   meta = {
-    sha256 = "1jqrcmibqv03109qc6lhi2jnip4mxygcd0j4j0g1n0q0akcplica";
-    ver = "1.5.2";
+    sha256 = "1xjlmgsww34asjl9rcwbziw5l4qqbvi5l4b7qvzf4dc7hqkpq1rs";
+    ver = "1.5.3";
   };
   drv = { mkDerivation, ansi-terminal, base, containers, lib
 , optparse-applicative, stm, tagged, transformers, unix
 }:
 mkDerivation {
   pname = "tasty";
-  version = "1.5.2";
-  src = /nix/store/ly5d0sscd0dwlyr06nqhyscj3a99j8np-source;
+  version = "1.5.3";
+  src = /nix/store/9028fgac7afc6vw6is37lvq4p8gqpa7m-source;
   libraryHaskellDepends = [
     ansi-terminal base containers optparse-applicative stm tagged
     transformers unix

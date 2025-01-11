@@ -46,8 +46,8 @@
       ghc = "9.10.1";
       hedgehog = "1.5";
       incipit-base = "0.6.1.0";
-      parsec = "3.1.17.0";
-      tasty = "1.5.2";
+      parsec = "3.1.18.0";
+      tasty = "1.5.3";
       tasty-hedgehog = "1.4.0.2";
       template-haskell = "2.22.0.0";
     };
@@ -76,17 +76,41 @@
   };
   overrides = {
     latest = {
+      aeson = {
+        version = "2.2.3.0";
+        hash = "1a9a0z6ljbck5scwkk9r9p04y9avn9vja3n063lyqgn2v1vjb1sp";
+      };
       criterion = {
         version = "1.6.4.0";
         hash = "0c8rgqjjjhwyxcma35j4a5lqndqz8pyhxq1qnmbav4wrc0vi9gyh";
+      };
+      criterion-measurement = {
+        version = "0.2.3.0";
+        hash = "0759hlq6sh5rzmfdrb1hswpglh1m534zdp3hnyc5kfnyacnyyigw";
       };
       hedgehog = {
         version = "1.5";
         hash = "1hz8xrg5p6vplvcj8c7pgidqnwqjmqahs9dla50nqpbcbdh932ll";
       };
+      microstache = {
+        version = "1.0.3";
+        hash = "0qcld6ns7sp0m664grdvjp0yzip2yajhqiq1r6nkaicgq2v6dxjr";
+      };
+      network-uri = {
+        version = "2.6.4.2";
+        hash = "0zj83viziy80f7nybpmc1hki8wrd8pzps31fxns9vxhc1p7l9chj";
+      };
+      parsec = {
+        version = "3.1.18.0";
+        hash = "089j939xxi6w6a2ggr40c4s2kdbwkzap2mnhvimmf45hg865h48n";
+      };
+      statistics = {
+        version = "0.16.2.1";
+        hash = "141s4yaci3jxaq8pgfs6mqiqc1krlgibr0ld0hh56d6c585jiyar";
+      };
       tasty = {
-        version = "1.5.2";
-        hash = "1jqrcmibqv03109qc6lhi2jnip4mxygcd0j4j0g1n0q0akcplica";
+        version = "1.5.3";
+        hash = "1xjlmgsww34asjl9rcwbziw5l4qqbvi5l4b7qvzf4dc7hqkpq1rs";
       };
       tasty-hedgehog = {
         version = "1.4.0.2";
