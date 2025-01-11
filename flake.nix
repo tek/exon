@@ -2,7 +2,7 @@
   description = "Customizable quasiquote interpolation";
 
   inputs.hix.url = "git+https://git.tryp.io/tek/hix";
-  inputs.hix.inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+  inputs.hix.inputs.nixpkgs.url = "github:nixos/nixpkgs/8c4dc69b9732f6bbe826b5fbb32184987520ff26";
 
   outputs = {hix, ...}: hix.lib.pro ({config, lib, ...}: let
 

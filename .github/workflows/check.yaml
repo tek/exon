@@ -19,4 +19,7 @@ jobs:
         with:
           name: tek
           signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+      - run: |
+          nix flake lock
+          cat flake.lock
       - run: nix flake check
