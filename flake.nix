@@ -5,7 +5,6 @@
 
   outputs = {hix, ...}: hix.lib.pro ({config, lib, ...}: {
     ghcVersions = ["ghc92" "ghc94" "ghc96" "ghc98" "ghc910"];
-    compat.versions = ["ghc94" "ghc96"];
     hackage.versionFile = "ops/version.nix";
     gen-overrides.enable = true;
 
