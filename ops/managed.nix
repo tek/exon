@@ -45,7 +45,7 @@
       criterion = "1.6.4.0";
       ghc = "9.12.1";
       hedgehog = "1.5";
-      incipit-base = "0.6.1.0";
+      incipit-base = "0.6.1.1";
       parsec = "3.1.18.0";
       tasty = "1.5.3";
       tasty-hedgehog = "1.4.0.2";
@@ -193,8 +193,8 @@
         hash = "0wdg17kicnp6qbgynha216vihx7nnsglvhn5c089dqpa14hg35zw";
       };
       incipit-base = {
-        version = "0.6.1.0";
-        hash = "0iyyvxpyyybn5ygr875pav6g5hbs00wa9jbr7qslszqpkfpy5x33";
+        version = "0.6.1.1";
+        hash = "08ybv7j94yyznrxnrh744bi3i1a00sz8bf5ddfs9vfgfhhkrg8fn";
       };
       indexed-traversable = {
         version = "0.1.4";

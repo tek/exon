@@ -35,6 +35,8 @@ ghc96 = {
 };
 ghc98 = {
 };
+hix-build-tools = {
+};
 hls = {
 };
 latest = {
@@ -761,16 +763,16 @@ mkDerivation {
 ;
   incipit-base = {
   meta = {
-    sha256 = "0iyyvxpyyybn5ygr875pav6g5hbs00wa9jbr7qslszqpkfpy5x33";
-    ver = "0.6.1.0";
+    sha256 = "08ybv7j94yyznrxnrh744bi3i1a00sz8bf5ddfs9vfgfhhkrg8fn";
+    ver = "0.6.1.1";
   };
   drv = { mkDerivation, base, bytestring, containers, data-default, lib
 , stm, text
 }:
 mkDerivation {
   pname = "incipit-base";
-  version = "0.6.1.0";
-  src = /nix/store/2k1isywgqm3pcbzdhwyp97n9250g044k-source;
+  version = "0.6.1.1";
+  src = /nix/store/z2v8hbdbz6fvdnnqfdr713164wc7n3jj-source;
   libraryHaskellDepends = [
     base bytestring containers data-default stm text
   ];
