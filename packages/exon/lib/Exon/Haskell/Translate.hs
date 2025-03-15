@@ -123,7 +123,9 @@ toExp d (Expr.NegApp _ e _)
   = TH.AppE (TH.VarE 'negate) (toExp d . unLoc $ e)
 
 -- NOTE: for lambda, there is only one match
-#if MIN_VERSION_ghc(9,10,0)
+#if MIN_VERSION_ghc(9,12,0)
+toExp d (Expr.HsLam _ _ (Expr.MG _ (unLoc -> (map unLoc -> [Expr.Match _ _ (map unLoc . unLoc -> ps) (Expr.GRHSs _ [unLoc -> Expr.GRHS _ _ (unLoc -> e)] _)]))))
+#elif MIN_VERSION_ghc(9,10,0)
 toExp d (Expr.HsLam _ _ (Expr.MG _ (unLoc -> (map unLoc -> [Expr.Match _ _ (map unLoc -> ps) (Expr.GRHSs _ [unLoc -> Expr.GRHS _ _ (unLoc -> e)] _)]))))
 #elif MIN_VERSION_ghc(9,6,0)
 toExp d (Expr.HsLam _ (Expr.MG _ (unLoc -> (map unLoc -> [Expr.Match _ _ (map unLoc -> ps) (Expr.GRHSs _ [unLoc -> Expr.GRHS _ _ (unLoc -> e)] _)]))))
@@ -194,7 +196,11 @@ toExp _ (Expr.HsProjection _ locatedFields) =
     extractFieldLabel (DotFieldOcc _ locatedStr) = field_label <$> locatedStr
     extractFieldLabel _ = error "Don't know how to handle XHsFieldLabel constructor..."
   in
+#if MIN_VERSION_ghc(9, 12, 0)
+    TH.ProjectionE (NonEmpty.map (unpackFS . unLoc . extractFieldLabel) locatedFields)
+#else
     TH.ProjectionE (NonEmpty.map (unpackFS . unLoc . extractFieldLabel . unLoc) locatedFields)
+#endif
 
 toExp d (Expr.HsGetField _ expr locatedField) =
   let
@@ -232,7 +238,9 @@ toExp d (Expr.HsGetField _ expr locatedField) =
     TH.GetFieldE (toExp d (unLoc expr)) (unpackFS . unLoc . extractFieldLabel . unLoc $ locatedField)
 #endif
 
-#if MIN_VERSION_ghc(9, 6, 0)
+#if MIN_VERSION_ghc(9, 12, 0)
+toExp _ (Expr.HsOverLabel _ fastString) = TH.LabelE (unpackFS fastString)
+#elif MIN_VERSION_ghc(9, 6, 0)
 toExp _ (Expr.HsOverLabel _ _ fastString) = TH.LabelE (unpackFS fastString)
 #else
 toExp _ (Expr.HsOverLabel _ fastString) = TH.LabelE (unpackFS fastString)

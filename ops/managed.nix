@@ -3,7 +3,7 @@
     exon = {
       base = {
         lower = "4.16.4.0";
-        upper = "4.21";
+        upper = "4.22";
       };
       criterion = {
         lower = "1.5.11.0";
@@ -11,7 +11,7 @@
       };
       ghc = {
         lower = "9.2.8";
-        upper = "9.11";
+        upper = "9.13";
       };
       hedgehog = {
         lower = "1.1";
@@ -35,21 +35,21 @@
       };
       template-haskell = {
         lower = "2.18.0.0";
-        upper = "2.23";
+        upper = "2.24";
       };
     };
   };
   versions = {
     latest = {
-      base = "4.20.0.0";
+      base = "4.21.0.0";
       criterion = "1.6.4.0";
-      ghc = "9.10.1";
+      ghc = "9.12.1";
       hedgehog = "1.5";
       incipit-base = "0.6.1.0";
       parsec = "3.1.18.0";
       tasty = "1.5.3";
       tasty-hedgehog = "1.4.0.2";
-      template-haskell = "2.22.0.0";
+      template-haskell = "2.23.0.0";
     };
     lower = {
       base = "4.16.4.0";
@@ -104,6 +104,10 @@
         version = "1.1.1";
         hash = "0v4j6bn73dm3xnpkfdx0dg7q4vypl4k31pg35vycfp8w00jv6b6q";
       };
+      async = {
+        version = "2.2.5";
+        hash = "1y1cgzi8fy8qhyd69q7avhx46sz5h5ljggh81azr67rqrdhdyf4a";
+      };
       attoparsec = {
         version = "0.14.4";
         hash = "0y9dph5axyvr1bfcvmz6qh50bjcp50m2ljra14960anc6g74a3c8";
@@ -144,6 +148,14 @@
         version = "5.0.9";
         hash = "0j7xm3vdd7icc6z557kph79g3z0c2xfi67lm3yzky0nhxgmcjckd";
       };
+      concurrent-output = {
+        version = "1.10.21";
+        hash = "1w87rrf337s8wc4z3dkh2mk990003jsk18ry5yawv4465k4yvamw";
+      };
+      constraints = {
+        version = "0.14.2";
+        hash = "1nnlw9q7z2yvdaadyanvxqqwzb67kmk0n59xnc2pz0fhvqmq3yh8";
+      };
       contravariant = {
         version = "1.5.5";
         hash = "0931bvc2iv3l29phnq8qsmmkicgz4yfk7c6hrqavs8d5c5j4zpj8";
@@ -167,6 +179,10 @@
       generically = {
         version = "0.1.1";
         hash = "1658df4jbhzgpsqqgxp71bgry7ak5q0bjlrw6x551g54vvcydbxz";
+      };
+      hashable = {
+        version = "1.5.0.0";
+        hash = "1hh22f23apsjrn3h36vzw9871jqw6y4r4di1351qs5mqqabhd011";
       };
       hedgehog = {
         version = "1.5";
@@ -199,6 +215,10 @@
       js-chart = {
         version = "2.9.4.1";
         hash = "06gp1z4aa1bcn954cingac25vv8gc22km28d0glcp14a1bmxjany";
+      };
+      lifted-async = {
+        version = "0.10.2.7";
+        hash = "0cgzs8sfr3l7ah5nnscpp50v5mmvc4hqf02zdi4h344dbbha10fy";
       };
       math-functions = {
         version = "0.3.4.4";

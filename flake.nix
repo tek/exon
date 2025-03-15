@@ -4,7 +4,7 @@
   inputs.hix.url = "git+https://git.tryp.io/tek/hix";
 
   outputs = {hix, ...}: hix.lib.pro ({config, lib, ...}: {
-    ghcVersions = ["ghc92" "ghc94" "ghc96" "ghc98" "ghc910"];
+    ghcVersions = ["ghc92" "ghc94" "ghc96" "ghc98" "ghc910" "ghc912"];
     hackage.versionFile = "ops/version.nix";
     gen-overrides.enable = true;
 
@@ -62,9 +62,16 @@
     managed = {
       enable = true;
       lower.enable = true;
-      latest.compiler = "ghc910";
-      latest.envs.solverOverrides = {jailbreak, ...}: {
+      latest.compiler = "ghc912";
+      latest.envs.solverOverrides = {hackage, jailbreak, notest, ...}: {
+        boring = jailbreak;
+        generic-deriving = jailbreak;
+        happy = notest;
+        hashable = jailbreak;
+        hedgehog = jailbreak;
         incipit-base = jailbreak;
+        lifted-base = notest;
+        th-abstraction = hackage "0.7.1.0" "09wr7x9bpzyrys8id1mavk9wvqhh2smxdkfwi82kpcycm7a1z7sx";
       };
     };
 
@@ -72,12 +79,27 @@
       exon = bench;
     };
 
-    envs.latest.overrides = {jailbreak, ...}: {
+    envs.latest.overrides = {hackage, jailbreak, notest, ...}: {
       optparse-applicative = jailbreak;
+      boring = jailbreak;
+      generic-deriving = jailbreak;
+      happy = notest;
+      lifted-base = notest;
     };
 
     envs.ghc910.overrides = {jailbreak, ...}: {
       incipit-base = jailbreak;
+    };
+
+    envs.ghc912.overrides = {hackage, jailbreak, notest, ...}: {
+      boring = jailbreak;
+      generic-deriving = jailbreak;
+      happy = notest;
+      hashable = jailbreak;
+      hedgehog = jailbreak;
+      incipit-base = jailbreak;
+      lifted-base = notest;
+      th-abstraction = hackage "0.7.1.0" "09wr7x9bpzyrys8id1mavk9wvqhh2smxdkfwi82kpcycm7a1z7sx";
     };
 
   });

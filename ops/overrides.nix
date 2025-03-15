@@ -3,6 +3,30 @@ dev = {
 };
 ghc910 = {
 };
+ghc912 = {
+  th-abstraction = {
+  meta = {
+    sha256 = "09wr7x9bpzyrys8id1mavk9wvqhh2smxdkfwi82kpcycm7a1z7sx";
+    ver = "0.7.1.0";
+  };
+  drv = { mkDerivation, base, containers, ghc-prim, lib, template-haskell
+}:
+mkDerivation {
+  pname = "th-abstraction";
+  version = "0.7.1.0";
+  src = /nix/store/d2zwzbkknm40lfy26dkpyjspg8l99lv1-source;
+  libraryHaskellDepends = [
+    base containers ghc-prim template-haskell
+  ];
+  testHaskellDepends = [ base containers template-haskell ];
+  homepage = "https://github.com/glguy/th-abstraction";
+  description = "Nicer interface for reified information about data types";
+  license = lib.licenses.isc;
+}
+;
+}
+;
+};
 ghc92 = {
 };
 ghc94 = {
@@ -176,6 +200,31 @@ mkDerivation {
   src = /nix/store/zxndaprg8rmkrgyxsbwsc3bq5s3hqrbw-source;
   libraryHaskellDepends = [ base ];
   description = "swap and assoc: Symmetric and Semigroupy Bifunctors";
+  license = lib.licenses.bsd3;
+}
+;
+}
+;
+  async = {
+  meta = {
+    sha256 = "1y1cgzi8fy8qhyd69q7avhx46sz5h5ljggh81azr67rqrdhdyf4a";
+    ver = "2.2.5";
+  };
+  drv = { mkDerivation, base, hashable, HUnit, lib, stm, test-framework
+, test-framework-hunit
+}:
+mkDerivation {
+  pname = "async";
+  version = "2.2.5";
+  src = /nix/store/ag7vm86d1y1aa0qrama7jf2hmhkga614-source;
+  isLibrary = true;
+  isExecutable = true;
+  libraryHaskellDepends = [ base hashable stm ];
+  testHaskellDepends = [
+    base HUnit stm test-framework test-framework-hunit
+  ];
+  homepage = "https://github.com/simonmar/async";
+  description = "Run IO operations asynchronously and wait for their results";
   license = lib.licenses.bsd3;
 }
 ;
@@ -430,6 +479,52 @@ mkDerivation {
 ;
 }
 ;
+  concurrent-output = {
+  meta = {
+    sha256 = "1w87rrf337s8wc4z3dkh2mk990003jsk18ry5yawv4465k4yvamw";
+    ver = "1.10.21";
+  };
+  drv = { mkDerivation, ansi-terminal, async, base, directory, exceptions
+, lib, process, stm, terminal-size, text, transformers, unix
+}:
+mkDerivation {
+  pname = "concurrent-output";
+  version = "1.10.21";
+  src = /nix/store/kwz3gmjbrzcw4iccsx2d0cyn85klblqy-source;
+  libraryHaskellDepends = [
+    ansi-terminal async base directory exceptions process stm
+    terminal-size text transformers unix
+  ];
+  description = "Ungarble output from several threads or commands";
+  license = lib.licenses.bsd2;
+}
+;
+}
+;
+  constraints = {
+  meta = {
+    sha256 = "1nnlw9q7z2yvdaadyanvxqqwzb67kmk0n59xnc2pz0fhvqmq3yh8";
+    ver = "0.14.2";
+  };
+  drv = { mkDerivation, base, binary, boring, deepseq, ghc-prim, hashable
+, hspec, hspec-discover, lib, mtl, transformers
+}:
+mkDerivation {
+  pname = "constraints";
+  version = "0.14.2";
+  src = /nix/store/m4vmqr78zay3g1if0shqy6h0r35pj389-source;
+  libraryHaskellDepends = [
+    base binary boring deepseq ghc-prim hashable mtl transformers
+  ];
+  testHaskellDepends = [ base hspec ];
+  testToolDepends = [ hspec-discover ];
+  homepage = "http://github.com/ekmett/constraints/";
+  description = "Constraint manipulation";
+  license = lib.licenses.bsd2;
+}
+;
+}
+;
   contravariant = {
   meta = {
     sha256 = "0931bvc2iv3l29phnq8qsmmkicgz4yfk7c6hrqavs8d5c5j4zpj8";
@@ -569,6 +664,35 @@ mkDerivation {
   src = /nix/store/gssaqln6inz5bjna79kw4qn39aj1lb6l-source;
   libraryHaskellDepends = [ base ];
   description = "Generically newtype to use with DerivingVia";
+  license = lib.licenses.bsd3;
+}
+;
+}
+;
+  hashable = {
+  meta = {
+    sha256 = "1hh22f23apsjrn3h36vzw9871jqw6y4r4di1351qs5mqqabhd011";
+    ver = "1.5.0.0";
+  };
+  drv = { mkDerivation, base, bytestring, containers, deepseq, filepath
+, ghc-bignum, ghc-prim, HUnit, lib, os-string, primitive
+, QuickCheck, random, tasty, tasty-hunit, tasty-quickcheck, text
+, unix
+}:
+mkDerivation {
+  pname = "hashable";
+  version = "1.5.0.0";
+  src = /nix/store/m6xdj43mvg6gbxv7xz0qpiw7207hqawd-source;
+  libraryHaskellDepends = [
+    base bytestring containers deepseq filepath ghc-bignum ghc-prim
+    os-string text
+  ];
+  testHaskellDepends = [
+    base bytestring filepath ghc-prim HUnit os-string primitive
+    QuickCheck random tasty tasty-hunit tasty-quickcheck text unix
+  ];
+  homepage = "http://github.com/haskell-unordered-containers/hashable";
+  description = "A class for types that can be converted to a hash value";
   license = lib.licenses.bsd3;
 }
 ;
@@ -767,6 +891,34 @@ mkDerivation {
   homepage = "https://github.com/jonascarpay/js-chart#readme";
   description = "Obtain minified chart.js code";
   license = lib.licenses.mit;
+}
+;
+}
+;
+  lifted-async = {
+  meta = {
+    sha256 = "0cgzs8sfr3l7ah5nnscpp50v5mmvc4hqf02zdi4h344dbbha10fy";
+    ver = "0.10.2.7";
+  };
+  drv = { mkDerivation, async, base, constraints, deepseq, HUnit, lib
+, lifted-base, monad-control, mtl, tasty, tasty-bench
+, tasty-expected-failure, tasty-hunit, tasty-th, transformers-base
+}:
+mkDerivation {
+  pname = "lifted-async";
+  version = "0.10.2.7";
+  src = /nix/store/7fr6j14aj5sb57yg621rc9vysc7d1qcz-source;
+  libraryHaskellDepends = [
+    async base constraints lifted-base monad-control transformers-base
+  ];
+  testHaskellDepends = [
+    async base HUnit lifted-base monad-control mtl tasty
+    tasty-expected-failure tasty-hunit tasty-th
+  ];
+  benchmarkHaskellDepends = [ async base deepseq tasty-bench ];
+  homepage = "https://github.com/maoe/lifted-async";
+  description = "Run lifted IO operations asynchronously and wait for their results";
+  license = lib.licenses.bsd3;
 }
 ;
 }
