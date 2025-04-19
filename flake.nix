@@ -63,16 +63,6 @@
       enable = true;
       lower.enable = true;
       latest.compiler = "ghc912";
-      latest.envs.solverOverrides = {hackage, jailbreak, notest, ...}: {
-        boring = jailbreak;
-        generic-deriving = jailbreak;
-        happy = notest;
-        hashable = jailbreak;
-        hedgehog = jailbreak;
-        incipit-base = jailbreak;
-        lifted-base = notest;
-        th-abstraction = hackage "0.7.1.0" "09wr7x9bpzyrys8id1mavk9wvqhh2smxdkfwi82kpcycm7a1z7sx";
-      };
     };
 
     envs.dev.overrides = {bench, ...}: {
