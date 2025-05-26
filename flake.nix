@@ -12,6 +12,7 @@
       src = ./packages/exon;
 
       cabal = {
+        language = "GHC2021";
         license = "BSD-2-Clause-Patent";
         license-file = "LICENSE";
         author = "Torsten Schmits";
@@ -65,6 +66,11 @@
       latest.compiler = "ghc912";
     };
 
+    hackage.repos."hackage.haskell.org" = {
+      user = "tek";
+      password = "";
+    };
+
     envs.dev.overrides = {bench, ...}: {
       exon = bench;
     };
@@ -91,6 +97,10 @@
       lifted-base = notest;
       th-abstraction = hackage "0.7.1.0" "09wr7x9bpzyrys8id1mavk9wvqhh2smxdkfwi82kpcycm7a1z7sx";
     };
+
+    ui.experimental.managed-maint = true;
+
+    internal.hixCli.dev = true;
 
   });
 }
