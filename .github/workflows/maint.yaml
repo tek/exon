@@ -1,0 +1,55 @@
+name: Maintain release bounds
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: '55 11 * * 1,3,5'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  LANG: en_US.UTF-8
+
+jobs:
+  maint-run:
+    name: Update release bounds
+    runs-on: ubuntu-latest
+    outputs:
+      results: ${{ steps.maint.outputs.maint }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.workflow_token }}
+    - uses: cachix/install-nix-action@v31
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: cachix/cachix-action@v15
+      with:
+        name: tek
+        signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+    - id: maint
+      name: Run maint
+      run: nix run .#maint -- --pr --fetch --output=json --target=github
+
+  maint-pr:
+    name: Create PR for release bounds updates
+    runs-on: ubuntu-latest
+    needs: maint-run
+    strategy:
+      matrix:
+        package: ${{ fromJSON(needs.maint-run.outputs.results).changes }}
+    steps:
+    - uses: actions/checkout@v4
+    - id: pr
+      name: Create PR
+      run: >
+        gh pr create
+        --base "${{ matrix.package.baseBranch }}"
+        --body "${{ matrix.package.message }}"
+        --title "revision for ${{ matrix.package.package }}"
+        --head "${{ matrix.package.branch }}"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
