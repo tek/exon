@@ -1,7 +1,7 @@
 {
   description = "Customizable quasiquote interpolation";
 
-  inputs.hix.url = "git+https://git.tryp.io/tek/hix";
+  inputs.hix.url = "git+https://git.tryp.io/tek/hix?rev=e5b8b98097be9eb161f4d832ac8edf8b1d353cc5";
 
   outputs = {hix, ...}: hix.lib.pro ({config, lib, ...}: {
     ghcVersions = ["ghc92" "ghc94" "ghc96" "ghc98" "ghc910" "ghc912"];
