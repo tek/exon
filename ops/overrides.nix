@@ -568,9 +568,9 @@ mkDerivation {
 ;
   criterion = {
   meta = {
-    sha256 = "0c8rgqjjjhwyxcma35j4a5lqndqz8pyhxq1qnmbav4wrc0vi9gyh";
+    sha256 = "1dxm8265yr60l47lbwgjb1yj3khwn3m666k5rdhhhsdydl7ydggb";
     url = "https://hackage.haskell.org";
-    ver = "1.6.4.0";
+    ver = "1.6.4.1";
   };
   drv = { mkDerivation, aeson, base, base-compat, base-compat-batteries
 , binary, binary-orphans, bytestring, cassava, code-page
@@ -583,8 +583,8 @@ mkDerivation {
 }:
 mkDerivation {
   pname = "criterion";
-  version = "1.6.4.0";
-  src = /nix/store/l60vjvh174lbyp98af9mbszks4v9prbm-source;
+  version = "1.6.4.1";
+  src = /nix/store/pv1fs3pkch0ndrhnqs1a8hfkdg6wc3ay-source;
   isLibrary = true;
   isExecutable = true;
   enableSeparateDataOutput = true;
@@ -604,7 +604,7 @@ mkDerivation {
     directory HUnit QuickCheck statistics tasty tasty-hunit
     tasty-quickcheck vector
   ];
-  homepage = "http://www.serpentine.com/criterion";
+  homepage = "https://github.com/haskell/criterion";
   description = "Robust, reliable performance measurement and analysis";
   license = lib.licenses.bsd3;
   mainProgram = "criterion-report";
@@ -775,9 +775,9 @@ mkDerivation {
 ;
   hedgehog = {
   meta = {
-    sha256 = "1hz8xrg5p6vplvcj8c7pgidqnwqjmqahs9dla50nqpbcbdh932ll";
+    sha256 = "1z3lry3pbni71hlvm2qkjjnhw3spgxh8pm1slhp55aszfmk4zsp6";
     url = "https://hackage.haskell.org";
-    ver = "1.5";
+    ver = "1.6";
   };
   drv = { mkDerivation, ansi-terminal, async, barbies, base, bytestring
 , concurrent-output, containers, deepseq, directory, erf
@@ -788,8 +788,8 @@ mkDerivation {
 }:
 mkDerivation {
   pname = "hedgehog";
-  version = "1.5";
-  src = /nix/store/asphc2qzd1cykd892r5fnhflbd8cwana-source;
+  version = "1.6";
+  src = /nix/store/myr3rqcqplhg4cw16h6pxddczgqy5gj6-source;
   libraryHaskellDepends = [
     ansi-terminal async barbies base bytestring concurrent-output
     containers deepseq directory erf exceptions lifted-async mmorph

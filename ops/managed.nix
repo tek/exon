@@ -19,7 +19,7 @@
       };
       hedgehog = {
         lower = "1.1";
-        upper = "1.6";
+        upper = "1.7";
       };
       incipit-base = {
         lower = "0.5.0.0";
@@ -46,9 +46,9 @@
   versions = {
     latest = {
       base = "4.21.0.0";
-      criterion = "1.6.4.0";
+      criterion = "1.6.4.1";
       ghc = "9.12.1";
-      hedgehog = "1.5";
+      hedgehog = "1.6";
       incipit-base = "0.6.1.1";
       parsec = "3.1.18.0";
       tasty = "1.5.3";
@@ -186,8 +186,8 @@
         repo = "hackage.haskell.org";
       };
       criterion = {
-        version = "1.6.4.0";
-        hash = "0c8rgqjjjhwyxcma35j4a5lqndqz8pyhxq1qnmbav4wrc0vi9gyh";
+        version = "1.6.4.1";
+        hash = "1dxm8265yr60l47lbwgjb1yj3khwn3m666k5rdhhhsdydl7ydggb";
         repo = "hackage.haskell.org";
       };
       criterion-measurement = {
@@ -226,8 +226,8 @@
         repo = "hackage.haskell.org";
       };
       hedgehog = {
-        version = "1.5";
-        hash = "1hz8xrg5p6vplvcj8c7pgidqnwqjmqahs9dla50nqpbcbdh932ll";
+        version = "1.6";
+        hash = "1z3lry3pbni71hlvm2qkjjnhw3spgxh8pm1slhp55aszfmk4zsp6";
         repo = "hackage.haskell.org";
       };
       hsc2hs = {
