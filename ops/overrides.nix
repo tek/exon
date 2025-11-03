@@ -35,12 +35,15 @@ ghc96 = {
 };
 ghc98 = {
 };
+hix-build-tools = {
+};
 hls = {
 };
 latest = {
   Glob = {
   meta = {
     sha256 = "1v74ynmlz1qi8m5l7jkbyhjfmrjhklrzhjwh2lpfhrr285n1008l";
+    url = "https://hackage.haskell.org";
     ver = "0.10.2";
   };
   drv = { mkDerivation, base, containers, directory, dlist, filepath, HUnit
@@ -70,6 +73,7 @@ mkDerivation {
   OneTuple = {
   meta = {
     sha256 = "1940dmd9rhr5fvlwidqm0bcm1015kgbr820lvfdr993rcy1mmxdg";
+    url = "https://hackage.haskell.org";
     ver = "0.4.2";
   };
   drv = { mkDerivation, base, ghc-prim, hashable, lib, template-haskell }:
@@ -88,6 +92,7 @@ mkDerivation {
   Only = {
   meta = {
     sha256 = "1a8a5sapa8jpciglsv98snx2khkn9hplh8rn41p47j9796gxb5jw";
+    url = "https://hackage.haskell.org";
     ver = "0.1";
   };
   drv = { mkDerivation, base, deepseq, lib }:
@@ -105,6 +110,7 @@ mkDerivation {
   QuickCheck = {
   meta = {
     sha256 = "1dcqv7z83wrbv7wvm7hdvjapfyzi9g4wjwsh9x6zh9ff622z53lb";
+    url = "https://hackage.haskell.org";
     ver = "2.15.0.1";
   };
   drv = { mkDerivation, base, containers, deepseq, lib, process, random
@@ -129,6 +135,7 @@ mkDerivation {
   StateVar = {
   meta = {
     sha256 = "1grkv7sinn3wlk0xgwn4in5xxqmssrrfhp2hjxy9imhh8li40grf";
+    url = "https://hackage.haskell.org";
     ver = "1.2.2";
   };
   drv = { mkDerivation, base, lib, stm, transformers }:
@@ -147,6 +154,7 @@ mkDerivation {
   aeson = {
   meta = {
     sha256 = "1a9a0z6ljbck5scwkk9r9p04y9avn9vja3n063lyqgn2v1vjb1sp";
+    url = "https://hackage.haskell.org";
     ver = "2.2.3.0";
   };
   drv = { mkDerivation, base, base-compat, base-orphans, base16-bytestring
@@ -191,6 +199,7 @@ mkDerivation {
   assoc = {
   meta = {
     sha256 = "0v4j6bn73dm3xnpkfdx0dg7q4vypl4k31pg35vycfp8w00jv6b6q";
+    url = "https://hackage.haskell.org";
     ver = "1.1.1";
   };
   drv = { mkDerivation, base, lib }:
@@ -208,6 +217,7 @@ mkDerivation {
   async = {
   meta = {
     sha256 = "1y1cgzi8fy8qhyd69q7avhx46sz5h5ljggh81azr67rqrdhdyf4a";
+    url = "https://hackage.haskell.org";
     ver = "2.2.5";
   };
   drv = { mkDerivation, base, hashable, HUnit, lib, stm, test-framework
@@ -233,6 +243,7 @@ mkDerivation {
   attoparsec = {
   meta = {
     sha256 = "0y9dph5axyvr1bfcvmz6qh50bjcp50m2ljra14960anc6g74a3c8";
+    url = "https://hackage.haskell.org";
     ver = "0.14.4";
   };
   drv = { mkDerivation, array, base, bytestring, case-insensitive
@@ -269,6 +280,7 @@ mkDerivation {
   base-compat = {
   meta = {
     sha256 = "191rfsma0ig8gc05qawwcc418qimdsjmxkgn7gvcx6wwp0297h3b";
+    url = "https://hackage.haskell.org";
     ver = "0.14.1";
   };
   drv = { mkDerivation, base, ghc-prim, lib, unix }:
@@ -286,6 +298,7 @@ mkDerivation {
   base-compat-batteries = {
   meta = {
     sha256 = "0racz6cnw0bngwpwhyfhm7q7l492zs0f07wq6wvbzlkfac7lfd8y";
+    url = "https://hackage.haskell.org";
     ver = "0.14.1";
   };
   drv = { mkDerivation, base, base-compat, ghc-prim, hspec, hspec-discover
@@ -307,6 +320,7 @@ mkDerivation {
   bifunctors = {
   meta = {
     sha256 = "1g0z6q5z04zgp7kaf917nrj2iiz1lsqh8ji5ny5ly534zr9zya2m";
+    url = "https://hackage.haskell.org";
     ver = "5.6.2";
   };
   drv = { mkDerivation, assoc, base, comonad, containers, hspec
@@ -336,6 +350,7 @@ mkDerivation {
   binary-orphans = {
   meta = {
     sha256 = "0yv6h7zj61s04myidbqlq44vlcar63gshx6n1mhl180ffaij38yf";
+    url = "https://hackage.haskell.org";
     ver = "1.0.5";
   };
   drv = { mkDerivation, base, binary, lib, OneTuple, QuickCheck
@@ -359,6 +374,7 @@ mkDerivation {
   bitvec = {
   meta = {
     sha256 = "1ms8sy3dc2yjkxy4m5nam2wyv9rdni8npm4zx07j7k8mn3gw763a";
+    url = "https://hackage.haskell.org";
     ver = "1.1.5.0";
   };
   drv = { mkDerivation, base, bytestring, containers, deepseq, ghc-bignum
@@ -389,6 +405,7 @@ mkDerivation {
   cassava = {
   meta = {
     sha256 = "0zhzl8ffnhizdxfc0lv64qliyqk4s84qqmklq2g2hg542n2v2drp";
+    url = "https://hackage.haskell.org";
     ver = "0.5.3.2";
   };
   drv = { mkDerivation, array, attoparsec, base, bytestring, containers
@@ -421,6 +438,7 @@ mkDerivation {
   character-ps = {
   meta = {
     sha256 = "13yvm3ifpk6kfqba49r1xz0xyxcn0jw7xdkkblzsb5v0nf64g4dx";
+    url = "https://hackage.haskell.org";
     ver = "0.1";
   };
   drv = { mkDerivation, base, lib }:
@@ -440,6 +458,7 @@ mkDerivation {
   code-page = {
   meta = {
     sha256 = "1g6adshrqhn21b61vxhjzjzxvw7m1ildrq4jaj02wmlg6p6yvcwn";
+    url = "https://hackage.haskell.org";
     ver = "0.2.1";
   };
   drv = { mkDerivation, base, lib }:
@@ -459,6 +478,7 @@ mkDerivation {
   comonad = {
   meta = {
     sha256 = "0j7xm3vdd7icc6z557kph79g3z0c2xfi67lm3yzky0nhxgmcjckd";
+    url = "https://hackage.haskell.org";
     ver = "5.0.9";
   };
   drv = { mkDerivation, base, containers, distributive, indexed-traversable
@@ -482,6 +502,7 @@ mkDerivation {
   concurrent-output = {
   meta = {
     sha256 = "1w87rrf337s8wc4z3dkh2mk990003jsk18ry5yawv4465k4yvamw";
+    url = "https://hackage.haskell.org";
     ver = "1.10.21";
   };
   drv = { mkDerivation, ansi-terminal, async, base, directory, exceptions
@@ -504,6 +525,7 @@ mkDerivation {
   constraints = {
   meta = {
     sha256 = "1nnlw9q7z2yvdaadyanvxqqwzb67kmk0n59xnc2pz0fhvqmq3yh8";
+    url = "https://hackage.haskell.org";
     ver = "0.14.2";
   };
   drv = { mkDerivation, base, binary, boring, deepseq, ghc-prim, hashable
@@ -528,6 +550,7 @@ mkDerivation {
   contravariant = {
   meta = {
     sha256 = "0931bvc2iv3l29phnq8qsmmkicgz4yfk7c6hrqavs8d5c5j4zpj8";
+    url = "https://hackage.haskell.org";
     ver = "1.5.5";
   };
   drv = { mkDerivation, base, lib, StateVar, transformers }:
@@ -545,8 +568,9 @@ mkDerivation {
 ;
   criterion = {
   meta = {
-    sha256 = "0c8rgqjjjhwyxcma35j4a5lqndqz8pyhxq1qnmbav4wrc0vi9gyh";
-    ver = "1.6.4.0";
+    sha256 = "1dxm8265yr60l47lbwgjb1yj3khwn3m666k5rdhhhsdydl7ydggb";
+    url = "https://hackage.haskell.org";
+    ver = "1.6.4.1";
   };
   drv = { mkDerivation, aeson, base, base-compat, base-compat-batteries
 , binary, binary-orphans, bytestring, cassava, code-page
@@ -559,8 +583,8 @@ mkDerivation {
 }:
 mkDerivation {
   pname = "criterion";
-  version = "1.6.4.0";
-  src = /nix/store/l60vjvh174lbyp98af9mbszks4v9prbm-source;
+  version = "1.6.4.1";
+  src = /nix/store/pv1fs3pkch0ndrhnqs1a8hfkdg6wc3ay-source;
   isLibrary = true;
   isExecutable = true;
   enableSeparateDataOutput = true;
@@ -580,7 +604,7 @@ mkDerivation {
     directory HUnit QuickCheck statistics tasty tasty-hunit
     tasty-quickcheck vector
   ];
-  homepage = "http://www.serpentine.com/criterion";
+  homepage = "https://github.com/haskell/criterion";
   description = "Robust, reliable performance measurement and analysis";
   license = lib.licenses.bsd3;
   mainProgram = "criterion-report";
@@ -591,6 +615,7 @@ mkDerivation {
   criterion-measurement = {
   meta = {
     sha256 = "0759hlq6sh5rzmfdrb1hswpglh1m534zdp3hnyc5kfnyacnyyigw";
+    url = "https://hackage.haskell.org";
     ver = "0.2.3.0";
   };
   drv = { mkDerivation, aeson, base, base-compat, binary, containers
@@ -613,6 +638,7 @@ mkDerivation {
   data-fix = {
   meta = {
     sha256 = "0x8r2r8gmdvsclaszg90zn7gla6s8r6salbvgfsp0rscdjzj01ry";
+    url = "https://hackage.haskell.org";
     ver = "0.3.4";
   };
   drv = { mkDerivation, base, deepseq, hashable, lib }:
@@ -631,6 +657,7 @@ mkDerivation {
   dense-linear-algebra = {
   meta = {
     sha256 = "1xyyixkj0pxy4lxsk08kpwff25g5cqskn1l3jv3spnjxr5q1zhxd";
+    url = "https://hackage.haskell.org";
     ver = "0.1.0.0";
   };
   drv = { mkDerivation, base, deepseq, hspec, lib, math-functions
@@ -655,6 +682,7 @@ mkDerivation {
   generically = {
   meta = {
     sha256 = "1658df4jbhzgpsqqgxp71bgry7ak5q0bjlrw6x551g54vvcydbxz";
+    url = "https://hackage.haskell.org";
     ver = "0.1.1";
   };
   drv = { mkDerivation, base, lib }:
@@ -672,6 +700,7 @@ mkDerivation {
   hashable = {
   meta = {
     sha256 = "1hh22f23apsjrn3h36vzw9871jqw6y4r4di1351qs5mqqabhd011";
+    url = "https://hackage.haskell.org";
     ver = "1.5.0.0";
   };
   drv = { mkDerivation, base, bytestring, containers, deepseq, filepath
@@ -700,8 +729,9 @@ mkDerivation {
 ;
   hedgehog = {
   meta = {
-    sha256 = "1hz8xrg5p6vplvcj8c7pgidqnwqjmqahs9dla50nqpbcbdh932ll";
-    ver = "1.5";
+    sha256 = "04cjnz4i1qs3v9bza8a3ry1czapwqgxazhywkjzq2rg1544gjmby";
+    url = "https://hackage.haskell.org";
+    ver = "1.7";
   };
   drv = { mkDerivation, ansi-terminal, async, barbies, base, bytestring
 , concurrent-output, containers, deepseq, directory, erf
@@ -712,8 +742,8 @@ mkDerivation {
 }:
 mkDerivation {
   pname = "hedgehog";
-  version = "1.5";
-  src = /nix/store/asphc2qzd1cykd892r5fnhflbd8cwana-source;
+  version = "1.7";
+  src = /nix/store/piimk6ymh2yg2m74npn5p2znh3wvard4-source;
   libraryHaskellDepends = [
     ansi-terminal async barbies base bytestring concurrent-output
     containers deepseq directory erf exceptions lifted-async mmorph
@@ -724,7 +754,7 @@ mkDerivation {
   testHaskellDepends = [
     base containers mmorph mtl pretty-show text transformers
   ];
-  homepage = "https://hedgehog.qa";
+  homepage = "http://github.com/hedgehogqa/haskell-hedgehog";
   description = "Release with confidence";
   license = lib.licenses.bsd3;
 }
@@ -734,6 +764,7 @@ mkDerivation {
   hsc2hs = {
   meta = {
     sha256 = "0wdg17kicnp6qbgynha216vihx7nnsglvhn5c089dqpa14hg35zw";
+    url = "https://hackage.haskell.org";
     ver = "0.68.10";
   };
   drv = { mkDerivation, base, containers, directory, filepath, HUnit, lib
@@ -761,16 +792,17 @@ mkDerivation {
 ;
   incipit-base = {
   meta = {
-    sha256 = "0iyyvxpyyybn5ygr875pav6g5hbs00wa9jbr7qslszqpkfpy5x33";
-    ver = "0.6.1.0";
+    sha256 = "08ybv7j94yyznrxnrh744bi3i1a00sz8bf5ddfs9vfgfhhkrg8fn";
+    url = "https://hackage.haskell.org";
+    ver = "0.6.1.1";
   };
   drv = { mkDerivation, base, bytestring, containers, data-default, lib
 , stm, text
 }:
 mkDerivation {
   pname = "incipit-base";
-  version = "0.6.1.0";
-  src = /nix/store/2k1isywgqm3pcbzdhwyp97n9250g044k-source;
+  version = "0.6.1.1";
+  src = /nix/store/z2v8hbdbz6fvdnnqfdr713164wc7n3jj-source;
   libraryHaskellDepends = [
     base bytestring containers data-default stm text
   ];
@@ -784,6 +816,7 @@ mkDerivation {
   indexed-traversable = {
   meta = {
     sha256 = "061xzz9m77rs6bk5vv2hd7givyq7ln0xffc6m1cxyyhyyr6lw3k0";
+    url = "https://hackage.haskell.org";
     ver = "0.1.4";
   };
   drv = { mkDerivation, array, base, containers, lib, transformers }:
@@ -801,6 +834,7 @@ mkDerivation {
   indexed-traversable-instances = {
   meta = {
     sha256 = "05vpkasz70yjf09hsmbw7nap70sr8p5b7hrsdbmij8k8xqf3qg8r";
+    url = "https://hackage.haskell.org";
     ver = "0.1.2";
   };
   drv = { mkDerivation, base, containers, indexed-traversable, lib
@@ -829,6 +863,7 @@ mkDerivation {
   integer-conversion = {
   meta = {
     sha256 = "0jrch63xc80fq6s14zwi5wcmbrj8zr7anl420sq98aglx3df9yr3";
+    url = "https://hackage.haskell.org";
     ver = "0.1.1";
   };
   drv = { mkDerivation, base, bytestring, lib, primitive, QuickCheck, tasty
@@ -853,6 +888,7 @@ mkDerivation {
   integer-logarithms = {
   meta = {
     sha256 = "0yyj0g5xkm1pjkkr4smf25lpzc936df0fyc4nsj4bx145ggspx3k";
+    url = "https://hackage.haskell.org";
     ver = "1.0.4";
   };
   drv = { mkDerivation, array, base, ghc-bignum, ghc-prim, lib, QuickCheck
@@ -878,6 +914,7 @@ mkDerivation {
   js-chart = {
   meta = {
     sha256 = "06gp1z4aa1bcn954cingac25vv8gc22km28d0glcp14a1bmxjany";
+    url = "https://hackage.haskell.org";
     ver = "2.9.4.1";
   };
   drv = { mkDerivation, base, lib }:
@@ -898,6 +935,7 @@ mkDerivation {
   lifted-async = {
   meta = {
     sha256 = "0cgzs8sfr3l7ah5nnscpp50v5mmvc4hqf02zdi4h344dbbha10fy";
+    url = "https://hackage.haskell.org";
     ver = "0.10.2.7";
   };
   drv = { mkDerivation, async, base, constraints, deepseq, HUnit, lib
@@ -926,6 +964,7 @@ mkDerivation {
   math-functions = {
   meta = {
     sha256 = "01mi15cb6wqlizg3vl7x1a543f3adppmffwq65y8033y69hccv6y";
+    url = "https://hackage.haskell.org";
     ver = "0.3.4.4";
   };
   drv = { mkDerivation, base, data-default-class, deepseq, erf, lib
@@ -956,6 +995,7 @@ mkDerivation {
   microstache = {
   meta = {
     sha256 = "0qcld6ns7sp0m664grdvjp0yzip2yajhqiq1r6nkaicgq2v6dxjr";
+    url = "https://hackage.haskell.org";
     ver = "1.0.3";
   };
   drv = { mkDerivation, aeson, base, base-orphans, bytestring, containers
@@ -984,6 +1024,7 @@ mkDerivation {
   mwc-random = {
   meta = {
     sha256 = "1b9y6vqzdybbx0qrdfpxxrhb79kq262s8fk5nvww10h12kdb7n4z";
+    url = "https://hackage.haskell.org";
     ver = "0.15.2.0";
   };
   drv = { mkDerivation, base, bytestring, doctest, lib, math-functions
@@ -1015,6 +1056,7 @@ mkDerivation {
   network-uri = {
   meta = {
     sha256 = "0zj83viziy80f7nybpmc1hki8wrd8pzps31fxns9vxhc1p7l9chj";
+    url = "https://hackage.haskell.org";
     ver = "2.6.4.2";
   };
   drv = { mkDerivation, base, criterion, deepseq, HUnit, lib, parsec
@@ -1042,6 +1084,7 @@ mkDerivation {
   parallel = {
   meta = {
     sha256 = "0j6k54y7mcc8lii99f4i696g67kfzpyma3l7aa9q97w8cj8xv24n";
+    url = "https://hackage.haskell.org";
     ver = "3.2.2.0";
   };
   drv = { mkDerivation, array, base, containers, deepseq, ghc-prim, lib }:
@@ -1059,6 +1102,7 @@ mkDerivation {
   parsec = {
   meta = {
     sha256 = "089j939xxi6w6a2ggr40c4s2kdbwkzap2mnhvimmf45hg865h48n";
+    url = "https://hackage.haskell.org";
     ver = "3.1.18.0";
   };
   drv = { mkDerivation, base, bytestring, deepseq, lib, mtl, tasty
@@ -1080,6 +1124,7 @@ mkDerivation {
   scientific = {
   meta = {
     sha256 = "155cbbcyaqyxl2ij7q4fwi07qw3qnhwh4a97ccvrrfpd5lpl22q9";
+    url = "https://hackage.haskell.org";
     ver = "0.3.8.0";
   };
   drv = { mkDerivation, base, binary, bytestring, containers, criterion
@@ -1110,6 +1155,7 @@ mkDerivation {
   semialign = {
   meta = {
     sha256 = "05h1ab484ghd2wzx4pdlsfwiy6rayy0lzwk9yda9il7fjwi9sj7n";
+    url = "https://hackage.haskell.org";
     ver = "1.3.1";
   };
   drv = { mkDerivation, base, containers, hashable, indexed-traversable
@@ -1135,6 +1181,7 @@ mkDerivation {
   semigroupoids = {
   meta = {
     sha256 = "10qd2y5f5m7jzrha1wfbwwybhhghdwkdmk9ajybdz8h88cz9ig2g";
+    url = "https://hackage.haskell.org";
     ver = "6.0.1";
   };
   drv = { mkDerivation, base, base-orphans, bifunctors, comonad, containers
@@ -1161,6 +1208,7 @@ mkDerivation {
   statistics = {
   meta = {
     sha256 = "141s4yaci3jxaq8pgfs6mqiqc1krlgibr0ld0hh56d6c585jiyar";
+    url = "https://hackage.haskell.org";
     ver = "0.16.2.1";
   };
   drv = { mkDerivation, aeson, async, base, binary, data-default-class
@@ -1194,6 +1242,7 @@ mkDerivation {
   strict = {
   meta = {
     sha256 = "06y3ab0nsdbrkrxzc7hgy6cwxl72wcgqn52bs1vvi5lkp64v559y";
+    url = "https://hackage.haskell.org";
     ver = "0.5.1";
   };
   drv = { mkDerivation, assoc, base, binary, bytestring, deepseq, ghc-prim
@@ -1217,6 +1266,7 @@ mkDerivation {
   tasty = {
   meta = {
     sha256 = "1xjlmgsww34asjl9rcwbziw5l4qqbvi5l4b7qvzf4dc7hqkpq1rs";
+    url = "https://hackage.haskell.org";
     ver = "1.5.3";
   };
   drv = { mkDerivation, ansi-terminal, base, containers, lib
@@ -1240,6 +1290,7 @@ mkDerivation {
   tasty-hedgehog = {
   meta = {
     sha256 = "04kg2qdnsqzzmj3xggy2jcgidlp21lsjkz4sfnbq7b1yhrv2vbbc";
+    url = "https://hackage.haskell.org";
     ver = "1.4.0.2";
   };
   drv = { mkDerivation, base, hedgehog, lib, tagged, tasty
@@ -1263,6 +1314,7 @@ mkDerivation {
   text-iso8601 = {
   meta = {
     sha256 = "0lk8y0g5p2zamkgvxy7i5lqfpa4wnic9vg2bl87s801fniwdij3m";
+    url = "https://hackage.haskell.org";
     ver = "0.1.1";
   };
   drv = { mkDerivation, attoparsec, attoparsec-iso8601, base
@@ -1294,6 +1346,7 @@ mkDerivation {
   text-short = {
   meta = {
     sha256 = "08rwbc2zcvbvswvy0kp14jg2wq08ls6m6grywp0srjipavzx11s3";
+    url = "https://hackage.haskell.org";
     ver = "0.1.6";
   };
   drv = { mkDerivation, base, binary, bytestring, deepseq, ghc-prim
@@ -1321,6 +1374,7 @@ mkDerivation {
   th-abstraction = {
   meta = {
     sha256 = "09wr7x9bpzyrys8id1mavk9wvqhh2smxdkfwi82kpcycm7a1z7sx";
+    url = "https://hackage.haskell.org";
     ver = "0.7.1.0";
   };
   drv = { mkDerivation, base, containers, ghc-prim, lib, template-haskell
@@ -1343,6 +1397,7 @@ mkDerivation {
   th-compat = {
   meta = {
     sha256 = "1zdj59i2id6mnxq798yjd46zwz83agqid76zkwaiighwv8yfckph";
+    url = "https://hackage.haskell.org";
     ver = "0.1.6";
   };
   drv = { mkDerivation, base, hspec, hspec-discover, lib, mtl
@@ -1365,6 +1420,7 @@ mkDerivation {
   these = {
   meta = {
     sha256 = "0jqchlmycfcvkff48shhkswansnzrw57q8945m483mrd59zpg27k";
+    url = "https://hackage.haskell.org";
     ver = "1.2.1";
   };
   drv = { mkDerivation, assoc, base, binary, deepseq, hashable, lib }:
@@ -1383,6 +1439,7 @@ mkDerivation {
   time-compat = {
   meta = {
     sha256 = "0xnsjpcdjms1k72b7h51i37m7qkmlrx1pw4h866p23cj2gvkf717";
+    url = "https://hackage.haskell.org";
     ver = "1.9.8";
   };
   drv = { mkDerivation, base, base-orphans, deepseq, hashable, HUnit, lib
@@ -1409,8 +1466,9 @@ mkDerivation {
 ;
   unordered-containers = {
   meta = {
-    sha256 = "0dvlf9by7mkwaxg2x26m6bf5bnqr1l07j6adksavvziiq0x3p135";
-    ver = "0.2.20";
+    sha256 = "10yqrpb3bi0642mzh220dz4gkwbamdpqr0fmc83k635rp98pnnmz";
+    url = "https://hackage.haskell.org";
+    ver = "0.2.20.1";
   };
   drv = { mkDerivation, base, bytestring, ChasingBottoms, containers
 , deepseq, hashable, hashmap, HUnit, lib, mtl, nothunks, QuickCheck
@@ -1419,8 +1477,8 @@ mkDerivation {
 }:
 mkDerivation {
   pname = "unordered-containers";
-  version = "0.2.20";
-  src = /nix/store/mp0402hnkp6kfz16skphsdjfxaz088wh-source;
+  version = "0.2.20.1";
+  src = /nix/store/b36yj6i89qkikpbf4n9w1750inx6f6a4-source;
   libraryHaskellDepends = [ base deepseq hashable template-haskell ];
   testHaskellDepends = [
     base ChasingBottoms containers hashable HUnit nothunks QuickCheck
@@ -1440,6 +1498,7 @@ mkDerivation {
   uuid-types = {
   meta = {
     sha256 = "1i8cm1qyni59vb0q7hb36djskyhysbcm36cgsysarj6fp7hni1dz";
+    url = "https://hackage.haskell.org";
     ver = "1.0.6";
   };
   drv = { mkDerivation, base, binary, bytestring, deepseq, hashable, lib
@@ -1468,6 +1527,7 @@ mkDerivation {
   vector = {
   meta = {
     sha256 = "0mgc7ikhdgqwsj5skdxsf6v3a1iqkiiysqj94qnbg40ff8nbai4x";
+    url = "https://hackage.haskell.org";
     ver = "0.13.2.0";
   };
   drv = { mkDerivation, base, base-orphans, deepseq, doctest, lib
@@ -1499,6 +1559,7 @@ mkDerivation {
   vector-algorithms = {
   meta = {
     sha256 = "0924b5cif1fm861hl0jwysiv0w6szgpjrn1x90sfli4dvb32ys3c";
+    url = "https://hackage.haskell.org";
     ver = "0.9.1.0";
   };
   drv = { mkDerivation, base, bitvec, bytestring, containers, lib
@@ -1525,6 +1586,7 @@ mkDerivation {
   vector-binary-instances = {
   meta = {
     sha256 = "0pmmr18l0bjgn5gzb1n7na1fhprnr4cy5q6975hllkk6lwkgmivg";
+    url = "https://hackage.haskell.org";
     ver = "0.2.5.2";
   };
   drv = { mkDerivation, base, binary, bytestring, deepseq, lib, tasty
@@ -1549,6 +1611,7 @@ mkDerivation {
   vector-stream = {
   meta = {
     sha256 = "08hp43wx8gvbak4dffkj76zcirnmfmk9csca87fjik5w61ci9dyp";
+    url = "https://hackage.haskell.org";
     ver = "0.1.0.1";
   };
   drv = { mkDerivation, base, ghc-prim, lib }:
@@ -1567,6 +1630,7 @@ mkDerivation {
   vector-th-unbox = {
   meta = {
     sha256 = "0agxmj1hprzmnz84b3vidrvhpk5wrxkljxgmlz1aaaxrp3284nqw";
+    url = "https://hackage.haskell.org";
     ver = "0.2.2";
   };
   drv = { mkDerivation, base, data-default, lib, template-haskell, vector
@@ -1587,6 +1651,7 @@ mkDerivation {
   witherable = {
   meta = {
     sha256 = "0xm77dqyfm0zh0xvnh1srwxrkn4sl7m126lqhbzc4q9f6lziwzdx";
+    url = "https://hackage.haskell.org";
     ver = "0.5";
   };
   drv = { mkDerivation, base, base-orphans, containers, hashable
