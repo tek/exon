@@ -20,7 +20,7 @@ jobs:
       results: ${{ steps.maint.outputs.maint }}
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         token: ${{ secrets.workflow_token }}
     - uses: cachix/install-nix-action@v31
@@ -42,7 +42,7 @@ jobs:
       matrix:
         package: ${{ fromJSON(needs.maint-run.outputs.results).changes }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - id: pr
       name: Create PR
       run: >
