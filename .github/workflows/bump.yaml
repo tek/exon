@@ -24,5 +24,5 @@ jobs:
       run: nix run .#bump -- --output=ga-pr --build-timeout=3600
     - name: pr
       if: steps.bounds.outputs.commit-message
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@v8
       with: ${{ steps.bounds.outputs }}
