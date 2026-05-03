@@ -25,6 +25,7 @@ import GHC.Types.Name.Reader
 import GHC.Types.SourceText
 import GHC.Types.SrcLoc
 import GHC.Unit.Info
+import GHC.Unit.Types
 import GHC.Utils.Fingerprint
 import qualified Language.Haskell.TH.Syntax as GhcTH
 
@@ -35,6 +36,9 @@ fakeSettings = Settings
   , sTargetPlatform=platform
   , sPlatformMisc=platformMisc
   , sToolSettings=toolSettings
+#if MIN_VERSION_ghc(9,14,0)
+  , sUnitSettings=UnitSettings {unitSettings_baseUnitId = stringToUnitId "base"}
+#endif
   }
   where
     toolSettings = ToolSettings {

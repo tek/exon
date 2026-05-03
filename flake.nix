@@ -2,10 +2,11 @@
   description = "Customizable quasiquote interpolation";
 
   inputs.hix.url = "git+https://git.tryp.io/tek/hix";
+  inputs.hix.inputs.nixpkgs.url = "github:nixos/nixpkgs/15f4ee454b1dce334612fa6843b3e05cf546efab";
 
   outputs = {hix, ...}: hix.lib.pro ({config, lib, ...}: {
-    ghcVersions = ["ghc92" "ghc94" "ghc96" "ghc98" "ghc910" "ghc912"];
-    hackage.versionFile = "ops/version.nix";
+    ghcVersions = ["ghc98" "ghc910" "ghc912" "ghc914"];
+    release.versionFile = "ops/version.nix";
     gen-overrides.enable = true;
 
     packages.exon = {
@@ -63,39 +64,18 @@
     managed = {
       enable = true;
       lower.enable = true;
-      latest.compiler = "ghc912";
+      latest.compiler = "ghc914";
+      lower.compiler = "ghc94";
     };
 
-    hackage.repos."hackage.haskell.org" = {
-      user = "tek";
-      password = "";
-    };
+    hackage.repos."hackage.haskell.org".user = "tek";
 
     envs.dev.overrides = {bench, ...}: {
       exon = bench;
     };
 
-    envs.latest.overrides = {hackage, jailbreak, notest, ...}: {
-      optparse-applicative = jailbreak;
-      boring = jailbreak;
-      generic-deriving = jailbreak;
-      happy = notest;
-      lifted-base = notest;
-    };
-
-    envs.ghc910.overrides = {jailbreak, ...}: {
+    package-sets.ghc914.overrides = {jailbreak, ...}: {
       incipit-base = jailbreak;
-    };
-
-    envs.ghc912.overrides = {hackage, jailbreak, notest, ...}: {
-      boring = jailbreak;
-      generic-deriving = jailbreak;
-      happy = notest;
-      hashable = jailbreak;
-      hedgehog = jailbreak;
-      incipit-base = jailbreak;
-      lifted-base = notest;
-      th-abstraction = hackage "0.7.1.0" "09wr7x9bpzyrys8id1mavk9wvqhh2smxdkfwi82kpcycm7a1z7sx";
     };
 
     ui.experimental.managed-maint = true;
