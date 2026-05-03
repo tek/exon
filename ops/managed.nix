@@ -11,7 +11,7 @@
       };
       exon = {
         lower = null;
-        upper = null;
+        upper = "1.8";
       };
       ghc = {
         lower = "9.4.8";
@@ -748,6 +748,10 @@
     };
     lower = {};
   };
-  packages = {};
+  packages = {
+    exon = {
+      version = "1.7.3.0";
+    };
+  };
   resolving = false;
 }
