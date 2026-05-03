@@ -6,7 +6,6 @@
 
   outputs = {hix, ...}: hix.lib.pro ({config, lib, ...}: {
     ghcVersions = ["ghc98" "ghc910" "ghc912" "ghc914"];
-    release.versionFile = "ops/version.nix";
     gen-overrides.enable = true;
 
     packages.exon = {
