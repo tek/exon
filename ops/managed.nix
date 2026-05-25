@@ -49,7 +49,7 @@
       criterion = "1.6.5.0";
       ghc = "9.14.1";
       hedgehog = "1.7";
-      incipit-base = "0.7.0.1";
+      incipit-base = "0.7.0.2";
       parsec = "3.1.18.0";
       tasty = "1.5.4";
       tasty-hedgehog = "1.4.0.2";
@@ -221,8 +221,8 @@
         repo = "hackage.haskell.org";
       };
       incipit-base = {
-        version = "0.7.0.1";
-        hash = "18qja8s9cs1h8z5yxccv5sjzpf32jgmvk7x1ywqybdkysj65zs7y";
+        version = "0.7.0.2";
+        hash = "0z3xvbjcb988vqz8kda4lizf9ahxzrdp76mz5igikf03463z86qv";
         repo = "hackage.haskell.org";
       };
       indexed-traversable = {
