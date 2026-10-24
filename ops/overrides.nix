@@ -1120,20 +1120,21 @@ mkDerivation {
 ;
     tasty = {
   meta = {
-    sha256 = "0x6khif6n0rzfgkvrbiagg1sj0lwmjfr6qarjnjwmb9ywdk7598b";
+    sha256 = "1h1myhp1g5y6iwzx0m29w5s7vpay9cm3c83jr4g2c4mpjjyqixil";
     url = "https://hackage.haskell.org";
-    ver = "1.5.4";
+    ver = "1.5.5";
   };
   drv = { mkDerivation, ansi-terminal, base, containers, lib
-, optparse-applicative, stm, tagged, transformers, unix
+, optparse-applicative, stm, tagged, terminal-size, transformers
+, unix
 }:
 mkDerivation {
   pname = "tasty";
-  version = "1.5.4";
-  src = /nix/store/mk9c6p551r7vmw9l8cgqrc0k3phszvbi-source;
+  version = "1.5.5";
+  src = /nix/store/gwzfh5abyj417yd1r8zcmdyp7fsam3nh-source;
   libraryHaskellDepends = [
     ansi-terminal base containers optparse-applicative stm tagged
-    transformers unix
+    terminal-size transformers unix
   ];
   homepage = "https://github.com/UnkindPartition/tasty";
   description = "Modern and extensible testing framework";
